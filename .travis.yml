@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- stable
+cache: yarn
+before_script:
+  - lerna bootstrap
+script:
+  - yarn clean
+  - yarn build
+deploy:
+  provider: npm
+  email: adam@appsignal.com
+  api_key:
+    secure: DLYaUt9xgOpQZigLa0SzZni31mNyR8MQe/ImGg4i6+7SjZ6LejTAoljBwGnu4+/139g+rGy8TMh5PhLY8+lixYrJlZ4sdFk58dlNTv3c1Q0gsLrX/w8dkvp1uhrSDxmnb7Sv3C9F9f/boh1xw5O95KO66MQu0VG3PZvbdBjoM3XbSttnRx6KZB/xYxxyxIQ7OmzZGihYetINms3Iebs9n/BpxA/oQZR2mDW6H0OHPVHS8DLb7K2cb2YmJDW0hnqlon3RuY+ojzsx7g8dshRriptuQGCSyjk08mmql18MhREhr+pPUVqGubNCz/yD74I+fdFqviCGR6A0gZZeK4AI87Y1ryKPg2oiE+LV63SfdEF52+Z+YCxvcQ82bMfAjynG4QLMzetDnZ7tX1+wjny5ElN6595u3TqKANzO9LNoPPZ+LN1XCmVlY2yRPgvyHNcF886kQTo+vsAC//PiDk4CSM8HK0m17DNTvJ/023744Zb+PlpZ+c3CnbLoohUKsvz0R2ohi2iwvTtuUIklNJ5YOMPjiMOC5bGjqeeeKJPCqGyoIFzPcc8PM8KgIizULUxw774ac/nSoqypA0N7HN6cJof2+p537nKNQCDi0kaicthMxQMnX0g9wcovjgiByOrCcfG3myBqpJzToE6MKPWpOMq71SfDsSz9DTesDDWgzTg=
+  on:
+    branch: master
+    tags: true
+  skip_cleanup: true
