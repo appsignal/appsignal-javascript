@@ -1,13 +1,12 @@
 import { Error } from "./error"
 import { BrowserEnvironment } from "./environment"
 
-export type Transaction = {
+export type Event = {
   timestamp: number
   action?: string
   namespace: string
   error: Error
   revision?: string
-  sourcemapUrl?: string
 
   tags?: {
     [key: string]: string

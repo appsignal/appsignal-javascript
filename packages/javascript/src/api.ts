@@ -1,5 +1,5 @@
 import { Environment } from "./environment"
-import { Transaction } from "./transaction"
+import { Event } from "./event"
 import { urlEncode } from "./utils/url"
 
 import { ITransport } from "./interfaces/ITransport"
@@ -33,12 +33,12 @@ export class PushApi {
   /**
    * Pushes a transaction to the Push API.
    *
-   * @param   {Transaction}  txn   A single API transaction object
+   * @param   {Event}     event    A single API `Event`
    *
-   * @return  {Promise<any>}       An API response
+   * @return  {Promise<Event>}     A single API `Event`
    */
-  public push(txn: Transaction): Promise<any> {
-    return this._transport.send(txn.toJSON())
+  public push(event: Event): Promise<Event> {
+    return this._transport.send(event.toJSON()).then(() => event)
   }
 
   /**
