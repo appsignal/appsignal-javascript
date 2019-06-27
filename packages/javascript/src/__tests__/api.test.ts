@@ -1,8 +1,8 @@
 import { PushApi } from "../api"
-import { Transaction } from "../transaction"
+import { Event } from "../event"
 
 describe("PushApi", () => {
-  const FIXTURE = new Transaction({
+  const FIXTURE = new Event({
     timestamp: 111111,
     namespace: "frontend",
     environment: {},
