@@ -1,4 +1,4 @@
-import ErrorStackParser from "error-stack-parser"
+import { getStacktrace } from "./utils/stacktrace"
 import { Event as AppsignalEvent } from "./types/event"
 
 export class Event {
@@ -9,7 +9,9 @@ export class Event {
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
       error: {
-        name: ""
+        name: "",
+        message: "",
+        backtrace: []
       },
       environment: {},
       tags: {},
@@ -30,21 +32,8 @@ export class Event {
 
     this._data.error = {
       name,
-      message
-    }
-
-    if (error instanceof Error) {
-      try {
-        const frames = ErrorStackParser.parse(error)
-        this._data.error.backtrace = frames.map(f => f.source || "")
-      } catch (e) {
-        // probably IE9 or another browser where we can't get a stack
-        this._data.error.backtrace = ["No stacktrace available"]
-      }
-    } else {
-      // a plain object that resembles an error
-      const { stack = "" } = error
-      this._data.error.backtrace = stack.split("\n").filter(line => line !== "")
+      message,
+      backtrace: getStacktrace(error)
     }
   }
 
