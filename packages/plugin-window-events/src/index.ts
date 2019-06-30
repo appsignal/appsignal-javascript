@@ -78,7 +78,7 @@ function windowEventsPlugin(options?: any) {
         stack: error.reason.stack || ""
       })
 
-      ev.send()
+      self.send(ev)
 
       if (typeof prev.unhandledRejection === "function") {
         prev.unhandledRejection.apply(this, arguments as any)

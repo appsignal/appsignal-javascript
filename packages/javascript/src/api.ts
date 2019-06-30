@@ -37,8 +37,9 @@ export class PushApi {
    *
    * @return  {Promise<Event>}     A single API `Event`
    */
-  public push(event: Event): Promise<Event> {
-    return this._transport.send(event.toJSON()).then(() => event)
+  public async push(event: Event): Promise<Event> {
+    await this._transport.send(event.toJSON())
+    return event
   }
 
   /**
