@@ -1,5 +1,5 @@
 import { Environment } from "./environment"
-import { Event } from "./event"
+import { Span } from "./span"
 import { urlEncode } from "./utils/url"
 
 import { ITransport } from "./interfaces/ITransport"
@@ -33,13 +33,13 @@ export class PushApi {
   /**
    * Pushes a transaction to the Push API.
    *
-   * @param   {Event}     event    A single API `Event`
+   * @param   {Span}     span     A single API `Span`
    *
-   * @return  {Promise<Event>}     A single API `Event`
+   * @return  {Promise<Span>}     A single API `Span`
    */
-  public async push(event: Event): Promise<Event> {
-    await this._transport.send(event.toJSON())
-    return event
+  public async push(span: Span): Promise<Span> {
+    await this._transport.send(span.toJSON())
+    return span
   }
 
   /**

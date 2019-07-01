@@ -18,7 +18,7 @@ describe("Appsignal", () => {
   describe("sendError", () => {
     it("pushes an error to the API", () => {
       const message = "test error"
-      const promise = appsignal.send(new Error(message))
+      const promise = appsignal.sendError(new Error(message))
 
       expect(promise).resolves
     })

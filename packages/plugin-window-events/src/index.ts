@@ -23,7 +23,7 @@ function windowEventsPlugin(options?: any) {
       colno?: number,
       error?: Error
     ): void {
-      const ev = self.createEvent()
+      const span = self.createSpan()
 
       // handles "Script error." message in some browsers when script is loaded
       // cross origin.
@@ -37,21 +37,21 @@ function windowEventsPlugin(options?: any) {
           "[APPSIGNAL]: Cross-domain or eval script error detected, error ignored"
         )
       } else {
-        ev.setAction("window.onerror")
+        span.setAction("window.onerror")
 
         if (error) {
-          ev.setError(error)
+          span.setError(error)
         } else {
           // handle browsers that don't supply an `error` argument
           // or don't return a stacktrace
-          ev.setError({
+          span.setError({
             name: "Error",
             message: event,
             stack: `at ${source}:${lineno}${colno ? `:${colno}` : ""}`
           })
         }
 
-        self.send(ev)
+        self.send(span)
       }
 
       if (typeof prev.onError === "function") {
@@ -63,11 +63,11 @@ function windowEventsPlugin(options?: any) {
       this: WindowEventHandlers,
       error: PromiseRejectionEvent
     ): void {
-      const ev = self.createEvent()
+      const span = self.createEvent()
 
-      ev.setAction("window.onunhandledrejection")
+      span.setAction("window.onunhandledrejection")
 
-      ev.setError({
+      span.setError({
         name: "UnhandledPromiseRejectionError",
         message:
           typeof error.reason === "string"
@@ -78,7 +78,7 @@ function windowEventsPlugin(options?: any) {
         stack: error.reason.stack || ""
       })
 
-      self.send(ev)
+      self.send(span)
 
       if (typeof prev.unhandledRejection === "function") {
         prev.unhandledRejection.apply(this, arguments as any)

@@ -1,13 +1,14 @@
 import { getStacktrace } from "./utils/stacktrace"
-import { Event as AppsignalEvent } from "./types/event"
+import { Span as AppsignalSpan } from "./types/span"
 
-export class Event {
-  private _data: AppsignalEvent
+export class Span {
+  private _data: AppsignalSpan
 
-  constructor(event: Partial<AppsignalEvent>) {
+  constructor(span: Partial<AppsignalSpan>) {
     this._data = {
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
+      revision: "",
       error: {
         name: "",
         message: "",
@@ -15,7 +16,7 @@ export class Event {
       },
       environment: {},
       tags: {},
-      ...event
+      ...span
     }
   }
 

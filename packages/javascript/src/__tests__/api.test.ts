@@ -1,8 +1,8 @@
 import { PushApi } from "../api"
-import { Event } from "../event"
+import { Span } from "../span"
 
 describe("PushApi", () => {
-  const FIXTURE = new Event({
+  const FIXTURE = new Span({
     timestamp: 111111,
     namespace: "frontend",
     environment: {},

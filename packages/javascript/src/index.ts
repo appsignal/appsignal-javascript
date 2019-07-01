@@ -5,7 +5,7 @@
 
 import { PushApi } from "./api"
 import { Environment } from "./environment"
-import { Event } from "./event"
+import { Span } from "./span"
 
 import { AppsignalOptions } from "./types/options"
 
@@ -42,50 +42,49 @@ export default class Appsignal {
    * @param   {object}            tags           An key, value object of tags
    * @param   {string}            namespace      An optional namespace name
    *
-   * @return  {Promise<Event> | void}            An API response, or `void` if `Promise` is unsupported.
+   * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
   public send(
     error: Error,
     tags?: object,
     namespace?: string
-  ): Promise<Event> | void
+  ): Promise<Span> | void
 
   /**
-   * Records and sends an Appsignal `Event` object to AppSignal.
+   * Records and sends an Appsignal `Span` object to AppSignal.
    *
    * @param   {Error}             error          A JavaScript Error object
    *
-   * @return  {Promise<Event>}                   An API response, or `void` if `Promise` is unsupported.
+   * @return  {Promise<Span>}                    An API response, or `void` if `Promise` is unsupported.
    */
-  public send(event: Event): Promise<Event> | void
+  public send(span: Span): Promise<Span> | void
 
   /**
    *
-   * @param   {Error | Event}     data           A JavaScript Error or Appsignal Event object
+   * @param   {Error | Span}      data           A JavaScript Error or Appsignal Span object
    * @param   {object}            tags           An key, value object of tags
    * @param   {string}            namespace      An optional namespace name
    *
-   * @return  {Promise<Event> | void}            An API response, or `void` if `Promise` is unsupported.
+   * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
   public send(
-    data: Error | Event,
+    data: Error | Span,
     tags = {},
     namespace?: string
   ): Promise<any> | void {
-    if (!(data instanceof Error) && !(data instanceof Event)) {
+    if (!(data instanceof Error) && !(data instanceof Span)) {
       throw new Error("Can't send error, given error is not a valid type")
     }
 
     // "events" refer to a fixed point in time, as opposed to
     // a range or length in time
-    const event =
-      data instanceof Event ? data : this._createEventFromError(data)
+    const span = data instanceof Span ? data : this._createSpanFromError(data)
 
-    if (tags) event.setTags(tags)
-    if (namespace) event.setNamespace(namespace)
+    if (tags) span.setTags(tags)
+    if (namespace) span.setNamespace(namespace)
 
     if (Environment.supportsPromises()) {
-      return this._api.push(event)
+      return this._api.push(span)
     } else {
       // @TODO: route this through a central logger
       console.error(
@@ -94,6 +93,7 @@ export default class Appsignal {
       return
     }
   }
+
   /**
    * Records and sends a browser `Error` to AppSignal. An alias to `#send()`
    * to maintain compatibility.
@@ -102,13 +102,13 @@ export default class Appsignal {
    * @param   {object}            tags           An key, value object of tags
    * @param   {string}            namespace      An optional namespace name
    *
-   * @return  {Promise<Event> | void}            An API response, or `void` if `Promise` is unsupported.
+   * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
   public sendError(
     error: Error,
     tags?: object,
     namespace?: string
-  ): Promise<Event> | void {
+  ): Promise<Span> | void {
     return this.send(error, tags, namespace)
   }
 
@@ -129,12 +129,14 @@ export default class Appsignal {
   }
 
   /**
-   * Creates a new `Event`, augmented with the current environment.
+   * Creates a new `Span`, augmented with the current environment.
    *
-   * @return  {Event}             An AppSignal `Event` object
+   * @return  {Span}              An AppSignal `Span` object
    */
-  public createEvent(): Event {
-    return new Event({ environment: this._env })
+  public createSpan(): Span {
+    return new Span({
+      environment: this._env
+    })
   }
 
   /**
@@ -152,15 +154,15 @@ export default class Appsignal {
   }
 
   /**
-   * Creates a valid AppSignal `Event` from a JavaScript `Error`
+   * Creates a valid AppSignal `Span` from a JavaScript `Error`
    * object.
    *
    * @param   {Error}  error  A JavaScript error
    *
-   * @return  {Event}         An AppSignal event
+   * @return  {Span}         An AppSignal event
    */
-  private _createEventFromError(error: Error): Event {
-    const event = this.createEvent()
+  private _createSpanFromError(error: Error): Span {
+    const event = this.createSpan()
     event.setError(error)
 
     return event

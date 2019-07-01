@@ -1,7 +1,7 @@
 import { Error } from "./error"
 import { BrowserEnvironment } from "./environment"
 
-export type Event = {
+export type Span = {
   timestamp: number
   action?: string
   namespace: string
