@@ -1,4 +1,4 @@
-function windowEventsPlugin(options?: any) {
+function windowEventsPlugin(options?: { [key: string]: any }) {
   const ctx = window as Window
 
   const opts = {

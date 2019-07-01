@@ -120,12 +120,11 @@ export default class Appsignal {
    * that can be bound to `this`.
    *
    * @param   {Plugin}            plugin         A JavaScript Error object
-   * @param   {object}            options        An options object
    *
    * @return  {void}
    */
-  public use(plugin: Function, options?: { [key: string]: any }): void {
-    plugin(options).call(this)
+  public use(plugin: Function): void {
+    plugin.call(this)
   }
 
   /**
