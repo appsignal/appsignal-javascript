@@ -45,7 +45,7 @@ events.on("event", (err) => {
 
 **NOTE:** Uncaught exceptions are **not** captured by default. We made the decision to not include this functionality as part of the core library due to the high amount of noise from browser extensions, ad blockers etc. that generally makes libraries such as this less effective.
 
-We recommend using a relevant [integration](#integrations) as a better way to handle exceptions, or, if you _would_ prefer capture uncaught exceptions, you can do so by using the `@appsignal/plugin-window-events` package alongside this one (available soon).
+We recommend using a relevant [integration](#integrations) as a better way to handle exceptions, or, if you _would_ prefer capture uncaught exceptions, you can do so by using the `@appsignal/plugin-window-events` package alongside this one.
 
 ## Installation
 
@@ -83,13 +83,24 @@ Currently, we have no plans to supply a CDN-hosted version of this library.
 
 If you're stuck, feel free to [contact us][contact] for help!
 
+## Plugins
+
+The `Appsignal` object can take one or many optional “plugins” that can extend the base functionality of the library e.g. for handling uncaught exceptions via `window.error` or `onunhandledpromiserejection`.
+
+```
+import { plugin } from `appsignal/plugin-${PLUGIN_NAME}`
+appsignal.use(plugin())
+```
+
+@TODO: add more on plugins
+
 ## Integrations
 
-An integration is a module that can consume the `Appsignal` object to catch errors from popular libraries or frameworks. These integrations may come in a variety of different forms, and we aim to generally provide APIs that are consistent, and feel idiomatic to use, with the libraries and/or frameworks that you're using.
+An integration is a module that can consume the `Appsignal` object to catch errors from popular libraries or frameworks. These integrations may come in a variety of different forms, and we aim to generally provide APIs that are consistent, and feel idiomatic to use, with the libraries and/or frameworks that you’re using.
 
 These currently include:
 
-* React (beta) - `@appsignal/react`
+- React (beta) - `@appsignal/react`
 
 ## Supported browsers
 
