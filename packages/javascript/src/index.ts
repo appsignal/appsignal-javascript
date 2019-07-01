@@ -134,7 +134,8 @@ export default class Appsignal {
    */
   public createSpan(): Span {
     return new Span({
-      environment: this._env
+      environment: this._env,
+      revision: this._options.revision || ""
     })
   }
 
