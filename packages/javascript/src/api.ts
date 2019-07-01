@@ -1,5 +1,5 @@
 import { Environment } from "./environment"
-import { Transaction } from "./transaction"
+import { Span } from "./span"
 import { urlEncode } from "./utils/url"
 
 import { ITransport } from "./interfaces/ITransport"
@@ -33,12 +33,13 @@ export class PushApi {
   /**
    * Pushes a transaction to the Push API.
    *
-   * @param   {Transaction}  txn   A single API transaction object
+   * @param   {Span}     span     A single API `Span`
    *
-   * @return  {Promise<any>}       An API response
+   * @return  {Promise<Span>}     A single API `Span`
    */
-  public push(txn: Transaction): Promise<any> {
-    return this._transport.send(txn.toJSON())
+  public async push(span: Span): Promise<Span> {
+    await this._transport.send(span.toJSON())
+    return span
   }
 
   /**
