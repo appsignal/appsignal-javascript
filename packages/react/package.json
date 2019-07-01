@@ -1,0 +1,24 @@
+{
+  "name": "@appsignal/react",
+  "version": "0.0.0",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "repository": "git@github.com:appsignal/appsignal-javascript.git",
+  "author": "Adam Yeats <adam@appsignal.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "run-s build:cjs build:esm",
+    "build:esm": "tsc -p tsconfig.esm.json",
+    "build:esm:watch": "tsc -p tsconfig.esm.json -w --preserveWatchOutput",
+    "build:cjs": "tsc -p tsconfig.cjs.json",
+    "build:cjs:watch": "tsc -p tsconfig.cjs.json -w --preserveWatchOutput",
+    "build:watch": "run-p build:cjs:watch build:esm:watch",
+    "clean": "rimraf dist coverage",
+    "link:yarn": "yarn link",
+    "test": "jest",
+    "test:watch": "jest --watch"
+  },
+  "peerDependencies": {
+    "react": "^16.8.6"
+  }
+}
