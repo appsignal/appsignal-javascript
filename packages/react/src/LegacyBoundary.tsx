@@ -15,15 +15,14 @@ export class LegacyBoundary extends React.Component<Props, State> {
     const { name, message, stack } = error
     const span = appsignal.createSpan()
 
-    span.setAction(action !== "" ? action : DEFAULT_ACTION)
-
-    span.setError({
-      name,
-      message,
-      stack
-    })
-
-    span.setTags({ framework: "Legacy React" })
+    span
+      .setAction(action !== "" ? action : DEFAULT_ACTION)
+      .setError({
+        name,
+        message,
+        stack
+      })
+      .setTags({ framework: "Legacy React" })
 
     appsignal.send(span)
 

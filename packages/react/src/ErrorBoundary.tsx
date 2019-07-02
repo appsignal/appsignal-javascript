@@ -19,15 +19,14 @@ export class ErrorBoundary extends React.Component<Props, State> {
     const { name, message, stack } = error
     const span = appsignal.createSpan()
 
-    span.setAction(action !== "" ? action : DEFAULT_ACTION)
-
-    span.setError({
-      name,
-      message,
-      stack
-    })
-
-    span.setTags({ framework: "React" })
+    span
+      .setAction(action !== "" ? action : DEFAULT_ACTION)
+      .setError({
+        name,
+        message,
+        stack
+      })
+      .setTags({ framework: "React" })
 
     appsignal.send(span)
   }
