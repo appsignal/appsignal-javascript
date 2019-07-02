@@ -4,15 +4,14 @@ import { Props, State } from "./types/component"
 const DEFAULT_ACTION = "ErrorBoundary"
 
 export class ErrorBoundary extends React.Component<Props, State> {
-  state = { hasError: false }
+  state = { error: undefined }
 
   static defaultProps = {
     action: DEFAULT_ACTION
   }
 
-  static getDerivedStateFromError(error: any): State {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true }
+  static getDerivedStateFromError(error: Error): State {
+    return { error }
   }
 
   public componentDidCatch(error: Error, info: any): void {
