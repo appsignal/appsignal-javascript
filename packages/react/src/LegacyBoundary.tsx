@@ -1,21 +1,16 @@
 import * as React from "react"
 import { Props, State } from "./types/component"
 
-const DEFAULT_ACTION = "ErrorBoundary"
+const DEFAULT_ACTION = "LegacyBoundary"
 
-export class ErrorBoundary extends React.Component<Props, State> {
+export class LegacyBoundary extends React.Component<Props, State> {
   state = { hasError: false }
 
   static defaultProps = {
     action: DEFAULT_ACTION
   }
 
-  static getDerivedStateFromError(error: any): State {
-    // Update state so the next render will show the fallback UI.
-    return { hasError: true }
-  }
-
-  public componentDidCatch(error: Error, info: any): void {
+  public unstable_handleError(error: Error) {
     const { instance: appsignal, action } = this.props
     const { name, message, stack } = error
     const span = appsignal.createSpan()
@@ -28,16 +23,18 @@ export class ErrorBoundary extends React.Component<Props, State> {
       stack
     })
 
-    span.setTags({ framework: "React" })
+    span.setTags({ framework: "Legacy React" })
 
     appsignal.send(span)
+
+    this.setState({
+      hasError: true
+    })
   }
 
   public render(): React.ReactNode {
-    if (this.state.error) {
-      return this.props.fallback ? this.props.fallback(this.state.error) : null
-    }
-
-    return this.props.children
+    // we create a new <div> here to prevent React from complaining
+    // about not being able to use unmountComponent
+    return <div>{!this.state.hasError ? this.props.children : null}</div>
   }
 }
