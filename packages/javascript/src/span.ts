@@ -20,15 +20,17 @@ export class Span {
     }
   }
 
-  public setAction(name: string) {
+  public setAction(name: string): this {
     this._data.action = name
+    return this
   }
 
-  public setNamespace(name: string) {
+  public setNamespace(name: string): this {
     this._data.namespace = name
+    return this
   }
 
-  public setError<T extends Error>(error: Error | T) {
+  public setError<T extends Error>(error: Error | T): this {
     const { name, message } = error
 
     this._data.error = {
@@ -36,10 +38,13 @@ export class Span {
       message,
       backtrace: getStacktrace(error)
     }
+
+    return this
   }
 
-  public setTags(tags: object) {
+  public setTags(tags: object): this {
     this._data.tags = { ...this._data.tags, ...tags }
+    return this
   }
 
   public toJSON(): string {

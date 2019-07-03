@@ -133,9 +133,11 @@ export default class Appsignal {
    * @return  {Span}              An AppSignal `Span` object
    */
   public createSpan(): Span {
+    const { revision = "" } = this._options
+
     return new Span({
       environment: this._env,
-      revision: this._options.revision || ""
+      revision
     })
   }
 

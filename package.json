@@ -2,11 +2,13 @@
   "private": true,
   "dependencies": {
     "@appsignal/javascript": "file:packages/javascript",
-    "@appsignal/plugin-window-events": "file:packages/plugin-window-events"
+    "@appsignal/plugin-window-events": "file:packages/plugin-window-events",
+    "@appsignal/react": "file:packages/react"
   },
   "devDependencies": {
     "@types/jest": "^24.0.15",
-    "husky": "^2.7.0",
+    "@types/react": "^16.8.20",
+    "husky": "^2.4.1",
     "jest": "^24.7.1",
     "lerna": "^3.15.0",
     "lint-staged": "^8.2.1",
