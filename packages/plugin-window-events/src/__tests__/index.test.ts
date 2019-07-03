@@ -7,7 +7,7 @@ describe("windowEventsPlugin", () => {
   const setErrorMock = jest.fn()
 
   const mockAppsignal = {
-    createEvent: jest.fn().mockImplementation(() => ({
+    createSpan: jest.fn().mockImplementation(() => ({
       setAction: setActionMock,
       setError: setErrorMock
     })),
@@ -35,7 +35,7 @@ describe("windowEventsPlugin", () => {
 
       ctx.onerror!(msg, "test", 1, 1, error)
 
-      expect(mockAppsignal.createEvent).toHaveBeenCalled()
+      expect(mockAppsignal.createSpan).toHaveBeenCalled()
       expect(setActionMock).toHaveBeenCalledWith("window.onerror")
       expect(setErrorMock).toHaveBeenCalledWith(error)
     })
@@ -47,7 +47,7 @@ describe("windowEventsPlugin", () => {
 
       ctx.onerror!(msg, "test", 1, 1)
 
-      expect(mockAppsignal.createEvent).toHaveBeenCalled()
+      expect(mockAppsignal.createSpan).toHaveBeenCalled()
       expect(setActionMock).toHaveBeenCalledWith("window.onerror")
 
       expect(setErrorMock).toHaveBeenCalledWith({
@@ -64,7 +64,7 @@ describe("windowEventsPlugin", () => {
 
       ctx.onunhandledrejection!({ reason: "test" } as PromiseRejectionEvent)
 
-      expect(mockAppsignal.createEvent).toHaveBeenCalled()
+      expect(mockAppsignal.createSpan).toHaveBeenCalled()
       expect(setActionMock).toHaveBeenCalledWith("window.onunhandledrejection")
 
       expect(setErrorMock).toHaveBeenCalledWith({
@@ -82,7 +82,7 @@ describe("windowEventsPlugin", () => {
 
       ctx.onunhandledrejection!({ reason: error } as PromiseRejectionEvent)
 
-      expect(mockAppsignal.createEvent).toHaveBeenCalled()
+      expect(mockAppsignal.createSpan).toHaveBeenCalled()
       expect(setActionMock).toHaveBeenCalledWith("window.onunhandledrejection")
 
       expect(setErrorMock).toHaveBeenCalledWith({

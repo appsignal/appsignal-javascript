@@ -63,7 +63,7 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
       this: WindowEventHandlers,
       error: PromiseRejectionEvent
     ): void {
-      const span = self.createEvent()
+      const span = self.createSpan()
 
       span.setAction("window.onunhandledrejection")
 
