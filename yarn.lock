@@ -3,15 +3,15 @@
 
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.0.0-alpha.0"
+  version "1.0.0-alpha.1"
   dependencies:
     error-stack-parser "^2.0.2"
 
 "@appsignal/plugin-window-events@file:packages/plugin-window-events":
-  version "0.0.0"
+  version "1.0.0-alpha.2"
 
 "@appsignal/react@file:packages/react":
-  version "0.0.0"
+  version "1.0.0-alpha.1"
 
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
@@ -1201,10 +1201,10 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
   integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
 
-"@types/react@^16.8.20":
-  version "16.8.20"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.20.tgz#4f633ecbd0a4d56d0ccc50fff6f9321bbcd7d583"
-  integrity sha512-ZLmI+ubSJpfUIlQuULDDrdyuFQORBuGOvNnMue8HeA0GVrAJbWtZQhcBvnBPNRBI/GrfSfrKPFhthzC2SLEtLQ==
+"@types/react@^16.8.23":
+  version "16.8.23"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.8.23.tgz#ec6be3ceed6353a20948169b6cb4c97b65b97ad2"
+  integrity sha512-abkEOIeljniUN9qB5onp++g0EY38h7atnDHxwKUFz1r3VH1+yG1OKi2sNPTyObL40goBmfKFpdii2lEzwLX1cA==
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
