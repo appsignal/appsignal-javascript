@@ -23,7 +23,7 @@ export class PushApi {
    * @param   {object}  options  An object of options to configure the Push API client
    */
   constructor(options: PushApiOptions) {
-    this._uri = options.uri || "https://appsignal-error-monitoring.net/collect"
+    this._uri = options.uri || "https://appsignal-endpoint.net/collect"
     this._apiKey = options.key
     this._clientVersion = options.version
 

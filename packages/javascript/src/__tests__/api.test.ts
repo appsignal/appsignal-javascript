@@ -27,7 +27,7 @@ describe("PushApi", () => {
   describe("push", () => {
     it("pushes a transaction to the Push API", async () => {
       const uri =
-        "https://appsignal-error-monitoring.net/collect?api_key=TESTKEY&version=1.0.0"
+        "https://appsignal-endpoint.net/collect?api_key=TESTKEY&version=1.0.0"
 
       await api.push(FIXTURE)
 
