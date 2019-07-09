@@ -1,4 +1,4 @@
-import * as React from "react"
+import React from "react"
 import { Props, State } from "./types/component"
 
 const DEFAULT_ACTION = "LegacyBoundary"
