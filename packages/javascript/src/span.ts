@@ -16,6 +16,7 @@ export class Span {
       },
       environment: {},
       tags: {},
+      params: {},
       ...span
     }
   }
@@ -44,6 +45,11 @@ export class Span {
 
   public setTags(tags: object): this {
     this._data.tags = { ...this._data.tags, ...tags }
+    return this
+  }
+
+  public setParams(params: object): this {
+    this._data.params = { ...this._data.params, ...params }
     return this
   }
 
