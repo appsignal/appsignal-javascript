@@ -2,6 +2,16 @@
 # yarn lockfile v1
 
 
+"@angular/core@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.1.1.tgz#888fb879906a46429ddac7163fe25915ce5a7f8f"
+  integrity sha512-B6x8IZeu0Qm2H13leEcNzsx0pGKHMvowziurvDnm7W97MaVrYrgbelNsnly4wNX91FzdBtSVXqbe3jijAD9kjA==
+  dependencies:
+    tslib "^1.9.0"
+
+"@appsignal/angular@file:packages/angular":
+  version "0.0.0"
+
 "@appsignal/javascript@file:packages/javascript":
   version "1.0.0-beta.1"
   dependencies:

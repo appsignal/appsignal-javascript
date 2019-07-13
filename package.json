@@ -1,11 +1,13 @@
 {
   "private": true,
   "dependencies": {
+    "@appsignal/angular": "file:packages/angular",
     "@appsignal/javascript": "file:packages/javascript",
     "@appsignal/plugin-window-events": "file:packages/plugin-window-events",
     "@appsignal/react": "file:packages/react"
   },
   "devDependencies": {
+    "@angular/core": "^8.1.1",
     "@types/jest": "^24.0.15",
     "@types/react": "^16.8.23",
     "husky": "^2.4.1",
