@@ -10,6 +10,9 @@
 "@appsignal/plugin-window-events@file:packages/plugin-window-events":
   version "1.0.0-beta.0"
 
+"@appsignal/preact@file:packages/preact":
+  version "0.0.0"
+
 "@appsignal/react@file:packages/react":
   version "1.0.0-beta.1"
 

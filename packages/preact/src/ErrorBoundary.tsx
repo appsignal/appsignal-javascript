@@ -11,7 +11,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, info: any): void {
-    const { instance: appsignal, action } = this.props
+    const { instance: appsignal, action, tags } = this.props
     const { name, message, stack } = error
     const span = appsignal.createSpan()
 
@@ -22,7 +22,7 @@ export class ErrorBoundary extends Component<Props, State> {
         message,
         stack
       })
-      .setTags({ framework: "Preact" })
+      .setTags({ framework: "Preact", ...tags })
 
     appsignal.send(span)
 
