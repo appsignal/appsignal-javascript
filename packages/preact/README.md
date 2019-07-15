@@ -38,13 +38,18 @@ const FallbackComponent = () => (
 )
 
 const App = () => (
-  <ErrorBoundary instance={appsignal} fallback={(error) => <FallbackComponent />}>
+  <ErrorBoundary 
+    instance={appsignal} 
+    tags={{ tag: "value" }} {/* Optional */}
+    fallback={(error) => <FallbackComponent />} {/* Optional */}
+  >
     { /** Child components here **/}
   </ErrorBoundary>
 )
 
 ReactDOM.render(<App />, document.getElementById("root"))
 ```
+
 ## Development
 
 ### Installation
