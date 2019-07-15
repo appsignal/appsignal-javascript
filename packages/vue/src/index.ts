@@ -3,19 +3,12 @@ export function errorHandler(appsignal: any, Vue?: any) {
   const { version = "unknown" } = Vue
 
   return function(error: Error, vm: any, info: string) {
-    const {
-      $vnode: {
-        componentOptions: { tag }
-      },
-      $options: { propsData }
-    } = vm
-
+    const { tag } = vm.$vnode.componentOptions
     const span = appsignal.createSpan()
 
     span
       .setAction(tag || DEFAULT_ACTION)
       .setTags({ framework: "Vue", info, version })
-      .setParams(propsData || {})
       .setError(error)
 
     appsignal.send(span)
