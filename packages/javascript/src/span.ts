@@ -1,11 +1,10 @@
+import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
 import { Span as AppsignalSpan } from "./types/span"
 
-export class Span {
-  private _data: AppsignalSpan
-
+export class Span extends Serializable<AppsignalSpan> {
   constructor(span: Partial<AppsignalSpan>) {
-    this._data = {
+    super({
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
       revision: "",
@@ -18,7 +17,7 @@ export class Span {
       tags: {},
       params: {},
       ...span
-    }
+    })
   }
 
   public setAction(name: string): this {
@@ -51,9 +50,5 @@ export class Span {
   public setParams(params: object): this {
     this._data.params = { ...this._data.params, ...params }
     return this
-  }
-
-  public toJSON(): string {
-    return JSON.stringify(this._data)
   }
 }

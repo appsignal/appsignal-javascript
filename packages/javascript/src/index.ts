@@ -151,15 +151,19 @@ export default class Appsignal {
   /**
    * Creates a new `Span`, augmented with the current environment.
    *
+   * @param   {Function | void}   fn         Optional function to modify span
+   *
    * @return  {Span}              An AppSignal `Span` object
    */
-  public createSpan(): Span {
+  public createSpan(fn?: Function): Span {
     const { revision = "" } = this._options
 
-    return new Span({
+    const span = new Span({
       environment: this._env,
       revision
     })
+
+    return fn && typeof fn === "function" ? fn(span) : span
   }
 
   /**
