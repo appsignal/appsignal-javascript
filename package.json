@@ -3,6 +3,7 @@
   "dependencies": {
     "@appsignal/javascript": "file:packages/javascript",
     "@appsignal/plugin-window-events": "file:packages/plugin-window-events",
+    "@appsignal/preact": "file:packages/preact",
     "@appsignal/react": "file:packages/react"
   },
   "devDependencies": {
