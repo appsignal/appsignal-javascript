@@ -21,11 +21,11 @@ npm install --save @appsignal/javascript @appsignal/preact
 
 ### Error Boundary
 
-If you are using React v16 or higher, you can use the `ErrorBoundary` component to catch errors from anywhere in the child component tree.
+If you are using Preact v10.0.0-rc.0+ or higher, you can use the `ErrorBoundary` component to catch errors from anywhere in the child component tree.
 
 ```jsx
-import React from "react"
-import ReactDOM from "react-dom"
+import { Component } from 'preact'
+
 import Appsignal from "@appsignal/javascript"
 import { ErrorBoundary } from "@appsignal/preact"
 
@@ -37,17 +37,19 @@ const FallbackComponent = () => (
   <div>Uh oh! There was an error :(</div>
 )
 
-const App = () => (
-  <ErrorBoundary 
-    instance={appsignal} 
-    tags={{ tag: "value" }} {/* Optional */}
-    fallback={(error) => <FallbackComponent />} {/* Optional */}
-  >
-    { /** Child components here **/}
-  </ErrorBoundary>
+export default class App extends Component {
+	render() {
+    return (
+      <ErrorBoundary 
+        instance={appsignal} 
+        tags={{ tag: "value" }} {/* Optional */}
+        fallback={(error) => <FallbackComponent />} {/* Optional */}
+      >
+        { /** Child components here **/}
+      </ErrorBoundary>
+    )
+  }
 )
-
-ReactDOM.render(<App />, document.getElementById("root"))
 ```
 
 ## Development
