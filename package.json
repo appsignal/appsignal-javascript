@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {
     "@appsignal/javascript": "file:packages/javascript",
+    "@appsignal/plugin-path-decorator": "file:packages/plugin-path-decorator",
     "@appsignal/plugin-window-events": "file:packages/plugin-window-events",
     "@appsignal/react": "file:packages/react"
   },

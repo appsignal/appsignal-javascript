@@ -6,6 +6,7 @@
 import { PushApi } from "./api"
 import { Environment } from "./environment"
 import { Span } from "./span"
+import { compose } from "./utils/functional"
 
 import { AppsignalOptions } from "./types/options"
 
@@ -15,6 +16,11 @@ export default class Appsignal {
   private _env = Environment.serialize()
   private _options: AppsignalOptions
   private _api: PushApi
+
+  private _hooks = {
+    decorators: [],
+    overrides: []
+  }
 
   /**
    * Creates a new instance of the AppSignal client.
@@ -76,12 +82,26 @@ export default class Appsignal {
       throw new Error("Can't send error, given error is not a valid type")
     }
 
-    // "events" refer to a fixed point in time, as opposed to
-    // a range or length in time
+    // a "span" currently refers to a fixed point in time, as opposed to
+    // a range or length in time. this may change in future!
     const span = data instanceof Span ? data : this._createSpanFromError(data)
+
+    // A Span can be "decorated" with metadata after it has been created,
+    // but before it is sent to the API and before metadata provided
+    // as arguments is added
+    if (this._hooks.decorators.length > 0) {
+      compose(...this._hooks.decorators)(span)
+    }
 
     if (tags) span.setTags(tags)
     if (namespace) span.setNamespace(namespace)
+
+    // A Span can be "overridden" with metadata after it has been created,
+    // but before it is sent to the API and after metadata provided
+    // as arguments is added
+    if (this._hooks.overrides.length > 0) {
+      compose(...this._hooks.overrides)(span)
+    }
 
     if (Environment.supportsPromises()) {
       return this._api.push(span)
