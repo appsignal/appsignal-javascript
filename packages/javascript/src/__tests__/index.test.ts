@@ -1,3 +1,5 @@
+import { VERSION } from "../version"
+
 import Appsignal from "../index"
 import { PushApi } from "../api"
 
@@ -12,7 +14,7 @@ describe("Appsignal", () => {
   })
 
   it("exposes a valid version number", () => {
-    expect(appsignal.VERSION).toEqual("1.0.0")
+    expect(appsignal.VERSION).toEqual(VERSION)
   })
 
   describe("sendError", () => {

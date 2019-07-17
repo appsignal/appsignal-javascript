@@ -1,3 +1,5 @@
+import { VERSION } from "../version"
+
 import { PushApi } from "../api"
 import { Span } from "../span"
 
@@ -21,13 +23,12 @@ describe("PushApi", () => {
 
   beforeEach(() => {
     /* Runs before each test */
-    api = new PushApi({ key: "TESTKEY", version: "1.0.0" })
+    api = new PushApi({ key: "TESTKEY", version: VERSION })
   })
 
   describe("push", () => {
     it("pushes a transaction to the Push API", async () => {
-      const uri =
-        "https://appsignal-endpoint.net/collect?api_key=TESTKEY&version=1.0.0"
+      const uri = `https://appsignal-endpoint.net/collect?api_key=TESTKEY&version=${VERSION}`
 
       await api.push(FIXTURE)
 

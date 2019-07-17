@@ -3,6 +3,7 @@
  * @module Appsignal
  */
 
+import { VERSION } from "./version"
 import { PushApi } from "./api"
 import { Environment } from "./environment"
 import { Span } from "./span"
@@ -11,7 +12,7 @@ import { compose } from "./utils/functional"
 import { AppsignalOptions } from "./types/options"
 
 export default class Appsignal {
-  public VERSION = "1.0.0"
+  public VERSION = VERSION
 
   private _env = Environment.serialize()
   private _options: AppsignalOptions
