@@ -3,8 +3,8 @@ import { Span } from "./span"
 export class Queue {
   private _data: Span[]
 
-  constructor(data = []) {
-    this._data = data
+  constructor(data?: Span[]) {
+    this._data = data || []
   }
 
   public clear() {
@@ -16,7 +16,7 @@ export class Queue {
   }
 
   public push(item: Span | Span[]) {
-    Array.isArray(item) ? this._data.concat(item) : this._data.push(item)
+    this._data.push(...item)
   }
 
   public *drain() {

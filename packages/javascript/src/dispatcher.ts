@@ -12,13 +12,17 @@ export class Dispatcher {
   private _timerID = 0
   private _duration = 0
 
-  constructor(queue: Queue, api: PushApi, options?: DispatcherOptions) {
+  constructor(
+    queue: Queue,
+    api: PushApi,
+    options?: Partial<DispatcherOptions>
+  ) {
     this._api = api
     this._queue = queue
 
     this.options = {
       limit: 5,
-      initialDuration: 200,
+      initialDuration: 1000,
       ...options
     }
 
@@ -34,13 +38,14 @@ export class Dispatcher {
           await this._api.push(span)
         } catch (e) {
           // when the first promise fails, reschedule a timer
-          const expDuration = Math.floor(Math.pow(time, 1.5))
+          const expDuration = Math.floor(Math.pow(time, 1.3))
 
           this._retries = this._retries -= 1
 
           if (this._retries === 0) {
             this.reset()
           } else {
+            this._queue.push(span)
             this._timerID = this.schedule(expDuration)
           }
 
