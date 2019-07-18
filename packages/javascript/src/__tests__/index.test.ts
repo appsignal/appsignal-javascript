@@ -98,14 +98,14 @@ describe("Appsignal", () => {
       expect(promise).rejects
     })
   })
-  
+
   describe("createSpan", () => {
     it("creates a new span given no params", () => {
       const span = appsignal.createSpan()
       const result = span.serialize()
 
       expect(result).toHaveProperty("timestamp")
-      expect(result.timestamp).toBe("number")
+      expect(typeof result.timestamp).toBe("number")
     })
 
     it("modifies a span when created with a function as a parameter", () => {
