@@ -30,6 +30,8 @@ export class Dispatcher {
   }
 
   public schedule(time = this._duration): number {
+    const BACKOFF_FACTOR = 1.3
+
     const cb = async () => {
       for (let span of this._queue.drain()) {
         if (!span) return
@@ -38,7 +40,7 @@ export class Dispatcher {
           await this._api.push(span)
         } catch (e) {
           // when the first promise fails, reschedule a timer
-          const expDuration = Math.floor(Math.pow(time, 1.3))
+          const expDuration = Math.floor(Math.pow(time, BACKOFF_FACTOR))
 
           this._retries = this._retries - 1
 
