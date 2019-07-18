@@ -40,7 +40,7 @@ export class Dispatcher {
           // when the first promise fails, reschedule a timer
           const expDuration = Math.floor(Math.pow(time, 1.3))
 
-          this._retries = this._retries -= 1
+          this._retries = this._retries - 1
 
           if (this._retries === 0) {
             this.reset()
