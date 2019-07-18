@@ -3,6 +3,7 @@
  * @module Appsignal
  */
 
+import { VERSION } from "./version"
 import { PushApi } from "./api"
 import { Environment } from "./environment"
 import { Span } from "./span"
@@ -13,7 +14,7 @@ import { Dispatcher } from "./dispatcher"
 import { AppsignalOptions } from "./types/options"
 
 export default class Appsignal {
-  public VERSION = "1.0.0"
+  public VERSION = VERSION
 
   private _dispatcher: Dispatcher
   private _options: AppsignalOptions
@@ -162,15 +163,37 @@ export default class Appsignal {
   /**
    * Creates a new `Span`, augmented with the current environment.
    *
+   * @param   {Function | void}   fn         Optional function to modify span
+   *
    * @return  {Span}              An AppSignal `Span` object
    */
-  public createSpan(): Span {
+  public createSpan(fn?: Function): Span {
     const { revision = "" } = this._options
 
-    return new Span({
+    const span = new Span({
       environment: this._env,
       revision
     })
+
+    if (fn && typeof fn === "function") fn(span)
+
+    return span
+  }
+
+  /**
+   * Wraps and catches errors within a given function
+   *
+   * @param   {Function}          fn             [fn description]
+   *
+   * @return  {Promise<any>}      A Promise containing the return value of the function, or a `Span` if an error was thrown.
+   */
+  public async wrap(fn: Function): Promise<any> {
+    try {
+      return Promise.resolve(fn())
+    } catch (e) {
+      await this.sendError(e)
+      return Promise.reject(e)
+    }
   }
 
   /**
