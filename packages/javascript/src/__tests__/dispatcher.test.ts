@@ -9,7 +9,6 @@ describe("Dispatcher", () => {
   let dispatcher: Dispatcher
 
   beforeEach(() => {
-    /* Runs before each test */
     const api = new PushApi({ key: "test", version: "test" })
     const queue = new Queue()
 
