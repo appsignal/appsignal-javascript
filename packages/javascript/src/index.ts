@@ -163,6 +163,22 @@ export default class Appsignal {
   }
 
   /**
+   * Wraps and catches errors within a given function
+   *
+   * @param   {Function}          fn             [fn description]
+   *
+   * @return  {Promise<any>}      A Promise containing the return value of the function, or a `Span` if an error was thrown.
+   */
+  public async wrap(fn: Function): Promise<any> {
+    try {
+      return Promise.resolve(fn())
+    } catch (e) {
+      await this.sendError(e)
+      return Promise.reject(e)
+    }
+  }
+
+  /**
    * Returns an object that includes useful diagnostic information.
    * Can be used to debug the installation.
    *
