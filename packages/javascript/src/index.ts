@@ -163,7 +163,9 @@ export default class Appsignal {
       revision
     })
 
-    return fn && typeof fn === "function" ? fn(span) : span
+    if (fn && typeof fn === "function") fn(span)
+
+    return span
   }
 
   /**
