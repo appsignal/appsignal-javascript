@@ -8,13 +8,15 @@ import { PushApi } from "./api"
 import { Environment } from "./environment"
 import { Span } from "./span"
 import { compose } from "./utils/functional"
+import { Queue } from "./queue"
+import { Dispatcher } from "./dispatcher"
 
 import { AppsignalOptions } from "./types/options"
 
 export default class Appsignal {
   public VERSION = VERSION
 
-  private _env = Environment.serialize()
+  private _dispatcher: Dispatcher
   private _options: AppsignalOptions
   private _api: PushApi
 
@@ -22,6 +24,9 @@ export default class Appsignal {
     decorators: [],
     overrides: []
   }
+
+  private _env = Environment.serialize()
+  private _queue = new Queue((window as any).__APPSIGNAL_QUEUE__ || [])
 
   /**
    * Creates a new instance of the AppSignal client.
@@ -38,6 +43,8 @@ export default class Appsignal {
       uri,
       version: this.VERSION
     })
+
+    this._dispatcher = new Dispatcher(this._queue, this._api)
 
     this._options = options
   }
@@ -105,7 +112,12 @@ export default class Appsignal {
     }
 
     if (Environment.supportsPromises()) {
-      return this._api.push(span)
+      return this._api.push(span).catch(() => {
+        this._queue.push(span)
+
+        // schedule on next tick
+        setTimeout(() => this._dispatcher.schedule(), 0)
+      })
     } else {
       // @TODO: route this through a central logger
       console.error(

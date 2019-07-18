@@ -22,7 +22,6 @@ describe("PushApi", () => {
   beforeAll(() => (window.fetch = fetchMock))
 
   beforeEach(() => {
-    /* Runs before each test */
     api = new PushApi({ key: "TESTKEY", version: VERSION })
   })
 
