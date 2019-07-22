@@ -24,6 +24,7 @@
     "access": "public"
   },
   "dependencies": {
-    "error-stack-parser": "^2.0.2"
+    "error-stack-parser": "^2.0.2",
+    "tslib": "^1.10.0"
   }
 }
