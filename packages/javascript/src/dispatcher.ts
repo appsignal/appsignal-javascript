@@ -59,7 +59,7 @@ export class Dispatcher {
       this.reset()
     }
 
-    return setTimeout(cb, time)
+    return window.setTimeout(cb, time)
   }
 
   public reset() {
