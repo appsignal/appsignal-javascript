@@ -225,3 +225,5 @@ export default class Appsignal {
     return event
   }
 }
+
+export { Span, compose }
