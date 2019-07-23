@@ -2,6 +2,7 @@
   "private": true,
   "dependencies": {
     "@appsignal/angular": "file:packages/angular",
+    "@appsignal/ember": "file:packages/ember",
     "@appsignal/javascript": "file:packages/javascript",
     "@appsignal/plugin-path-decorator": "file:packages/plugin-path-decorator",
     "@appsignal/plugin-window-events": "file:packages/plugin-window-events",
