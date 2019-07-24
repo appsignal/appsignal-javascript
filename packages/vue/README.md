@@ -32,9 +32,8 @@ import store from './store'
 import Appsignal from "@appsignal/javascript"
 import { errorHandler } from "@appsignal/vue"
 
-const appsignal = new Appsignal({
-  key: "973a461b-2584-4c6a-9ec6-5849a8908fb4",
-  uri: "https://error-tracker.staging.lol/collect"
+const appsignal = new Appsignal({ 
+  key: "YOUR FRONTEND API KEY"
 })
 
 Vue.config.errorHandler = errorHandler(appsignal, Vue)
