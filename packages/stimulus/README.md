@@ -1,49 +1,43 @@
-# `@appsignal/vue`
+# `@appsignal/stimulus`
 
 - [AppSignal.com website][appsignal]
 - [Documentation][docs]
 - [Support][contact]
 
-The `@appsignal/javascript` integration for Vue v2.6+. 
+The `@appsignal/javascript` integration for Stimulus v1.1+. 
 
 ## Installation
 
-Add the  `@appsignal/vue` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
+Add the  `@appsignal/stimulus` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
 
 You can also add these packages to your `package.json` on the command line:
 
 ```
-yarn add @appsignal/javascript @appsignal/vue
-npm install --save @appsignal/javascript @appsignal/vue
+yarn add @appsignal/javascript @appsignal/stimulus
+npm install --save @appsignal/javascript @appsignal/stimulus
 ```
 
 ## Usage
 
-### `Vue.config.errorHandler`
+### `Application.handleError`
 
-The default Vue integration is a function that binds to the `Vue.config.errorHandler` hook. In a new app created using `@vue/cli`, your `main.js`/`.ts` file would look something like this:
+The default Stimulus integration is a function that binds to the `Application.handleError` property. In a new app created using `rails new $APP_NAME --webpack=stimulus`, for example, your `javascript/controllers/index.js` file would look something like this:
 
 ```js
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
+import { Application } from "stimulus"
+import { definitionsFromContext } from "stimulus/webpack-helpers"
 
 import Appsignal from "@appsignal/javascript"
-import { errorHandler } from "@appsignal/vue"
+import { installErrorHandler } from "@appsignal/stimulus"
 
-const appsignal = new Appsignal({
-  key: "973a461b-2584-4c6a-9ec6-5849a8908fb4",
-  uri: "https://error-tracker.staging.lol/collect"
+const appsignal = new Appsignal({ 
+  key: "YOUR FRONTEND API KEY"
 })
 
-Vue.config.errorHandler = errorHandler(appsignal, Vue)
-
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+const application = Application.start()
+installErrorHandler(appsignal, application)
+const context = require.context("controllers", true, /_controller\.js$/)
+application.load(definitionsFromContext(context))
 ```
 
 ## Development
