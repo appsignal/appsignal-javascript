@@ -83,31 +83,6 @@ Currently, we have no plans to supply a CDN-hosted version of this library.
 
 If you're stuck, feel free to [contact us][contact] for help!
 
-## Plugins
-
-The `Appsignal` object can take one or many optional “plugins” that can extend the base functionality of the library e.g. for handling uncaught exceptions via `window.error` or `onunhandledpromiserejection`.
-
-```
-import { plugin } from `appsignal/plugin-${PLUGIN_NAME}`
-appsignal.use(plugin())
-```
-
-@TODO: add more on plugins
-
-## Integrations
-
-An integration is a module that can consume the `Appsignal` object to catch errors from popular libraries or frameworks. These integrations may come in a variety of different forms, and we aim to generally provide APIs that are consistent, and feel idiomatic to use, with the libraries and/or frameworks that you’re using.
-
-These currently include:
-
-- React (beta) - `@appsignal/react`
-
-## Supported browsers
-
-This package can be used in any ECMAScript 5 compatible browser. We aim for compatibility down to Internet Explorer 9 [(roughly 0.22% of all browsers used today)](https://www.w3counter.com/globalstats.php). All browsers older than this can only supported on a "best effort" basis, and full functionality cannot be guaranteed.
-
-When developing, don't forget to check browser support on [Can I Use?](https://caniuse.com/) and the [ES6 Compatibility Table](https://kangax.github.io/compat-table/es6/), and provide the appropriate polyfills or fallbacks. **In a small percentage of browsers, a `Promise` polyfill may be required to use this library.**
-
 ## Development
 
 ### Installation
@@ -168,7 +143,7 @@ Also see our [SUPPORT.md file](SUPPORT.md).
 [contact]: mailto:support@appsignal.com
 [coc]: https://docs.appsignal.com/appsignal/code-of-conduct.html
 [waffles-page]: https://appsignal.com/waffles
-[docs]: http://docs.appsignal.com
+[docs]: https://docs.appsignal.com/front-end/
 [contributing-guide]: http://docs.appsignal.com/appsignal/contributing.html
 
 [semver]: http://semver.org/
