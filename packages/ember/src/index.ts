@@ -23,6 +23,7 @@ export function installErrorHandler(
     }
   }
 
+  // fired when ember's internal promise implementation throws an unhandled exception
   Ember.RSVP.on("error", function(reason: any): void {
     const span = appsignal.createSpan((span: any) =>
       span.setAction("Ember.RSVP.on")
@@ -31,6 +32,8 @@ export function installErrorHandler(
     if (reason instanceof Error) {
       span.setError(reason)
     } else {
+      // we set the name to "UnhandledPromiseRejectionError", to keep it consistent with
+      // the errors from the window.onunhandledrejection handler
       span.setError({
         name: "UnhandledPromiseRejectionError",
         message: typeof reason === "string" ? reason : JSON.stringify(reason),
