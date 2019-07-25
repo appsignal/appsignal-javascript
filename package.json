@@ -6,7 +6,9 @@
     "@appsignal/plugin-path-decorator": "file:packages/plugin-path-decorator",
     "@appsignal/plugin-window-events": "file:packages/plugin-window-events",
     "@appsignal/preact": "file:packages/preact",
-    "@appsignal/react": "file:packages/react"
+    "@appsignal/react": "file:packages/react",
+    "@appsignal/stimulus": "file:packages/stimulus",
+    "@appsignal/vue": "file:packages/vue"
   },
   "devDependencies": {
     "@angular/core": "^8.1.1",
@@ -20,6 +22,7 @@
     "preact": "^10.0.0-rc.0",
     "prettier": "1.18.2",
     "rimraf": "^2.6.3",
+    "stimulus": "^1.1.1",
     "ts-jest": "^24.0.2",
     "typescript": "^3.5.3",
     "vue": "^2.6.10"
