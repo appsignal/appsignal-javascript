@@ -36,7 +36,6 @@ describe("windowEventsPlugin", () => {
       ctx.onerror!(msg, "test", 1, 1, error)
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
-      expect(setActionMock).toHaveBeenCalledWith("window.onerror")
       expect(setErrorMock).toHaveBeenCalledWith(error)
     })
 
@@ -48,7 +47,6 @@ describe("windowEventsPlugin", () => {
       ctx.onerror!(msg, "test", 1, 1)
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
-      expect(setActionMock).toHaveBeenCalledWith("window.onerror")
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "Error",
@@ -65,7 +63,6 @@ describe("windowEventsPlugin", () => {
       ctx.onunhandledrejection!({ reason: "test" } as PromiseRejectionEvent)
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
-      expect(setActionMock).toHaveBeenCalledWith("window.onunhandledrejection")
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "UnhandledPromiseRejectionError",
@@ -83,7 +80,6 @@ describe("windowEventsPlugin", () => {
       ctx.onunhandledrejection!({ reason: error } as PromiseRejectionEvent)
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
-      expect(setActionMock).toHaveBeenCalledWith("window.onunhandledrejection")
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "UnhandledPromiseRejectionError",
