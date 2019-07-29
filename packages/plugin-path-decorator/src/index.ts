@@ -3,7 +3,7 @@ function pathDecoratorPlugin(options?: { [key: string]: any }) {
     const decorator = (span: any) =>
       span.setTags({ path: window.location.pathname })
 
-    this._hooks.decorators.push(decorator)
+    this.addDecorator(decorator)
   }
 }
 

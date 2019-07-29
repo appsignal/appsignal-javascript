@@ -119,4 +119,44 @@ describe("Appsignal", () => {
       expect(result.error.message).toEqual("test error")
     })
   })
+
+  describe("addDecorator", () => {
+    it("adds decorators", async () => {
+      const testTag = { tag: "test" }
+      const testAction = "test action"
+
+      appsignal.addDecorator(span => span.setAction(testAction))
+
+      // assert that we always able to return a span from sendError
+      const firstSpan = (await appsignal.sendError(new Error())) as Span
+      expect(firstSpan.serialize().action).toBe(testAction)
+
+      appsignal.addDecorator(span => span.setTags(testTag))
+
+      // assert that we always able to return a span from sendError
+      const secondSpan = (await appsignal.sendError(new Error())) as Span
+      expect(secondSpan.serialize().action).toBe(testAction)
+      expect(secondSpan.serialize().tags).toStrictEqual(testTag)
+    })
+  })
+
+  describe("addOverride", () => {
+    it("adds overrides", async () => {
+      const testTag = { tag: "test" }
+      const testAction = "test action"
+
+      appsignal.addOverride(span => span.setAction(testAction))
+
+      // assert that we always able to return a span from sendError
+      const firstSpan = (await appsignal.sendError(new Error())) as Span
+      expect(firstSpan.serialize().action).toBe(testAction)
+
+      appsignal.addOverride(span => span.setTags(testTag))
+
+      // assert that we always able to return a span from sendError
+      const secondSpan = (await appsignal.sendError(new Error())) as Span
+      expect(secondSpan.serialize().action).toBe(testAction)
+      expect(secondSpan.serialize().tags).toStrictEqual(testTag)
+    })
+  })
 })

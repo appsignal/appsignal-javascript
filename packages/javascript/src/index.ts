@@ -11,6 +11,7 @@ import { compose } from "./utils/functional"
 import { Queue } from "./queue"
 import { Dispatcher } from "./dispatcher"
 
+import { IHook } from "./interfaces/IHook"
 import { AppsignalOptions } from "./types/options"
 
 export default class Appsignal {
@@ -21,8 +22,8 @@ export default class Appsignal {
   private _api: PushApi
 
   private _hooks = {
-    decorators: [],
-    overrides: []
+    decorators: Array<IHook>(),
+    overrides: Array<IHook>()
   }
 
   private _env = Environment.serialize()
@@ -194,6 +195,30 @@ export default class Appsignal {
       await this.sendError(e)
       return Promise.reject(e)
     }
+  }
+
+  /**
+   * Registers a span decorator to be applied every time a Span
+   * is sent to the Push API
+   *
+   * @param   {Function}  decorator  A decorator function, returning `Span`
+   *
+   * @return  {void}
+   */
+  public addDecorator<T extends IHook>(decorator: T): void {
+    this._hooks.decorators.push(decorator)
+  }
+
+  /**
+   * Registers a span override to be applied every time a Span
+   * is sent to the Push API
+   *
+   * @param   {Function}  override  An override function, returning `Span`
+   *
+   * @return  {void}
+   */
+  public addOverride<T extends IHook>(override: T): void {
+    this._hooks.overrides.push(override)
   }
 
   /**
