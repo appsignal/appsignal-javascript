@@ -37,8 +37,6 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
           "[APPSIGNAL]: Cross-domain or eval script error detected, error ignored"
         )
       } else {
-        span.setAction("window.onerror")
-
         if (error) {
           span.setError(error)
         } else {
@@ -64,8 +62,6 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
       error: PromiseRejectionEvent
     ): void {
       const span = self.createSpan()
-
-      span.setAction("window.onunhandledrejection")
 
       span.setError({
         name: "UnhandledPromiseRejectionError",

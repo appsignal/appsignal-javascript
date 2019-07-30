@@ -10,9 +10,7 @@ export function installErrorHandler(
   }
 
   Ember.onerror = function(error: Error): void {
-    const span = appsignal.createSpan((span: any) =>
-      span.setAction("Ember.onerror").setError(error)
-    )
+    const span = appsignal.createSpan((span: any) => span.setError(error))
 
     appsignal.send(span)
 
@@ -25,9 +23,7 @@ export function installErrorHandler(
 
   // fired when ember's internal promise implementation throws an unhandled exception
   Ember.RSVP.on("error", function(reason: any): void {
-    const span = appsignal.createSpan((span: any) =>
-      span.setAction("Ember.RSVP.on")
-    )
+    const span = appsignal.createSpan()
 
     if (reason instanceof Error) {
       span.setError(reason)

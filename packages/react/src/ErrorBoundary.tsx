@@ -1,13 +1,11 @@
 import React from "react"
 import { Props, State } from "./types/component"
 
-const DEFAULT_ACTION = "ErrorBoundary"
-
 export class ErrorBoundary extends React.Component<Props, State> {
   state = { error: undefined }
 
   static defaultProps = {
-    action: DEFAULT_ACTION
+    action: ""
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -20,7 +18,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
     const span = appsignal.createSpan()
 
     span
-      .setAction(action !== "" ? action : DEFAULT_ACTION)
+      .setAction(action !== "" ? action : undefined)
       .setError({
         name,
         message,

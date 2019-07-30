@@ -1,13 +1,11 @@
 import React from "react"
 import { Props, State } from "./types/component"
 
-const DEFAULT_ACTION = "LegacyBoundary"
-
 export class LegacyBoundary extends React.Component<Props, State> {
   state = { error: undefined }
 
   static defaultProps = {
-    action: DEFAULT_ACTION
+    action: ""
   }
 
   public unstable_handleError(error: Error): void {
@@ -16,7 +14,7 @@ export class LegacyBoundary extends React.Component<Props, State> {
     const span = appsignal.createSpan()
 
     span
-      .setAction(action !== "" ? action : DEFAULT_ACTION)
+      .setAction(action !== "" ? action : undefined)
       .setError({
         name,
         message,

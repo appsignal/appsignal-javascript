@@ -1,5 +1,4 @@
 export function errorHandler(appsignal: any, Vue?: any) {
-  const DEFAULT_ACTION = "Vue.config.errorHandler"
   const { version = "unknown" } = Vue
 
   return function(error: Error, vm: any, info: string) {
@@ -7,7 +6,7 @@ export function errorHandler(appsignal: any, Vue?: any) {
     const span = appsignal.createSpan()
 
     span
-      .setAction(tag || DEFAULT_ACTION)
+      .setAction(tag || undefined)
       .setTags({ framework: "Vue", info, version })
       .setError(error)
 
