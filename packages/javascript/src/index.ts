@@ -37,7 +37,11 @@ export default class Appsignal {
    * @param   {AppsignalOptions}  options        An object of options to configure the AppSignal client
    */
   constructor(options: AppsignalOptions) {
-    const { key, uri } = options
+    const { key, uri, revision } = options
+
+    if (revision && typeof revision !== "string") {
+      options.revision = String(revision)
+    }
 
     this._api = new PushApi({
       key,
