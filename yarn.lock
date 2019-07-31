@@ -10,19 +10,19 @@
     tslib "^1.9.0"
 
 "@appsignal/angular@file:packages/angular":
-  version "0.0.0"
+  version "1.0.0-beta.0"
 
 "@appsignal/ember@file:packages/ember":
-  version "0.0.0"
+  version "1.0.0-beta.1"
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.0.0-beta.2"
+  version "1.0.0-beta.5"
   dependencies:
     error-stack-parser "^2.0.2"
     tslib "^1.10.0"
 
 "@appsignal/plugin-path-decorator@file:packages/plugin-path-decorator":
-  version "1.0.0-beta.0"
+  version "1.0.0-beta.1"
 
 "@appsignal/plugin-window-events@file:packages/plugin-window-events":
   version "1.0.0-beta.0"
@@ -31,13 +31,13 @@
   version "1.0.0-beta.0"
 
 "@appsignal/react@file:packages/react":
-  version "1.0.0-beta.1"
+  version "1.0.0-beta.2"
 
 "@appsignal/stimulus@file:packages/stimulus":
-  version "0.0.0"
+  version "1.0.0-beta.0"
 
 "@appsignal/vue@file:packages/vue":
-  version "1.0.0-beta.0"
+  version "1.0.0-beta.1"
 
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
@@ -1250,10 +1250,10 @@
   resolved "https://registry.yarnpkg.com/@types/jest-diff/-/jest-diff-20.0.1.tgz#35cc15b9c4f30a18ef21852e255fdb02f6d59b89"
   integrity sha512-yALhelO3i0hqZwhjtcr6dYyaLoCHbAMshwtj6cGxTvHZAKXHsYGdff6E8EPw3xLKY0ELUTQ69Q1rQiJENnccMA==
 
-"@types/jest@^24.0.15":
-  version "24.0.15"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.15.tgz#6c42d5af7fe3b44ffff7cc65de7bf741e8fa427f"
-  integrity sha512-MU1HIvWUme74stAoc3mgAi+aMlgKOudgEvQDIm1v4RkrDudBh1T+NFp5sftpBAdXdx1J0PbdpJ+M2EsSOi1djA==
+"@types/jest@^24.0.16":
+  version "24.0.16"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-24.0.16.tgz#8d3e406ec0f0dc1688d6711af3062ff9bd428066"
+  integrity sha512-JrAiyV+PPGKZzw6uxbI761cHZ0G7QMOHXPhtSpcl08rZH6CswXaaejckn3goFKmF7M3nzEoJ0lwYCbqLMmjziQ==
   dependencies:
     "@types/jest-diff" "*"
 
