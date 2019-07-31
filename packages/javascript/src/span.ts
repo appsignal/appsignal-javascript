@@ -3,7 +3,7 @@ import { getStacktrace } from "./utils/stacktrace"
 import { Span as AppsignalSpan } from "./types/span"
 
 export class Span extends Serializable<AppsignalSpan> {
-  constructor(span: Partial<AppsignalSpan>) {
+  constructor(span?: Partial<AppsignalSpan>) {
     super({
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
@@ -31,11 +31,11 @@ export class Span extends Serializable<AppsignalSpan> {
   }
 
   public setError<T extends Error>(error: Error | T): this {
-    const { name, message } = error
+    if (!error) return this
 
     this._data.error = {
-      name,
-      message,
+      name: error.name || "Error",
+      message: error.message || "No message given",
       backtrace: getStacktrace(error)
     }
 
