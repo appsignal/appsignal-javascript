@@ -226,20 +226,6 @@ export default class Appsignal {
   }
 
   /**
-   * Returns an object that includes useful diagnostic information.
-   * Can be used to debug the installation.
-   *
-   * @return  {object}            A diagnostic report
-   */
-  public diagnose(): object {
-    return {
-      version: this.VERSION,
-      config: this._options,
-      environment: this._env
-    }
-  }
-
-  /**
    * Creates a valid AppSignal `Span` from a JavaScript `Error`
    * object.
    *
