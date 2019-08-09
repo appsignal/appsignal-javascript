@@ -1,10 +1,8 @@
-import { BrowserEnvironment } from "./types/environment"
-
 export class Environment {
   /**
    * Serializes the current browser environment into an object.
    */
-  public static serialize(): BrowserEnvironment {
+  public static serialize(): { [key: string]: string } {
     return {
       transport: this.transport(),
       agent: window.navigator.userAgent,
@@ -19,7 +17,7 @@ export class Environment {
    *
    * @return  {string}       The origin URL
    */
-  public static origin() {
+  public static origin(): string {
     return (
       window.location.origin ||
       `${window.location.protocol}//${window.location.hostname}`

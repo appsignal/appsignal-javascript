@@ -1,5 +1,4 @@
 import { Error } from "./error"
-import { BrowserEnvironment } from "./environment"
 
 export type Span = {
   timestamp: number
@@ -16,5 +15,5 @@ export type Span = {
     [key: string]: string
   }
 
-  environment: Partial<BrowserEnvironment>
+  environment: { [key: string]: string }
 }
