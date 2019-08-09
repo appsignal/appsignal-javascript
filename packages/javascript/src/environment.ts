@@ -44,6 +44,8 @@ export class Environment {
    * Indicates whether native promises are available in the current
    * browser or environment.
    *
+   * Adapted from https://github.com/stefanpenner/es6-promise/blob/master/lib/es6-promise/polyfill.js
+   *
    * @return  {boolean}       A value indicating if Promises are supported
    */
   public static supportsPromises(): boolean {
