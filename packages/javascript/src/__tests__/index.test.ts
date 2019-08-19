@@ -19,11 +19,19 @@ describe("Appsignal", () => {
   })
 
   describe("sendError", () => {
-    it("pushes an error to the API", () => {
+    it("pushes an error", () => {
       const message = "test error"
       const promise = appsignal.sendError(new Error(message))
 
       expect(promise).resolves
+    })
+
+    it("doesn't send an invalid error", () => {
+      expect(() => {
+        // we have to do some weird looking type casting here so the
+        // compiler doesn't fail and actually allows us to test
+        const promise = appsignal.sendError(("Test error" as unknown) as Error)
+      }).toThrow()
     })
   })
 
