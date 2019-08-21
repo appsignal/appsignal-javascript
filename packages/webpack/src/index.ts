@@ -1,0 +1,125 @@
+import axios, { AxiosInstance } from "axios"
+import { compilation, Compiler, Plugin, Stats } from "webpack"
+import FormData from "form-data"
+import fs from "fs"
+
+type Compilation = compilation.Compilation
+
+type PluginOptions = {
+  apiKey: string
+  release: string
+  appName: string
+  environment: string
+  deleteAfterCompile: boolean
+}
+
+class AppsignalPlugin implements Plugin {
+  public name = "AppsignalPlugin"
+  public options: PluginOptions
+
+  private request: AxiosInstance
+
+  constructor(options: PluginOptions) {
+    this.request = axios.create({
+      baseURL: "https://appsignal.com/api",
+      timeout: 1000
+    })
+
+    this.options = options
+  }
+
+  public apply(compiler: Compiler) {
+    const { afterEmit, done } = compiler.hooks
+
+    afterEmit.tapPromise(this.name, this.onAfterEmit)
+    done.tapPromise(this.name, this.onDone)
+  }
+
+  private onAfterEmit = async (compilation: Compilation) => {
+    const { assets } = compilation
+    const { release } = this.options
+
+    const script = this.getAssetType(/\.js$/, assets)
+    const sourcemap = this.getAssetType(/\.map$/, assets)
+
+    if (!script || !sourcemap) return
+
+    try {
+      const form = this.createForm(script.name, release, sourcemap.filePath)
+      await this.upload(form)
+    } catch (error) {
+      compilation.errors.push(`AppSignal Plugin: ${error}`)
+    }
+  }
+
+  private onDone = async (stats: Stats) => {
+    const { assets } = stats.compilation
+
+    if (this.options.deleteAfterCompile) {
+      await this.deleteFiles(assets)
+    }
+  }
+
+  private getAssetType(rx: RegExp, assets: any) {
+    return Object.keys(assets)
+      .map(name => {
+        if (rx.test(name)) {
+          return { name, filePath: assets[name].existsAt }
+        }
+
+        return null
+      })
+      .filter(el => el)[0]
+  }
+
+  private createForm(
+    name: string,
+    revision: string,
+    filePath: string
+  ): FormData {
+    const form = new FormData()
+
+    form.append("name[]", name)
+    form.append("revision", revision)
+
+    form.append("file", fs.readFileSync(filePath))
+
+    return form
+  }
+
+  private async upload(form: FormData) {
+    const { apiKey, appName, environment } = this.options
+
+    return this.request.post("/sourcemaps", form.getBuffer(), {
+      headers: form.getHeaders(),
+      params: {
+        push_api_key: apiKey,
+        app_name: appName,
+        environment
+      }
+    })
+  }
+
+  private async deleteFiles(assets: any) {
+    const promises = Object.keys(assets)
+      .filter(name => /\.map$/.test(name))
+      .map(name => {
+        const filePath = assets[name].existsAt
+
+        if (filePath) {
+          return fs.promises.unlink(filePath)
+        } else {
+          console.warn(`
+            ⚠️ [AppsignalPlugin]: unable to delete '${name}' 
+            File does not exist. it may not have been created
+            due to a build error.
+          `)
+        }
+      })
+      .filter(el => el)
+
+    return Promise.all(promises)
+  }
+}
+
+export { AppsignalPlugin }

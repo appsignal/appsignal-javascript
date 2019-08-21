@@ -10,12 +10,15 @@
     "@appsignal/react": "file:packages/react",
     "@appsignal/stimulus": "file:packages/stimulus",
     "@appsignal/types": "file:packages/types",
-    "@appsignal/vue": "file:packages/vue"
+    "@appsignal/vue": "file:packages/vue",
+    "@appsignal/webpack": "file:packages/webpack"
   },
   "devDependencies": {
     "@angular/core": "^8.2.4",
     "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.2",
     "@types/react": "^16.9.2",
+    "@types/webpack": "^4.39.0",
     "husky": "^2.4.1",
     "jest": "^24.9.0",
     "lerna": "^3.16.4",
@@ -27,7 +30,8 @@
     "stimulus": "^1.1.1",
     "ts-jest": "^24.0.2",
     "typescript": "^3.6.2",
-    "vue": "^2.6.10"
+    "vue": "^2.6.10",
+    "webpack": "^4.39.2"
   },
   "scripts": {
     "build": "lerna run --stream --concurrency 1 --sort build",
