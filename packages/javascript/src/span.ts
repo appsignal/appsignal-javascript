@@ -1,5 +1,6 @@
 import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
+import { sanitizeParams } from "./utils/object"
 import { Span as AppsignalSpan } from "./types/span"
 
 export class Span extends Serializable<AppsignalSpan> {
@@ -21,11 +22,19 @@ export class Span extends Serializable<AppsignalSpan> {
   }
 
   public setAction(name: string): this {
+    if (!name || typeof name !== "string") {
+      return this
+    }
+
     this._data.action = name
     return this
   }
 
   public setNamespace(name: string): this {
+    if (!name || typeof name !== "string") {
+      return this
+    }
+
     this._data.namespace = name
     return this
   }
@@ -43,12 +52,12 @@ export class Span extends Serializable<AppsignalSpan> {
   }
 
   public setTags(tags: object): this {
-    this._data.tags = { ...this._data.tags, ...tags }
+    this._data.tags = { ...this._data.tags, ...sanitizeParams(tags) }
     return this
   }
 
   public setParams(params: object): this {
-    this._data.params = { ...this._data.params, ...params }
+    this._data.params = { ...this._data.params, ...sanitizeParams(params) }
     return this
   }
 }
