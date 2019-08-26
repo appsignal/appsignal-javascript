@@ -13,6 +13,11 @@ type PluginOptions = {
   deleteAfterCompile: boolean
 }
 
+type Asset = {
+  name: string
+  filePath: string
+}
+
 class AppsignalPlugin implements Plugin {
   public name = "AppsignalPlugin"
   public options: PluginOptions
@@ -39,8 +44,8 @@ class AppsignalPlugin implements Plugin {
     const { assets } = compilation
     const { release } = this.options
 
-    const script = this.getAssetType(/\.js$/, assets)
-    const sourcemap = this.getAssetType(/\.map$/, assets)
+    const script = this.getAssetOfType(/\.js$/, assets)
+    const sourcemap = this.getAssetOfType(/\.map$/, assets)
 
     if (!script || !sourcemap) return
 
@@ -60,7 +65,7 @@ class AppsignalPlugin implements Plugin {
     }
   }
 
-  private getAssetType(rx: RegExp, assets: any) {
+  private getAssetOfType(rx: RegExp, assets: any): Asset {
     return Object.keys(assets)
       .map(name => {
         if (rx.test(name)) {
@@ -69,7 +74,7 @@ class AppsignalPlugin implements Plugin {
 
         return null
       })
-      .filter(el => el)[0]
+      .filter(el => el)[0] as Asset
   }
 
   private createForm(
