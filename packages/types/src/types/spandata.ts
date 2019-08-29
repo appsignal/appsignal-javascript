@@ -1,4 +1,5 @@
 import { Error } from "./error"
+import { Breadcrumb } from "./breadcrumb"
 
 export type SpanData = {
   timestamp: number
@@ -15,4 +16,5 @@ export type SpanData = {
   environment?: {
     [key: string]: string
   }
+  breadcrumbs?: Breadcrumb[]
 }

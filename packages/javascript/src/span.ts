@@ -2,7 +2,7 @@ import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
 import { sanitizeTags } from "./utils/object"
 
-import { SpanData } from "@appsignal/types"
+import { SpanData, Breadcrumb } from "@appsignal/types"
 
 export class Span extends Serializable<SpanData> {
   constructor(span?: Partial<SpanData>) {
@@ -59,6 +59,11 @@ export class Span extends Serializable<SpanData> {
 
   public setParams(params: { [key: string]: string | number | boolean }): this {
     this._data.params = { ...this._data.params, ...params }
+    return this
+  }
+
+  public setBreadcrumbs(breadcrumbs: Breadcrumb[]): this {
+    this._data.breadcrumbs = breadcrumbs
     return this
   }
 }

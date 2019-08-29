@@ -167,4 +167,26 @@ describe("Appsignal", () => {
       expect(secondSpan.serialize().tags).toStrictEqual(testTag)
     })
   })
+
+  describe("addBreadcrumbs", () => {
+    it("adds breadcrumbs", async () => {
+      appsignal.addBreadcrumb({
+        category: "test",
+        action: "test action"
+      })
+
+      // assert that we always able to return a span from sendError
+      const firstSpan = (await appsignal.sendError(new Error())) as Span
+      expect(firstSpan.serialize().breadcrumbs!.length).toBe(1)
+
+      appsignal.addBreadcrumb({
+        category: "test",
+        action: "test action 2"
+      })
+
+      // assert that we always able to return a span from sendError
+      const secondSpan = (await appsignal.sendError(new Error())) as Span
+      expect(firstSpan.serialize().breadcrumbs!.length).toBe(2)
+    })
+  })
 })
