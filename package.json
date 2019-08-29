@@ -9,6 +9,7 @@
     "@appsignal/preact": "file:packages/preact",
     "@appsignal/react": "file:packages/react",
     "@appsignal/stimulus": "file:packages/stimulus",
+    "@appsignal/types": "file:packages/types",
     "@appsignal/vue": "file:packages/vue"
   },
   "devDependencies": {

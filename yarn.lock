@@ -36,6 +36,9 @@
 "@appsignal/stimulus@file:packages/stimulus":
   version "1.0.0-beta.1"
 
+"@appsignal/types@file:packages/types":
+  version "0.0.0"
+
 "@appsignal/vue@file:packages/vue":
   version "1.0.0-beta.2"
 

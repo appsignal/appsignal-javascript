@@ -1,10 +1,10 @@
 import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
-import { sanitizeParams } from "./utils/object"
-import { Span as AppsignalSpan } from "./types/span"
 
-export class Span extends Serializable<AppsignalSpan> {
-  constructor(span?: Partial<AppsignalSpan>) {
+import { SpanData } from "@appsignal/types"
+
+export class Span extends Serializable<SpanData> {
+  constructor(span?: Partial<SpanData>) {
     super({
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
