@@ -7,10 +7,10 @@
  *
  * @return  {object}            A sanitized object
  */
-export function sanitizeParams(obj: { [key: string]: any }): object {
+export function sanitizeTags(obj: { [key: string]: any }): object {
   Object.keys(obj).forEach(k => {
     if (typeof obj[k] === "object") {
-      return sanitizeParams(obj[k])
+      return sanitizeTags(obj[k])
     }
 
     obj[k] = String(obj[k])

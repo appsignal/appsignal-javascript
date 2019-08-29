@@ -1,5 +1,6 @@
 import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
+import { sanitizeTags } from "./utils/object"
 
 import { SpanData } from "@appsignal/types"
 
@@ -51,13 +52,13 @@ export class Span extends Serializable<SpanData> {
     return this
   }
 
-  public setTags(tags: object): this {
-    this._data.tags = { ...this._data.tags, ...sanitizeParams(tags) }
+  public setTags(tags: { [key: string]: string }): this {
+    this._data.tags = { ...this._data.tags, ...sanitizeTags(tags) }
     return this
   }
 
-  public setParams(params: object): this {
-    this._data.params = { ...this._data.params, ...sanitizeParams(params) }
+  public setParams(params: { [key: string]: string | number | boolean }): this {
+    this._data.params = { ...this._data.params, ...params }
     return this
   }
 }
