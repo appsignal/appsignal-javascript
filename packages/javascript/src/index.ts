@@ -226,6 +226,20 @@ export default class Appsignal {
   }
 
   /**
+   * Sends a demonstration error to AppSignal.
+   *
+   * @return  {void}
+   */
+  public demo(): void {
+    this.sendError(
+      new Error(
+        "Hello world! This is an error used for demonstration purposes."
+      ),
+      { demo_sample: true }
+    )
+  }
+
+  /**
    * Creates a valid AppSignal `Span` from a JavaScript `Error`
    * object.
    *
