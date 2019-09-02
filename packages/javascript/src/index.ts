@@ -231,12 +231,23 @@ export default class Appsignal {
    * @return  {void}
    */
   public demo(): void {
-    this.sendError(
+    const span = this._createSpanFromError(
       new Error(
         "Hello world! This is an error used for demonstration purposes."
-      ),
-      { demo_sample: true }
+      )
     )
+
+    span
+      .setAction("TestAction")
+      .setParams({
+        path: "/hello",
+        method: "GET"
+      })
+      .setTags({
+        demo_sample: "true"
+      })
+
+    this.send(span)
   }
 
   /**
