@@ -17,13 +17,14 @@
     "link:yarn": "yarn link",
     "test": "jest",
     "test:watch": "jest --watch",
-    "prepublish": "run-s clean build",
+    "prepublishOnly": "lerna link && run-s clean build",
     "versionfile": "node scripts/create-versionfile.js"
   },
   "publishConfig": {
     "access": "public"
   },
   "dependencies": {
+    "@appsignal/types": "^0.0.0",
     "error-stack-parser": "^2.0.2",
     "tslib": "^1.10.0"
   }
