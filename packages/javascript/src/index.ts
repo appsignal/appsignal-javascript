@@ -14,6 +14,7 @@ import { Dispatcher } from "./dispatcher"
 import { IHook } from "./interfaces/IHook"
 import { AppsignalOptions } from "./types/options"
 import { Breadcrumb } from "@appsignal/types"
+import { toHashMap, toHashMapString } from "./utils/hashmap"
 
 export default class Appsignal {
   public VERSION = VERSION
@@ -253,7 +254,7 @@ export default class Appsignal {
 
     this.send(span)
   }
-  
+
   /**
    * Adds a breadcrumb.
    *
@@ -264,7 +265,8 @@ export default class Appsignal {
   public addBreadcrumb(breadcrumb: Omit<Breadcrumb, "timestamp">): void {
     const crumb: Breadcrumb = {
       timestamp: Math.round(new Date().getTime() / 1000),
-      ...breadcrumb
+      ...breadcrumb,
+      metadata: toHashMap(breadcrumb.metadata)
     }
 
     if (!crumb.category) {

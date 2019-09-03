@@ -188,5 +188,21 @@ describe("Appsignal", () => {
       const secondSpan = (await appsignal.sendError(new Error())) as Span
       expect(firstSpan.serialize().breadcrumbs!.length).toBe(2)
     })
+
+    it("sanitizes metadata", async () => {
+      appsignal.addBreadcrumb({
+        category: "test",
+        action: "test action",
+        metadata: {
+          value1: true,
+          value2: ([1] as unknown) as string
+        }
+      })
+
+      // assert that we always able to return a span from sendError
+      const span = (await appsignal.sendError(new Error())) as Span
+      expect(span.serialize().breadcrumbs![0].metadata!.value1).toBe(true)
+      expect(span.serialize().breadcrumbs![0].metadata!.value2).toBe("[1]")
+    })
   })
 })
