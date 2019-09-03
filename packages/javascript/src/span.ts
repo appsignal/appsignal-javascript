@@ -9,15 +9,11 @@ export class Span extends Serializable<SpanData> {
     super({
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
-      revision: "",
       error: {
-        name: "",
-        message: "",
+        name: "NullError",
+        message: "No error has been set",
         backtrace: []
       },
-      environment: {},
-      tags: {},
-      params: {},
       ...span
     })
   }
