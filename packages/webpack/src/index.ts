@@ -22,11 +22,10 @@ class AppsignalPlugin implements Plugin {
   public name = "AppsignalPlugin"
   public options: PluginOptions
 
-  private request: AxiosInstance
+  private _request: AxiosInstance
 
   constructor(options: PluginOptions) {
-    this.request = axios.create({
-      baseURL: "https://appsignal.com/api",
+    this._request = axios.create({
       timeout: 1000
     })
 
@@ -95,7 +94,7 @@ class AppsignalPlugin implements Plugin {
   private async upload(form: FormData) {
     const { apiKey, appName, environment } = this.options
 
-    return this.request.post("/sourcemaps", form.getBuffer(), {
+    return this._request.post("/sourcemaps", form.getBuffer(), {
       headers: form.getHeaders(),
       params: {
         push_api_key: apiKey,
