@@ -13,6 +13,8 @@ import { Dispatcher } from "./dispatcher"
 
 import { IHook } from "./interfaces/IHook"
 import { AppsignalOptions } from "./types/options"
+import { Breadcrumb } from "@appsignal/types"
+import { toHashMap, toHashMapString } from "./utils/hashmap"
 
 export default class Appsignal {
   public VERSION = VERSION
@@ -20,6 +22,7 @@ export default class Appsignal {
   private _dispatcher: Dispatcher
   private _options: AppsignalOptions
   private _api: PushApi
+  private _breadcrumbs: Breadcrumb[]
 
   private _hooks = {
     decorators: Array<IHook>(),
@@ -49,6 +52,7 @@ export default class Appsignal {
       version: this.VERSION
     })
 
+    this._breadcrumbs = []
     this._dispatcher = new Dispatcher(this._queue, this._api)
 
     this._options = options
@@ -108,6 +112,7 @@ export default class Appsignal {
 
     if (tags) span.setTags(tags)
     if (namespace) span.setNamespace(namespace)
+    if (this._breadcrumbs.length > 0) span.setBreadcrumbs(this._breadcrumbs)
 
     // A Span can be "overridden" with metadata after it has been created,
     // but before it is sent to the API and after metadata provided
@@ -251,6 +256,37 @@ export default class Appsignal {
   }
 
   /**
+   * Adds a breadcrumb.
+   *
+   * @param   {Breadcrumb}  breadcrumb  A valid breadcrumb
+   *
+   * @return  {void}
+   */
+  public addBreadcrumb(breadcrumb: Omit<Breadcrumb, "timestamp">): void {
+    const crumb: Breadcrumb = {
+      timestamp: Math.round(new Date().getTime() / 1000),
+      ...breadcrumb,
+      metadata: toHashMap(breadcrumb.metadata)
+    }
+
+    if (!crumb.category) {
+      console.warn("[APPSIGNAL]: Breadcrumb not added. `category` is missing.")
+      return
+    }
+
+    if (!crumb.action) {
+      console.warn("[APPSIGNAL]: Breadcrumb not added. `action` is missing.")
+      return
+    }
+
+    if (this._breadcrumbs.length === 20) {
+      this._breadcrumbs.pop()
+    }
+
+    this._breadcrumbs.unshift(crumb)
+  }
+
+  /**
    * Creates a valid AppSignal `Span` from a JavaScript `Error`
    * object.
    *
@@ -265,5 +301,3 @@ export default class Appsignal {
     return event
   }
 }
-
-export { Span, compose }

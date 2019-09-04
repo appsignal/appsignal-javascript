@@ -1,8 +1,8 @@
 import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
-import { sanitizeTags } from "./utils/object"
+import { toHashMapString } from "./utils/hashmap"
 
-import { SpanData } from "@appsignal/types"
+import { SpanData, Breadcrumb, HashMap, HashMapValue } from "@appsignal/types"
 
 export class Span extends Serializable<SpanData> {
   constructor(span?: Partial<SpanData>) {
@@ -52,13 +52,18 @@ export class Span extends Serializable<SpanData> {
     return this
   }
 
-  public setTags(tags: { [key: string]: string }): this {
-    this._data.tags = { ...this._data.tags, ...sanitizeTags(tags) }
+  public setTags(tags: HashMap<string>): this {
+    this._data.tags = { ...this._data.tags, ...toHashMapString(tags) }
     return this
   }
 
-  public setParams(params: { [key: string]: string | number | boolean }): this {
+  public setParams(params: HashMap<HashMapValue>): this {
     this._data.params = { ...this._data.params, ...params }
+    return this
+  }
+
+  public setBreadcrumbs(breadcrumbs: Breadcrumb[]): this {
+    this._data.breadcrumbs = breadcrumbs
     return this
   }
 }

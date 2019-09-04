@@ -1,4 +1,6 @@
+import { HashMap, HashMapValue } from "./common"
 import { Error } from "./error"
+import { Breadcrumb } from "./breadcrumb"
 
 export type SpanData = {
   timestamp: number
@@ -6,13 +8,8 @@ export type SpanData = {
   namespace: string
   error: Error
   revision?: string
-  tags?: {
-    [key: string]: string
-  }
-  params?: {
-    [key: string]: string | number | boolean
-  }
-  environment?: {
-    [key: string]: string
-  }
+  tags?: HashMap<string>
+  params?: HashMap<HashMapValue>
+  environment?: HashMap<string>
+  breadcrumbs?: Breadcrumb[]
 }
