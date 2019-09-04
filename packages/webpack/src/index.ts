@@ -11,6 +11,7 @@ type PluginOptions = {
   appName: string
   environment: string
   deleteAfterCompile: boolean
+  urlRoot: string
 }
 
 type Asset = {
@@ -82,8 +83,10 @@ class AppsignalPlugin implements Plugin {
     filePath: string
   ): FormData {
     const form = new FormData()
+    const { urlRoot } = this.options
+    const fullPath = `${urlRoot.replace(/\/$/, "")}/${name}`
 
-    form.append("name[]", name)
+    form.append("name[]", fullPath)
     form.append("revision", revision)
 
     form.append("file", fs.readFileSync(filePath))
