@@ -10,8 +10,8 @@ type PluginOptions = {
   release: string
   appName: string
   environment: string
-  deleteAfterCompile: boolean
-  urlRoot: string
+  urlRoot: string | string[]
+  deleteAfterCompile?: boolean
 }
 
 type Asset = {
@@ -27,6 +27,7 @@ class AppsignalPlugin implements Plugin {
 
   constructor(options: PluginOptions) {
     this._request = axios.create({
+      baseURL: "https://appsignal.com/api",
       timeout: 1000
     })
 
@@ -84,11 +85,17 @@ class AppsignalPlugin implements Plugin {
   ): FormData {
     const form = new FormData()
     const { urlRoot } = this.options
-    const fullPath = `${urlRoot.replace(/\/$/, "")}/${name}`
 
-    form.append("name[]", fullPath)
+    const _appendName = (url: string) =>
+      form.append("name[]", `${url.replace(/\/$/, "")}/${name}`)
+
+    if (Array.isArray(urlRoot)) {
+      urlRoot.forEach(url => _appendName(url))
+    } else {
+      _appendName(urlRoot)
+    }
+
     form.append("revision", revision)
-
     form.append("file", fs.readFileSync(filePath))
 
     return form
