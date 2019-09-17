@@ -17,7 +17,7 @@ describe("Span", () => {
 
     it("returns the span when no error is given", () => {
       span.setError((undefined as unknown) as Error)
-      expect(span.serialize().error.message).toBe("")
+      expect(span.serialize().error.message).toBe("No error has been set")
     })
   })
 })

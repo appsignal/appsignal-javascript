@@ -14,7 +14,7 @@ import { Dispatcher } from "./dispatcher"
 import { IHook } from "./interfaces/IHook"
 import { AppsignalOptions } from "./types/options"
 import { Breadcrumb } from "@appsignal/types"
-import { toHashMap, toHashMapString } from "./utils/hashmap"
+import { toHashMap } from "./utils/hashmap"
 
 export default class Appsignal {
   public VERSION = VERSION
