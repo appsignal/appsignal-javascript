@@ -27,11 +27,14 @@ describe("Appsignal", () => {
     })
 
     it("doesn't send an invalid error", () => {
-      expect(() => {
-        // we have to do some weird looking type casting here so the
-        // compiler doesn't fail and actually allows us to test
-        const promise = appsignal.sendError(("Test error" as unknown) as Error)
-      }).toThrow()
+      const spy = jest.spyOn(console, "error").mockImplementation()
+
+      // we have to do some weird looking type casting here so the
+      // compiler doesn't fail and actually allows us to test
+      appsignal.sendError(("Test error" as unknown) as Error)
+
+      expect(spy).toHaveBeenCalled()
+      spy.mockRestore()
     })
   })
 

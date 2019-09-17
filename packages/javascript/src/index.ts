@@ -96,7 +96,11 @@ export default class Appsignal {
     namespace?: string
   ): Promise<any> | void {
     if (!(data instanceof Error) && !(data instanceof Span)) {
-      throw new Error("Can't send error, given error is not a valid type")
+      // @TODO: route this through a central logger
+      console.error(
+        "[APPSIGNAL]: Can't send error, given error is not a valid type"
+      )
+      return
     }
 
     // a "span" currently refers to a fixed point in time, as opposed to
