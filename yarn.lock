@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@angular/core@^8.2.6":
-  version "8.2.6"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.2.6.tgz#26f4b4b2beb766964ea2b76183f69c443860849a"
-  integrity sha512-l+BrvPGwtPUh/rQyB9mjtonMsFEAoRHgDYWeQu/QukIZbItNdFqrhewn2zQ8Skx75BpwFLAVIVXp9ioDyvP2eQ==
+"@angular/core@^8.2.7":
+  version "8.2.7"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.2.7.tgz#401eeef94efe22af4e9da2939d1b03d786b49cef"
+  integrity sha512-TRGnrxRMM6JyFqgw6EFBTlZKRrZ/MkIMgnAAdk7d0ftGdsi0fao9y+hBO/oVOJjCqeEt0tkHtHhIoXEkZSs84g==
   dependencies:
     tslib "^1.9.0"
 
@@ -16,9 +16,9 @@
   version "1.0.0-beta.2"
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.0.0-beta.6"
+  version "1.0.0-beta.7"
   dependencies:
-    "@appsignal/types" "^0.0.0"
+    "@appsignal/types" "^1.0.0-beta.0"
     error-stack-parser "^2.0.2"
     tslib "^1.10.0"
 
@@ -38,13 +38,13 @@
   version "1.0.0-beta.1"
 
 "@appsignal/types@file:packages/types":
-  version "0.0.0"
+  version "1.0.0-beta.0"
 
 "@appsignal/vue@file:packages/vue":
   version "1.0.0-beta.2"
 
 "@appsignal/webpack@file:packages/webpack":
-  version "0.0.0"
+  version "1.0.0-beta.0"
   dependencies:
     axios "^0.19.0"
     form-data "^2.5.0"
