@@ -6,6 +6,8 @@
 
 The `@appsignal/javascript` integration for Webpack v4+. 
 
+⚠️ The Webpack plugin is currently in **BETA**. Please report any bugs to us [here](https://github.com/appsignal/appsignal-javascript/issues), your feedback is appreciated.
+
 ## Installation
 
 Add the  `@appsignal/webpack` packages to your `package.json`. Then, run `yarn install`/`npm install`.
@@ -31,10 +33,11 @@ const config = {
   plugins: [
     // ...other plugins here (optional)
     new AppsignalPlugin({
-      key: "<your frontend API key>",
+      apiKey: "<your Push API key (NOT your frontend key!)>",
       release: "<a valid Git SHA>",
       appName: "<the app name as it appears on AppSignal.com>",
-      environment: "<the current environment>"
+      environment: "<the current environment>",
+      urlRoot: "<the root URL where your sourcemaps are held>" | ["<an array of root URLs>"]
     })
   ],
   devtool: "source-map"
