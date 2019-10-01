@@ -182,11 +182,12 @@ export default class Appsignal {
    * @return  {Span}              An AppSignal `Span` object
    */
   public createSpan(fn?: Function): Span {
-    const { revision = "" } = this._options
+    const { revision = "", namespace } = this._options
 
     const span = new Span({
       environment: this._env,
-      revision
+      revision,
+      namespace
     })
 
     if (fn && typeof fn === "function") fn(span)

@@ -18,6 +18,16 @@ describe("Appsignal", () => {
     expect(appsignal.VERSION).toEqual(VERSION)
   })
 
+  it("recieves a namespace if one is passed to the constructor", () => {
+    appsignal = new Appsignal({ key: "TESTKEY", namespace: "test" })
+
+    const span = appsignal.createSpan()
+    const result = span.serialize()
+
+    expect(result).toHaveProperty("namespace")
+    expect(result.namespace).toEqual("test")
+  })
+
   describe("sendError", () => {
     it("pushes an error", () => {
       const message = "test error"
