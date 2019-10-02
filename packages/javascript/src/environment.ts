@@ -5,9 +5,6 @@ export class Environment {
   public static serialize(): { [key: string]: string } {
     return {
       transport: this.transport(),
-      agent: window.navigator.userAgent,
-      platform: window.navigator.platform,
-      vendor: window.navigator.vendor,
       origin: this.origin()
     }
   }
