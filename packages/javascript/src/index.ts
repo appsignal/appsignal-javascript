@@ -186,9 +186,11 @@ export default class Appsignal {
 
     const span = new Span({
       environment: this._env,
-      revision,
-      namespace
+      revision
     })
+
+    // set default namespace from constructor if none is set
+    if (namespace) span.setNamespace(namespace)
 
     if (fn && typeof fn === "function") fn(span)
 
