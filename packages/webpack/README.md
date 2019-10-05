@@ -33,11 +33,16 @@ const config = {
   plugins: [
     // ...other plugins here (optional)
     new AppsignalPlugin({
+      // required
       apiKey: "<your Push API key (NOT your frontend key!)>",
       release: "<a valid Git SHA>",
       appName: "<the app name as it appears on AppSignal.com>",
       environment: "<the current environment>",
       urlRoot: "<the root URL where your sourcemaps are held>" | ["<an array of root URLs>"]
+
+      // not required
+      deleteAfterCompile: true | false, // OPTIONAL: cleanup sourcemap files after upload
+      timeout: 5000 // OPTIONAL: increase max timeout of http client
     })
   ],
   devtool: "source-map"

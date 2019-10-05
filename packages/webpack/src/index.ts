@@ -13,6 +13,7 @@ type PluginOptions = {
   urlRoot: string | string[]
   deleteAfterCompile?: boolean
   timeout?: number
+  endpoint?: string
 }
 
 type Asset = {
@@ -28,7 +29,7 @@ class AppsignalPlugin implements Plugin {
 
   constructor(options: PluginOptions) {
     this._request = axios.create({
-      baseURL: "https://appsignal.com/api",
+      baseURL: options.endpoint || "https://appsignal.com/api",
       timeout: options.timeout || 5000
     })
 
