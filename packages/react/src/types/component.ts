@@ -1,8 +1,9 @@
 export type Props = {
   instance: any
-  action: string
+  action?: string
   children: React.ReactNode
-  fallback: Function
+  fallback?: Function
+  tags?: { [key: string]: string }
 }
 
 export type State = {
