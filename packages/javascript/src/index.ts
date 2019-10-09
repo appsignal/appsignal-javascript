@@ -126,6 +126,10 @@ export default class Appsignal {
     }
 
     if (Environment.supportsPromises()) {
+      // clear breadcrumbs as they are now loaded into the span,
+      // and we are sure that it's possible to send them
+      this._breadcrumbs = []
+
       return this._api.push(span).catch(() => {
         this._queue.push(span)
 
