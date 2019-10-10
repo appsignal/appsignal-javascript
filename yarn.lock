@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@angular/core@^8.2.9":
-  version "8.2.9"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.2.9.tgz#280598caef4c61b952cdae96d160497ae698b618"
-  integrity sha512-GpHAuLOlN9iioELCQBmAsjETTUCyFgVUI3LXwh3e63jnpd+ZuuZcZbjfTYhtgYVNMetn7cVEO6p88eb7qvpUWQ==
+"@angular/core@^8.2.10":
+  version "8.2.10"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-8.2.10.tgz#b4e5303d69228d30362a64a1ae45f8e88a5f2e24"
+  integrity sha512-nUd/xZWIb1DHbr8agjVTvk4XUN9yBGEGQWN5ja5wJbPasoZC2GfiBHcmhttGHkocyB674d3x+xR2MvMvzEUdvw==
   dependencies:
     tslib "^1.9.0"
 
@@ -16,7 +16,7 @@
   version "1.0.0-beta.2"
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.0.0-beta.10"
+  version "1.0.0-beta.11"
   dependencies:
     "@appsignal/types" "^1.0.0-beta.1"
     error-stack-parser "^2.0.2"
@@ -29,10 +29,10 @@
   version "1.0.0-beta.1"
 
 "@appsignal/preact@file:packages/preact":
-  version "1.0.0-beta.1"
+  version "1.0.0-beta.2"
 
 "@appsignal/react@file:packages/react":
-  version "1.0.0-beta.3"
+  version "1.0.0-beta.4"
 
 "@appsignal/stimulus@file:packages/stimulus":
   version "1.0.0-beta.1"
