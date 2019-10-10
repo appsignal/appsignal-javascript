@@ -199,7 +199,7 @@ describe("Appsignal", () => {
 
       // assert that we always able to return a span from sendError
       const secondSpan = (await appsignal.sendError(new Error())) as Span
-      expect(firstSpan.serialize().breadcrumbs!.length).toBe(2)
+      expect(secondSpan.serialize().breadcrumbs!.length).toBe(1)
     })
 
     it("sanitizes metadata", async () => {
