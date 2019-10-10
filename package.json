@@ -19,7 +19,7 @@
     "@testing-library/preact": "^1.0.2",
     "@types/jest": "^24.0.18",
     "@types/node": "^12.7.12",
-    "@types/webpack": "^4.39.2",
+    "@types/webpack": "^4.39.3",
     "husky": "^2.4.1",
     "jest": "^24.9.0",
     "lerna": "^3.16.5",
