@@ -61,6 +61,14 @@ export class Environment {
       if (promiseToString === "[object Promise]" && !P.cast) {
         return true
       }
+
+      // RSVP promises detected
+      if (
+        promiseToString === "[object Object]" &&
+        (Promise as any).prototype._guidKey
+      ) {
+        return true
+      }
     }
 
     return false
