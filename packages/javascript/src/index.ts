@@ -3,18 +3,20 @@
  * @module Appsignal
  */
 
+import { Breadcrumb } from "@appsignal/types"
+
 import { VERSION } from "./version"
 import { PushApi } from "./api"
 import { Environment } from "./environment"
 import { Span } from "./span"
-import { compose } from "./utils/functional"
 import { Queue } from "./queue"
 import { Dispatcher } from "./dispatcher"
 
 import { IHook } from "./interfaces/IHook"
 import { AppsignalOptions } from "./types/options"
-import { Breadcrumb } from "@appsignal/types"
+
 import { toHashMap } from "./utils/hashmap"
+import { compose } from "./utils/functional"
 
 export default class Appsignal {
   public VERSION = VERSION

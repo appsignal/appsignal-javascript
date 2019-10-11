@@ -1,8 +1,8 @@
+import { SpanData, Breadcrumb, HashMap, HashMapValue } from "@appsignal/types"
+
 import { Serializable } from "./serializable"
 import { getStacktrace } from "./utils/stacktrace"
 import { toHashMapString } from "./utils/hashmap"
-
-import { SpanData, Breadcrumb, HashMap, HashMapValue } from "@appsignal/types"
 
 export class Span extends Serializable<SpanData> {
   constructor(span?: Partial<SpanData>) {
