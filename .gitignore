@@ -68,3 +68,6 @@ typings/
 
 # Ignore build files
 dist/
+
+# VS Code
+.vscode/
