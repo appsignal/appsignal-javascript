@@ -7,7 +7,7 @@
   "author": "Adam Yeats <adam@appsignal.com>",
   "license": "MIT",
   "scripts": {
-    "build": "run-s build:cjs build:esm",
+    "build": "yarn build:cjs && yarn build:esm",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:esm:watch": "tsc -p tsconfig.esm.json -w --preserveWatchOutput",
     "build:cjs": "tsc -p tsconfig.cjs.json",
