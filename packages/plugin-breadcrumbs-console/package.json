@@ -20,5 +20,8 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@appsignal/types": "^1.0.0-beta.1"
   }
 }
