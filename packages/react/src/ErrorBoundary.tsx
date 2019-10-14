@@ -27,6 +27,10 @@ export class ErrorBoundary extends React.Component<Props, State> {
       .setTags({ framework: "React" })
 
     appsignal.send(span)
+
+    // fall back if getDerivedStateFromError wasn't called before
+    // componentDidCatch. fixes support for react 16 - 16.6.
+    if (!this.state.error) this.setState({ error })
   }
 
   public render(): React.ReactNode {
