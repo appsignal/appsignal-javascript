@@ -17,11 +17,11 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
 
       function _console(...args: any[]) {
         const breadcrumb: Omit<Breadcrumb, "timestamp"> = {
-          category:
+          action:
             args.length > 1
               ? "Console logged some values"
               : "Console logged a value",
-          action: `console.${method}`,
+          category: `console.${method}`,
           metadata: {}
         }
 

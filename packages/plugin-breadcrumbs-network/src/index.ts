@@ -26,19 +26,19 @@ function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
 
         function onXhrLoad(this: XMLHttpRequest) {
           appsignal.addBreadcrumb({
-            category:
+            action:
               this.status >= 400
                 ? `Request failed with code ${this.status}`
                 : `Recieved a response with code ${this.status}`,
-            action: "XMLHttpRequest",
+            category: "XMLHttpRequest",
             metadata
           })
         }
 
         function onXhrError(this: XMLHttpRequest) {
           appsignal.addBreadcrumb({
-            category: "Request failed",
-            action: "XMLHttpRequest",
+            action: "Request failed",
+            category: "XMLHttpRequest",
             metadata
           })
         }
@@ -82,8 +82,8 @@ function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
             const { status: statusCode } = response
 
             appsignal.addBreadcrumb({
-              category: `Recieved a response with code ${statusCode}`,
-              action: "Fetch",
+              action: `Recieved a response with code ${statusCode}`,
+              category: "Fetch",
               metadata
             })
 
@@ -91,8 +91,8 @@ function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
           })
           .catch((error: Error) => {
             appsignal.addBreadcrumb({
-              category: "Request failed",
-              action: "Fetch",
+              action: "Request failed",
+              category: "Fetch",
               metadata
             })
 
