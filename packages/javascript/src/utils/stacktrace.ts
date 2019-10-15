@@ -1,5 +1,3 @@
-import ErrorStackParser from "error-stack-parser"
-
 /**
  * Get backtrace from an `Error` object, or an error-like object
  *
@@ -8,17 +6,21 @@ import ErrorStackParser from "error-stack-parser"
  * @return  {string[]}                 A backtrace
  */
 export function getStacktrace<T extends Error>(error: Error | T): string[] {
-  if (error instanceof Error) {
-    try {
-      const frames = ErrorStackParser.parse(error)
-      return frames.map(f => f.source || "")
-    } catch (e) {
-      // probably IE9 or another browser where we can't get a stack
-      return ["No stacktrace available"]
-    }
-  } else {
-    // a plain object that resembles an error
+  if (
+    typeof (error as any).stacktrace !== "undefined" ||
+    typeof (error as any)["opera#sourceloc"] !== "undefined"
+  ) {
+    // probably opera
+    const { stacktrace = "" } = error as any
+    return stacktrace
+      .split("\n")
+      .filter((line: string | undefined) => line !== "")
+  } else if (error.stack) {
+    // an Error or a plain object that resembles an error
     const { stack = "" } = error
     return stack.split("\n").filter(line => line !== "")
+  } else {
+    // probably IE9 :(
+    return ["No stacktrace available"]
   }
 }

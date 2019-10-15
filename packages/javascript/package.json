@@ -25,7 +25,6 @@
   },
   "dependencies": {
     "@appsignal/types": "^1.0.0-beta.2",
-    "error-stack-parser": "^2.0.2",
     "tslib": "^1.10.0"
   }
 }
