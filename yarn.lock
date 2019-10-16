@@ -10,40 +10,40 @@
     tslib "^1.9.0"
 
 "@appsignal/angular@file:packages/angular":
-  version "1.0.0-beta.1"
+  version "1.0.0"
 
 "@appsignal/ember@file:packages/ember":
-  version "1.0.0-beta.2"
+  version "1.0.0"
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.0.0-beta.11"
+  version "1.0.0"
   dependencies:
-    "@appsignal/types" "^1.0.0-beta.1"
+    "@appsignal/types" "^1.0.0"
     tslib "^1.10.0"
 
 "@appsignal/plugin-path-decorator@file:packages/plugin-path-decorator":
-  version "1.0.0-beta.2"
+  version "1.0.0"
 
 "@appsignal/plugin-window-events@file:packages/plugin-window-events":
-  version "1.0.0-beta.1"
+  version "1.0.0"
 
 "@appsignal/preact@file:packages/preact":
-  version "1.0.0-beta.2"
+  version "1.0.0"
 
 "@appsignal/react@file:packages/react":
-  version "1.0.0-beta.4"
+  version "1.0.0"
 
 "@appsignal/stimulus@file:packages/stimulus":
-  version "1.0.0-beta.1"
+  version "1.0.0"
 
 "@appsignal/types@file:packages/types":
-  version "1.0.0-beta.1"
+  version "1.0.0"
 
 "@appsignal/vue@file:packages/vue":
-  version "1.0.0-beta.2"
+  version "1.0.0"
 
 "@appsignal/webpack@file:packages/webpack":
-  version "1.0.0-beta.2"
+  version "1.0.0"
   dependencies:
     axios "^0.19.0"
     form-data "^2.5.0"
@@ -1325,10 +1325,10 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.6.8.tgz#e469b4bf9d1c9832aee4907ba8a051494357c12c"
   integrity sha512-aX+gFgA5GHcDi89KG5keey2zf0WfZk/HAQotEamsK2kbey+8yGKcson0hbK8E+v0NArlCJQCqMP161YhV6ZXLg==
 
-"@types/node@^12.7.12":
-  version "12.7.12"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.12.tgz#7c6c571cc2f3f3ac4a59a5f2bd48f5bdbc8653cc"
-  integrity sha512-KPYGmfD0/b1eXurQ59fXD1GBzhSQfz6/lKBxkaHX9dKTzjXbK68Zt7yGUxUsCS1jeTy/8aL+d9JEr+S54mpkWQ==
+"@types/node@^12.11.0":
+  version "12.11.0"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-12.11.0.tgz#7f893924970076b20ca0089df50ab9f171088909"
+  integrity sha512-7v0K9WHdjFpE3LMj1rdRan7PDO2d9Qky51T0cYzzk7fWoqoYKu/fZHnrF7OhNZVx0uKwYoQFMZ3dgVD51s/vYA==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
