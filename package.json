@@ -14,7 +14,7 @@
     "@appsignal/webpack": "file:packages/webpack"
   },
   "devDependencies": {
-    "@angular/core": "^8.2.12",
+    "@angular/core": "^8.2.13",
     "@testing-library/react": "^9.3.1",
     "@testing-library/preact": "^1.0.2",
     "@types/jest": "^24.0.21",
