@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@angular/core": "^8.2.12",
-    "@testing-library/react": "^9.3.0",
+    "@testing-library/react": "^9.3.1",
     "@testing-library/preact": "^1.0.2",
     "@types/jest": "^24.0.21",
     "@types/node": "^12.11.7",
