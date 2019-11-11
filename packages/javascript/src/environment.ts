@@ -15,6 +15,12 @@ export class Environment {
    * @return  {string}       The origin URL
    */
   public static origin(): string {
+    // We check for React Native here. React Native and Expo do
+    // not have an origin per se, so we handle that case.
+    if (navigator.product === "ReactNative" && !window.location) {
+      return ""
+    }
+
     return (
       window.location.origin ||
       `${window.location.protocol}//${window.location.hostname}`
@@ -38,39 +44,31 @@ export class Environment {
   }
 
   /**
-   * Indicates whether native promises are available in the current
-   * browser or environment.
+   * Indicates whether promises are available in the current browser
+   * or environment.
    *
-   * Adapted from https://github.com/stefanpenner/es6-promise/blob/master/lib/es6-promise/polyfill.js
+   * Adapted from https://github.com/Modernizr/Modernizr/blob/master/feature-detects/es6/promises.js
    *
    * @return  {boolean}       A value indicating if Promises are supported
    */
   public static supportsPromises(): boolean {
-    let P = (<any>window).Promise
-
-    if (P) {
-      let promiseToString = null
-
-      // checks for native promises
-      try {
-        promiseToString = Object.prototype.toString.call(P.resolve())
-      } catch (e) {
-        // silently ignored
-      }
-
-      if (promiseToString === "[object Promise]" && !P.cast) {
-        return true
-      }
-
-      // RSVP promises detected
-      if (
-        promiseToString === "[object Object]" &&
-        (Promise as any).prototype._guidKey
-      ) {
-        return true
-      }
-    }
-
-    return false
+    return (
+      "Promise" in window &&
+      // Some of these methods are missing from
+      // Firefox/Chrome experimental implementations
+      "resolve" in window.Promise &&
+      "reject" in window.Promise &&
+      "all" in window.Promise &&
+      "race" in window.Promise &&
+      // Older version of the spec had a resolver object
+      // as the arg rather than a function
+      (function() {
+        var resolve
+        new window.Promise(function(r) {
+          resolve = r
+        })
+        return typeof resolve === "function"
+      })()
+    )
   }
 }
