@@ -28,6 +28,44 @@ describe("Appsignal", () => {
     expect(result.namespace).toEqual("test")
   })
 
+  it("recieves an array of ignored patterns if one is passed to the constructor", () => {
+    const ignored = [/Ignore me/gm]
+
+    appsignal = new Appsignal({
+      key: "TESTKEY",
+      namespace: "test",
+      ignore: ignored
+    })
+
+    expect(appsignal.ignored).toEqual(ignored)
+  })
+
+  describe("send", () => {
+    it("ignores an error that matches a regex in the ignored list", () => {
+      const name = "Ignore me"
+      const ignored = [/Ignore me/gm]
+
+      appsignal = new Appsignal({
+        key: "TESTKEY",
+        namespace: "test",
+        ignore: ignored
+      })
+
+      // monkeypatch console with mock fn
+      const original = console.warn
+      console.warn = jest.fn()
+
+      appsignal.send(new Error(name))
+
+      expect(console.warn).toBeCalledWith(
+        `[APPSIGNAL]: Ignored an error: ${name}`
+      )
+
+      // reset
+      console.warn = original
+    })
+  })
+
   describe("sendError", () => {
     it("pushes an error", () => {
       const message = "test error"
