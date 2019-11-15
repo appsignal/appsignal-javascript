@@ -58,7 +58,7 @@ export default class Appsignal {
 
     // ignored exeptions are checked against the `message`
     // property of a given `Error`
-    this.ignored = options.ignore || []
+    this.ignored = options.ignoreErrors || []
 
     this._breadcrumbs = []
     this._dispatcher = new Dispatcher(this._queue, this._api)

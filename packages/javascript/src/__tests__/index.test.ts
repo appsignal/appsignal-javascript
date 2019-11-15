@@ -34,7 +34,7 @@ describe("Appsignal", () => {
     appsignal = new Appsignal({
       key: "TESTKEY",
       namespace: "test",
-      ignore: ignored
+      ignoreErrors: ignored
     })
 
     expect(appsignal.ignored).toEqual(ignored)
@@ -48,7 +48,7 @@ describe("Appsignal", () => {
       appsignal = new Appsignal({
         key: "TESTKEY",
         namespace: "test",
-        ignore: ignored
+        ignoreErrors: ignored
       })
 
       // monkeypatch console with mock fn

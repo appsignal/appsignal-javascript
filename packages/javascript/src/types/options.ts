@@ -6,7 +6,7 @@ type BaseOptions = {
 export type AppsignalOptions = BaseOptions & {
   namespace?: string
   revision?: string
-  ignore?: RegExp[]
+  ignoreErrors?: RegExp[]
 }
 
 export type PushApiOptions = BaseOptions & {
