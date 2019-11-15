@@ -3,6 +3,7 @@
  * @module Appsignal
  */
 
+import { compose, toHashMap } from "@appsignal/core"
 import { Breadcrumb } from "@appsignal/types"
 
 import { VERSION } from "./version"
@@ -14,9 +15,6 @@ import { Dispatcher } from "./dispatcher"
 
 import { IHook } from "./interfaces/IHook"
 import { AppsignalOptions } from "./types/options"
-
-import { toHashMap } from "./utils/hashmap"
-import { compose } from "./utils/functional"
 
 export default class Appsignal {
   public VERSION = VERSION
