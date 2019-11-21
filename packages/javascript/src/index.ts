@@ -21,6 +21,8 @@ import { compose } from "./utils/functional"
 export default class Appsignal {
   public VERSION = VERSION
 
+  public ignored: RegExp[]
+
   private _dispatcher: Dispatcher
   private _options: AppsignalOptions
   private _api: PushApi
@@ -53,6 +55,10 @@ export default class Appsignal {
       uri,
       version: this.VERSION
     })
+
+    // ignored exeptions are checked against the `message`
+    // property of a given `Error`
+    this.ignored = options.ignoreErrors || []
 
     this._breadcrumbs = []
     this._dispatcher = new Dispatcher(this._queue, this._api)
@@ -103,6 +109,28 @@ export default class Appsignal {
         "[APPSIGNAL]: Can't send error, given error is not a valid type"
       )
       return
+    }
+
+    // handle user defined ignores
+    if (this.ignored.length !== 0) {
+      if (
+        data instanceof Error &&
+        this.ignored.some(el => el.test(data.message))
+      ) {
+        console.warn(`[APPSIGNAL]: Ignored an error: ${data.message}`)
+        return
+      }
+
+      if (data instanceof Span) {
+        const { error } = data.serialize()
+
+        // using the bang operator here as tsc doesnt recognise that we are
+        // checking for the value to be set as the first predicate
+        if (error.message && this.ignored.some(el => el.test(error.message!))) {
+          console.warn(`[APPSIGNAL]: Ignored a span: ${error.message}`)
+          return
+        }
+      }
     }
 
     // a "span" currently refers to a fixed point in time, as opposed to
