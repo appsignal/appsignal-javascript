@@ -15,11 +15,14 @@
   },
   "devDependencies": {
     "@angular/core": "^8.2.14",
-    "@testing-library/react": "^9.3.2",
     "@testing-library/preact": "^1.0.2",
+    "@testing-library/react": "^9.3.2",
     "@types/jest": "^24.0.23",
     "@types/node": "^12.12.14",
     "@types/webpack": "^4.41.0",
+    "apollo-client": "^2.6.4",
+    "apollo-link-error": "^1.1.12",
+    "graphql": "^14.5.8",
     "husky": "^2.4.1",
     "jest": "^24.9.0",
     "lerna": "^3.19.0",
@@ -44,7 +47,7 @@
     "clean": "lerna run --stream clean",
     "link:yarn": "lerna run --stream --concurrency 1 link:yarn",
     "test": "lerna run --stream --concurrency 1 --sort test",
-    "prepublish": "lerna link && yarn clean && yarn build"
+    "prepublishOnly": "lerna link && yarn clean && yarn build"
   },
   "husky": {
     "hooks": {
