@@ -32,7 +32,7 @@
     "rimraf": "^2.7.1",
     "stimulus": "^1.1.1",
     "ts-jest": "^24.2.0",
-    "typescript": "^3.7.2",
+    "typescript": "^3.7.3",
     "vue": "^2.6.10",
     "webpack": "^4.41.2"
   },
