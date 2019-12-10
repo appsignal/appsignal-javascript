@@ -1,4 +1,4 @@
-export abstract class Serializable<T> {
+export class Serializable<T> {
   protected _data: T
 
   constructor(data: T) {

@@ -1,6 +1,6 @@
 import { Environment } from "./environment"
 import { Span } from "./span"
-import { urlEncode } from "./utils/url"
+import { urlEncode } from "@appsignal/core"
 
 import { ITransport } from "./interfaces/ITransport"
 import { XDomainTransport } from "./transports/xdomain"
