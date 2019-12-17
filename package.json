@@ -34,7 +34,7 @@
     "ts-jest": "^24.2.0",
     "typescript": "^3.7.3",
     "vue": "^2.6.11",
-    "webpack": "^4.41.2"
+    "webpack": "^4.41.3"
   },
   "scripts": {
     "build": "lerna run --stream --concurrency 1 --sort build",
