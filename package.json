@@ -52,14 +52,9 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "*.{ts,tsx}": [
-        "prettier --write",
-        "git add"
-      ]
-    },
-    "ignore": [
-      "**/dist/**"
+    "*.{ts,tsx}": [
+      "prettier --write",
+      "git add"
     ]
   },
   "workspaces": [
