@@ -18,7 +18,7 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "versionfile": "node scripts/create-versionfile.js",
-    "postversion": "yarn versionfile"
+    "version": "yarn versionfile"
   },
   "publishConfig": {
     "access": "public"
