@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.1.2
+- Dependency bumps
+
 ## 1.1.1
 - Fix package dependency issue in `@appsignal/javascript` package
 
