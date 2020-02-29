@@ -28,7 +28,7 @@
     "preact": "^10.0.0-rc.0",
     "prettier": "1.19.1",
     "react": "^16.13.0",
-    "react-dom": "^16.12.0",
+    "react-dom": "^16.13.0",
     "rimraf": "^3.0.2",
     "stimulus": "^1.1.1",
     "ts-jest": "^25.2.1",
