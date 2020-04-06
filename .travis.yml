@@ -2,12 +2,12 @@ language: node_js
 node_js:
 - stable
 cache: yarn
-before_install:
-  - yarn clean
-  - lerna clean --yes
 install:
+  - yarn install
   - lerna bootstrap
   - lerna link
 script:
+  - yarn clean
+  - lerna clean --yes
   - yarn build
   - yarn test
