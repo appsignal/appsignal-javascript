@@ -230,17 +230,21 @@ export default class Appsignal {
   }
 
   /**
-   * Wraps and catches errors within a given function
+   * Wraps and catches errors within a given function. If the function throws an
+   * error, a rejected `Promise` will be returned and the error thrown will be
+   * logged to AppSignal.
    *
-   * @param   {Function}          fn             [fn description]
+   * @param   {Function}          fn             A function to wrap
+   * @param   {object}            tags           An key, value object of tags
+   * @param   {string}            namespace      An optional namespace name
    *
    * @return  {Promise<any>}      A Promise containing the return value of the function, or a `Span` if an error was thrown.
    */
-  public async wrap(fn: Function): Promise<any> {
+  public async wrap(fn: Function, tags = {}, namespace?: string): Promise<any> {
     try {
-      return Promise.resolve(fn())
+      return await fn()
     } catch (e) {
-      await this.sendError(e)
+      await this.sendError(e, tags, namespace)
       return Promise.reject(e)
     }
   }
