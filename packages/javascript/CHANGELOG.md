@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+- Dependency bumps
+
 ## 1.2.0
 - Dependency bumps
 - Add tags and namespace params to `appsignal.wrap()` method 
