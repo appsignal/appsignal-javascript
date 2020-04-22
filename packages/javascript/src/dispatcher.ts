@@ -1,3 +1,5 @@
+import { getGlobalObject } from "@appsignal/core"
+
 import { Queue } from "./queue"
 import { PushApi } from "./api"
 
@@ -30,6 +32,9 @@ export class Dispatcher {
   }
 
   public schedule(time = this._duration): number {
+    const globals = getGlobalObject<Window>()
+
+    // @TODO: make this configurable?
     const BACKOFF_FACTOR = 1.3
 
     const cb = async () => {
@@ -59,7 +64,7 @@ export class Dispatcher {
       this.reset()
     }
 
-    return window.setTimeout(cb, time)
+    return globals.setTimeout(cb, time)
   }
 
   public reset() {
