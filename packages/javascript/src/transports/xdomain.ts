@@ -20,7 +20,7 @@ export class XDomainTransport implements ITransport {
 
       // XDomainRequest will only make a request to a URL with
       // the same protocol
-      req.open("POST", this.url.replace(rx, window.location.protocol))
+      req.open("POST", this.url.replace(rx, window?.location?.protocol))
 
       setTimeout(() => {
         try {
