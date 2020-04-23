@@ -1,5 +1,5 @@
 type BaseOptions = {
-  key: string
+  key?: string
   uri?: string
 }
 
@@ -10,5 +10,6 @@ export type AppsignalOptions = BaseOptions & {
 }
 
 export type PushApiOptions = BaseOptions & {
+  key: string
   version: string
 }

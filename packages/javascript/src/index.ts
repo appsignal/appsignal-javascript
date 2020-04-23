@@ -42,10 +42,17 @@ export default class Appsignal {
    * @param   {AppsignalOptions}  options        An object of options to configure the AppSignal client
    */
   constructor(options: AppsignalOptions) {
-    const { key, uri, revision } = options
+    const { key = "", uri, revision } = options
 
+    // `revision` should be a `string`, but we attempt to
+    // normalise to one anyway
     if (revision && typeof revision !== "string") {
       options.revision = String(revision)
+    }
+
+    // starting with no key means nothing will be sent to the API
+    if (key === "") {
+      console.warn("[APPSIGNAL]: Started in development mode.")
     }
 
     this._api = new PushApi({
@@ -158,12 +165,27 @@ export default class Appsignal {
       // and we are sure that it's possible to send them
       this._breadcrumbs = []
 
-      return this._api.push(span).catch(() => {
-        this._queue.push(span)
+      // if no key is supplied, we just output the span to the console
+      // and rethrow the error
+      if (!this._options.key) {
+        // @TODO: route this through a central logger
+        console.warn(
+          "[APPSIGNAL]: Span not sent because we're in development mode:",
+          span
+        )
 
-        // schedule on next tick
-        setTimeout(() => this._dispatcher.schedule(), 0)
-      })
+        if (data instanceof Error) {
+          throw data
+        }
+      } else {
+        // attempt to push to the API
+        return this._api.push(span).catch(() => {
+          this._queue.push(span)
+
+          // schedule on next tick
+          setTimeout(() => this._dispatcher.schedule(), 0)
+        })
+      }
     } else {
       // @TODO: route this through a central logger
       console.error(
