@@ -32,7 +32,7 @@ export default class Appsignal {
   }
 
   private _env = Environment.serialize()
-  private _queue = new Queue((window as any).__APPSIGNAL_QUEUE__ || [])
+  private _queue = new Queue([])
 
   /**
    * Creates a new instance of the AppSignal client.
