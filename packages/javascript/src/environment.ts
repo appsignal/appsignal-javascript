@@ -21,7 +21,7 @@ export class Environment {
 
     // We check for React Native here. React Native and Expo do
     // not have an origin per se, so we handle that case.
-    if (navigator?.product === "ReactNative" && !globals.location) {
+    if (navigator && navigator.product === "ReactNative" && !globals.location) {
       return ""
     }
 
