@@ -18,6 +18,9 @@
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
+  "dependencies": {
+    "@appsignal/javascript": "^1.2.1"
+  },
   "publishConfig": {
     "access": "public"
   }

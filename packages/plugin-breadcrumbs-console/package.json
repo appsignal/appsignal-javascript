@@ -21,6 +21,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "dependencies": {
+    "@appsignal/javascript": "^1.2.1"
+  },
   "devDependencies": {
     "@appsignal/types": "^1.0.0"
   }
