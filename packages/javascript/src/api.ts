@@ -9,13 +9,13 @@ import { FetchTransport } from "./transports/fetch"
 import { NodeTransport } from "./transports/node"
 
 import { PushApiOptions } from "./types/options"
-import { ITransport } from "./interfaces/ITransport"
+import { Transport } from "./interfaces/transport"
 
 export class PushApi {
   private _uri: string
   private _apiKey: string
   private _clientVersion: string
-  private _transport: ITransport
+  private _transport: Transport
 
   /**
    * Creates a new instance of the Push API client.
@@ -52,7 +52,7 @@ export class PushApi {
    *
    * @return  {ITransport}  A Transport object
    */
-  private _createTransport(): ITransport {
+  private _createTransport(): Transport {
     const url = this._url()
 
     switch (Environment.transport()) {

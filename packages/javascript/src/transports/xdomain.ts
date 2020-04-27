@@ -1,10 +1,10 @@
-import { ITransport } from "../interfaces/ITransport"
+import { Transport } from "../interfaces/transport"
 
 // Fixes TypeScript complaining about this class
 // not existing
 declare var XDomainRequest: any
 
-export class XDomainTransport implements ITransport {
+export class XDomainTransport implements Transport {
   public url: string
 
   constructor(url: string) {

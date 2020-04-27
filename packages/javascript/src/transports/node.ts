@@ -1,7 +1,7 @@
 import https from "https"
-import { ITransport } from "../interfaces/ITransport"
+import { Transport } from "../interfaces/transport"
 
-export class NodeTransport implements ITransport {
+export class NodeTransport implements Transport {
   public url: string
 
   constructor(url: string) {

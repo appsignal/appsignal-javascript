@@ -13,7 +13,7 @@ import { Span } from "./span"
 import { Queue } from "./queue"
 import { Dispatcher } from "./dispatcher"
 
-import { IHook } from "./interfaces/IHook"
+import { Hook } from "./interfaces/hook"
 import { AppsignalOptions } from "./types/options"
 
 export default class Appsignal {
@@ -27,8 +27,8 @@ export default class Appsignal {
   private _breadcrumbs: Breadcrumb[]
 
   private _hooks = {
-    decorators: Array<IHook>(),
-    overrides: Array<IHook>()
+    decorators: Array<Hook>(),
+    overrides: Array<Hook>()
   }
 
   private _env = Environment.serialize()
@@ -279,7 +279,7 @@ export default class Appsignal {
    *
    * @return  {void}
    */
-  public addDecorator<T extends IHook>(decorator: T): void {
+  public addDecorator<T extends Hook>(decorator: T): void {
     this._hooks.decorators.push(decorator)
   }
 
@@ -291,7 +291,7 @@ export default class Appsignal {
    *
    * @return  {void}
    */
-  public addOverride<T extends IHook>(override: T): void {
+  public addOverride<T extends Hook>(override: T): void {
     this._hooks.overrides.push(override)
   }
 

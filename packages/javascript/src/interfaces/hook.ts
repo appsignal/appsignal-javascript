@@ -1,5 +1,5 @@
 import { Span } from "../span"
 
-export interface IHook {
+export interface Hook {
   (span: Span): Span
 }

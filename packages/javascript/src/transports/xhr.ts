@@ -1,6 +1,6 @@
-import { ITransport } from "../interfaces/ITransport"
+import { Transport } from "../interfaces/transport"
 
-export class XHRTransport implements ITransport {
+export class XHRTransport implements Transport {
   public url: string
 
   constructor(url: string) {
