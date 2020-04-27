@@ -1,4 +1,4 @@
-import { getGlobalObject } from "@appsignal/core"
+import { getGlobalObject, isNodeEnv } from "@appsignal/core"
 
 export class Environment {
   /**
@@ -19,9 +19,11 @@ export class Environment {
   public static origin(): string {
     const globals = getGlobalObject<Window>()
 
-    // We check for React Native here. React Native and Expo do
-    // not have an origin per se, so we handle that case.
-    if (navigator && navigator.product === "ReactNative" && !globals.location) {
+    // environments like nodejs or react native where an origin isn't relavent
+    if (
+      !globals.navigator ||
+      (globals.navigator.product === "ReactNative" && !globals.location)
+    ) {
       return ""
     }
 
@@ -42,7 +44,11 @@ export class Environment {
     // using TS' `Window` type
     const globals = getGlobalObject<Window>() as any
 
-    if (globals.XDomainRequest) {
+    // we ignore jest here, as it's a false positive for a node
+    // environment and breaks the tests
+    if (isNodeEnv() && typeof jest === "undefined") {
+      return "NodeHTTP"
+    } else if (globals.XDomainRequest) {
       return "XDomainRequest"
     } else if (globals.XMLHttpRequest && !globals.fetch) {
       return "XMLHttpRequest"

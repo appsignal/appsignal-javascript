@@ -1,13 +1,15 @@
-import { Environment } from "./environment"
-import { Span } from "./span"
 import { urlEncode } from "@appsignal/core"
 
-import { ITransport } from "./interfaces/ITransport"
+import { Environment } from "./environment"
+import { Span } from "./span"
+
 import { XDomainTransport } from "./transports/xdomain"
 import { XHRTransport } from "./transports/xhr"
 import { FetchTransport } from "./transports/fetch"
+import { NodeTransport } from "./transports/node"
 
 import { PushApiOptions } from "./types/options"
+import { ITransport } from "./interfaces/ITransport"
 
 export class PushApi {
   private _uri: string
@@ -58,6 +60,8 @@ export class PushApi {
         return new XDomainTransport(url)
       case "XMLHttpRequest":
         return new XHRTransport(url)
+      case "NodeHTTP":
+        return new NodeTransport(url)
       default:
         return new FetchTransport(url)
     }
