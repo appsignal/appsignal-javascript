@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.3.0
+- Dependency bumps
+- Don't send spans and rethrow when no key is supplied to constructor (#274)
+- Add support for running inside Node.js (#275)
+- Fix "`navigator` is undefined" error and improve handling of `window` object
+- Changes to internal type names
+
 ## 1.2.1
 - Dependency bumps
 
