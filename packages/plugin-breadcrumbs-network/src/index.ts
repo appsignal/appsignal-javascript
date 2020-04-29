@@ -1,46 +1,61 @@
+import Appsignal from "@appsignal/javascript"
+
+type PluginOptions = {
+  // A boolean value representing whether the plugin should bind to `XMLHttpRequest`
+  xhrEnabled: true
+  // A boolean value representing whether the plugin should bind to `fetch`
+  fetchEnabled: true
+  // If any of the patterns match a request URL, then that request is ignored
+  // Caution: don't add too many `RegExp`s to this array, otherwise network requests
+  // will become very slow.
+  ignoreUrls: RegExp[]
+}
+
 /**
- *
- * @param options
+ * Automatically adds a breadcrumb on every network request.
  */
-function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
-  const opts = {
-    xhrEnabled: true,
-    fetchEnabled: true,
-    ...options
-  }
-
+function networkBreadcrumbsPlugin({
+  xhrEnabled = true,
+  fetchEnabled = true,
+  ignoreUrls = []
+}: Partial<PluginOptions>) {
   // feature detect browser features if they are enabled
-  opts.xhrEnabled = opts.xhrEnabled ? "XMLHttpRequest" in window : false
-  opts.fetchEnabled = opts.xhrEnabled ? "fetch" in window : false
+  const isXhrEnabled = xhrEnabled ? "XMLHttpRequest" in window : false
+  const isFetchEnabled = fetchEnabled ? "fetch" in window : false
 
-  return function(this: any): void {
+  return function (this: Appsignal): void {
+    const appsignal = this
+
     const xhrPatch = () => {
-      const appsignal = this
       const prevOpen = XMLHttpRequest.prototype.open
 
       // per the spec, this could be caled with more arguments,
       // but we just need `method` and `url` here. the rest are
       // passed to `prevOpen` later.
-      function open(this: any, method: string, url: string): void {
+      function open(this: XMLHttpRequest, method: string, url: string): void {
         const metadata = { method, url }
 
         function onXhrLoad(this: XMLHttpRequest) {
-          appsignal.addBreadcrumb({
-            action:
-              this.status >= 400
-                ? `Request failed with code ${this.status}`
-                : `Recieved a response with code ${this.status}`,
-            category: "XMLHttpRequest",
-            metadata
-          })
+          if (!ignoreUrls.some(el => el.test(url))) {
+            appsignal.addBreadcrumb({
+              action:
+                this.status >= 400
+                  ? `Request failed with code ${this.status}`
+                  : `Recieved a response with code ${this.status}`,
+              category: "XMLHttpRequest",
+              metadata
+            })
+          }
         }
 
         function onXhrError(this: XMLHttpRequest) {
-          appsignal.addBreadcrumb({
-            action: "Request failed",
-            category: "XMLHttpRequest",
-            metadata
-          })
+          if (!ignoreUrls.some(el => el.test(url))) {
+            appsignal.addBreadcrumb({
+              action: "Request failed",
+              category: "XMLHttpRequest",
+              metadata
+            })
+          }
         }
 
         // set handlers
@@ -54,7 +69,6 @@ function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
     }
 
     const fetchPatch = () => {
-      const appsignal = this
       const originalFetch = window.fetch
 
       function fetch(
@@ -72,6 +86,10 @@ function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
         const metadata = {
           method,
           url
+        }
+
+        if (ignoreUrls.some(el => el.test(url))) {
+          return originalFetch.apply(window, arguments as any)
         }
 
         return originalFetch
@@ -103,8 +121,8 @@ function networkBreadcrumbsPlugin(options?: { [key: string]: any }) {
       window.fetch = fetch
     }
 
-    if (opts.xhrEnabled) xhrPatch()
-    if (opts.fetchEnabled) fetchPatch()
+    if (isXhrEnabled) xhrPatch()
+    if (isFetchEnabled) fetchPatch()
   }
 }
 
