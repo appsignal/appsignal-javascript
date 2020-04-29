@@ -2,23 +2,29 @@ import Appsignal from "@appsignal/javascript"
 
 type PluginOptions = {
   // A boolean value representing whether the plugin should bind to `XMLHttpRequest`
-  xhrEnabled: true
+  xhrEnabled: boolean
   // A boolean value representing whether the plugin should bind to `fetch`
-  fetchEnabled: true
+  fetchEnabled: boolean
   // If any of the patterns match a request URL, then that request is ignored
   // Caution: don't add too many `RegExp`s to this array, otherwise network requests
   // will become very slow.
   ignoreUrls: RegExp[]
 }
 
+// Default options
+const DEFAULTS = {
+  xhrEnabled: true,
+  fetchEnabled: true,
+  ignoreUrls: []
+}
+
 /**
  * Automatically adds a breadcrumb on every network request.
  */
-function networkBreadcrumbsPlugin({
-  xhrEnabled = true,
-  fetchEnabled = true,
-  ignoreUrls = []
-}: Partial<PluginOptions>) {
+function networkBreadcrumbsPlugin(options?: Partial<PluginOptions>) {
+  const opts = { ...DEFAULTS, ...options }
+  const { xhrEnabled, fetchEnabled, ignoreUrls } = opts
+
   // feature detect browser features if they are enabled
   const isXhrEnabled = xhrEnabled ? "XMLHttpRequest" in window : false
   const isFetchEnabled = fetchEnabled ? "fetch" in window : false
