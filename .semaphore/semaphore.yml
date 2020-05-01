@@ -1,0 +1,76 @@
+version: v1.0
+name: AppSignal for JavaScript
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+auto_cancel:
+  running:
+    when: branch != 'master' AND branch != 'develop'
+global_job_config:
+  env_vars:
+  - name: RUNNING_IN_CI
+    value: 'true'
+  - name: NODE_ENV
+    value: test
+  prologue:
+    commands:
+      - checkout
+      - sem-version node 12
+blocks:
+  - name: "Install and Build"
+    dependencies: []
+    task:
+      prologue:
+        commands:
+          - yarn install --frozen-lockfile
+          - yarn lerna bootstrap
+          - yarn lerna link
+          - cache store
+      jobs:
+        - name: Build
+          commands:
+            - yarn build
+            - cache store packages-$SEMAPHORE_GIT_SHA-$SEMAPHORE_GIT_BRANCH packages
+  - name: "Core Library"
+    dependencies: ["Install and Build"]
+    task:
+      prologue:
+        commands:
+          - cache restore
+          - cache restore packages-$SEMAPHORE_GIT_SHA-$SEMAPHORE_GIT_BRANCH
+      jobs:
+        - name: JavaScript
+          commands:
+            - yarn lerna run test --scope="@appsignal/javascript"
+        - name: JavaScript Core
+          commands:
+            - yarn lerna run test --scope="@appsignal/core"
+  - name: "Integrations"
+    dependencies: ["Core Library"]
+    task:
+      prologue:
+        commands:
+          - cache restore
+          - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
+      jobs:
+        - name: Preact
+          commands:
+            - yarn lerna run test --scope="@appsignal/preact"
+        - name: React
+          commands:
+            - yarn lerna run test --scope="@appsignal/react"
+        - name: Vue
+          commands:
+            - yarn lerna run test --scope="@appsignal/vue"
+  - name: "Plugins"
+    dependencies: ["Core Library"]
+    task:
+      prologue:
+        commands:
+          - cache restore
+          - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
+      jobs:
+        - name: Window Events
+          commands:
+            - yarn lerna run test --scope="@appsignal/plugin-window-events"
