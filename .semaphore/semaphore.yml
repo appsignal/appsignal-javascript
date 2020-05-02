@@ -54,12 +54,15 @@ blocks:
           - cache restore
           - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
       jobs:
-        - name: Preact
-          commands:
-            - yarn lerna run test --scope="@appsignal/preact"
         - name: React
           commands:
             - yarn lerna run test --scope="@appsignal/react"
+        - name: Preact
+          commands:
+            - yarn lerna run test --scope="@appsignal/preact"
+        - name: Vue
+          commands:
+            - yarn lerna run test --scope="@appsignal/vue"
   - name: "Plugins"
     dependencies: ["Core Library"]
     task:
