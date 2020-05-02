@@ -15,8 +15,7 @@
     "build:watch": "yarn versionfile && run-p build:cjs:watch build:esm:watch",
     "clean": "rimraf dist coverage",
     "link:yarn": "yarn link",
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "intern",
     "versionfile": "node scripts/create-versionfile.js",
     "version": "yarn versionfile"
   },

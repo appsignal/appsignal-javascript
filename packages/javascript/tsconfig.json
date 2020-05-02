@@ -2,11 +2,11 @@
   "extends": "../../tsconfig.json",
   "include": ["src/**/*"],
   "exclude": [
-    "src/**/__tests__",
-    "src/**/__mocks__"
+    "src/tests/**/*"
   ],
   "compilerOptions": {
     "rootDir": "./src",
-    "target": "es5"
+    "target": "es5",
+    "types": ["intern"]
   }
 }

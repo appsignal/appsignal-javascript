@@ -44,14 +44,12 @@ export class Environment {
     // using TS' `Window` type
     const globals = getGlobalObject<Window>() as any
 
-    // we ignore jest here, as it's a false positive for a node
-    // environment and breaks the tests
-    if (isNodeEnv() && typeof jest === "undefined") {
-      return "NodeHTTP"
-    } else if (globals.XDomainRequest) {
+    if (globals.XDomainRequest) {
       return "XDomainRequest"
     } else if (globals.XMLHttpRequest && !globals.fetch) {
       return "XMLHttpRequest"
+    } else if (isNodeEnv()) {
+      return "NodeHTTP"
     } else {
       return "fetch"
     }
