@@ -2,6 +2,7 @@
 
 - [AppSignal.com website][appsignal]
 - [Documentation][docs]
+- [Changelog][changelog]
 - [Support][contact]
 
 [![Build Status](https://travis-ci.org/appsignal/appsignal-javascript.svg?branch=develop)](https://travis-ci.org/appsignal/appsignal-javascript) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
@@ -145,5 +146,5 @@ Also see our [SUPPORT.md file](SUPPORT.md).
 [waffles-page]: https://appsignal.com/waffles
 [docs]: https://docs.appsignal.com/front-end/
 [contributing-guide]: http://docs.appsignal.com/appsignal/contributing.html
-
+[changelog]: https://github.com/appsignal/appsignal-javascript/blob/develop/packages/javascript/CHANGELOG.md
 [semver]: http://semver.org/
