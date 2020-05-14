@@ -52,7 +52,7 @@ export default class Appsignal {
 
     // starting with no key means nothing will be sent to the API
     if (key === "") {
-      console.warn("[APPSIGNAL]: Started in development mode.")
+      console.info("[APPSIGNAL]: Started in development mode.")
     }
 
     this._api = new PushApi({
