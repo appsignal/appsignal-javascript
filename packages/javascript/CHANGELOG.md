@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.2
+- Display "development mode" message via `console.info` rather than `console.warn`
+- Dependency bumps
+
 ## 1.3.1
 - Dependency bumps
 
