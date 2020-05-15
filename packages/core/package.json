@@ -22,7 +22,7 @@
     "access": "public"
   },
   "dependencies": {
-    "tslib": "^1.12.0"
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@appsignal/types": "^1.0.0"
