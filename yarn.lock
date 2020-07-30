@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@angular/core@^10.0.5":
-  version "10.0.5"
-  resolved "https://registry.yarnpkg.com/@angular/core/-/core-10.0.5.tgz#52a11d1b6ce065f6c26d919ab3bea233f51902be"
-  integrity sha512-zoIxIi/UaRImeC1uD+eIKrdcihvQR/zfbqKgK67IPy/tghijxge1Tbl8FWIAT0ncAj0XH/JHsWnVdUV/TUI+CA==
+"@angular/core@^10.0.6":
+  version "10.0.6"
+  resolved "https://registry.yarnpkg.com/@angular/core/-/core-10.0.6.tgz#91feaa070a65db22cf8eb65523351b653ce80d2a"
+  integrity sha512-mk/7XmZg7EeWEgl2UEyhyU6eukm2h+Thw1Ue84aBxMDaqt1RUpsPwpGCfIRfzH9gdzAjJUAPxiHAN2CF+3Wohw==
   dependencies:
     tslib "^2.0.0"
 
@@ -16,9 +16,9 @@
   version "1.0.0"
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.3.2"
+  version "1.3.3"
   dependencies:
-    "@appsignal/core" "^1.0.7"
+    "@appsignal/core" "^1.0.8"
     tslib "^2.0.0"
 
 "@appsignal/plugin-path-decorator@file:packages/plugin-path-decorator":
@@ -43,7 +43,7 @@
   version "1.0.0"
 
 "@appsignal/webpack@file:packages/webpack":
-  version "1.0.8"
+  version "1.0.9"
   dependencies:
     axios "^0.19.2"
     form-data "^3.0.0"
