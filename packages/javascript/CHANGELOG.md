@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.4
+- Dependency bumps
+- Ignore node `https` module in browser compilation. Fixes #389 and #386.
+- Move `@appsignal/types` to dependency of `@appsignal/javascript`. Fixes #389 and #386.
+
+## 1.3.3
+- Dependency bumps
+
 ## 1.3.2
 - Display "development mode" message via `console.info` rather than `console.warn`
 - Dependency bumps
