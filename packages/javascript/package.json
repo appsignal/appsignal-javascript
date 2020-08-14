@@ -25,9 +25,10 @@
   },
   "dependencies": {
     "@appsignal/core": "^1.0.8",
+    "@appsignal/types": "^1.0.0",
     "tslib": "^2.0.1"
   },
-  "devDependencies": {
-    "@appsignal/types": "^1.0.0"
+  "browser": {
+    "https": false
   }
 }
