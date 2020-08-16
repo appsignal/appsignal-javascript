@@ -16,9 +16,10 @@
   version "1.0.0"
 
 "@appsignal/javascript@file:packages/javascript":
-  version "1.3.3"
+  version "1.3.4"
   dependencies:
-    "@appsignal/core" "^1.0.8"
+    "@appsignal/core" "^1.0.9"
+    "@appsignal/types" "^1.0.0"
     tslib "^2.0.1"
 
 "@appsignal/plugin-path-decorator@file:packages/plugin-path-decorator":
@@ -43,7 +44,7 @@
   version "1.0.0"
 
 "@appsignal/webpack@file:packages/webpack":
-  version "1.0.9"
+  version "1.0.10"
   dependencies:
     axios "^0.19.2"
     form-data "^3.0.0"
@@ -1558,10 +1559,10 @@
   dependencies:
     "@types/istanbul-lib-report" "*"
 
-"@types/jest@26.x", "@types/jest@^26.0.9":
-  version "26.0.9"
-  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.9.tgz#0543b57da5f0cd949c5f423a00c56c492289c989"
-  integrity sha512-k4qFfJ5AUKrWok5KYXp2EPm89b0P/KZpl7Vg4XuOTVVQEhLDBDBU3iBFrjjdgd8fLw96aAtmnwhXHl63bWeBQQ==
+"@types/jest@26.x", "@types/jest@^26.0.10":
+  version "26.0.10"
+  resolved "https://registry.yarnpkg.com/@types/jest/-/jest-26.0.10.tgz#8faf7e9756c033c39014ae76a7329efea00ea607"
+  integrity sha512-i2m0oyh8w/Lum7wWK/YOZJakYF8Mx08UaKA1CtbmFeDquVhAEdA7znacsVSf2hJ1OQ/OfVMGN90pw/AtzF8s/Q==
   dependencies:
     jest-diff "^25.2.1"
     pretty-format "^25.2.1"
