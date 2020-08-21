@@ -33,7 +33,7 @@
     "stimulus": "^1.1.1",
     "ts-jest": "^26.2.0",
     "typescript": "^3.9.7",
-    "vue": "^2.6.11",
+    "vue": "^2.6.12",
     "webpack": "^4.44.1"
   },
   "scripts": {
