@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+const { CLI } = require("../dist/index")
+const { name, version } = require("../package.json")
+
+/**
+ * @appsignal/cli
+ * 
+ * The CLI tool for all of AppSignal's JavaScript integrations for the browser
+ * and Node.js.
+ * 
+ * Need help with this tool? Contact support@appsignal.com
+ */
+const cli = new CLI({ name, version }).run()

@@ -1,0 +1,28 @@
+{
+  "name": "@appsignal/cli",
+  "version": "0.0.0",
+  "main": "./dist/index",
+  "repository": "git@github.com:appsignal/appsignal-javascript.git",
+  "author": "Adam Yeats <adam@appsignal.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "build:watch": "tsc -p tsconfig.json -w --preserveWatchOutput",
+    "clean": "rimraf dist coverage",
+    "link:yarn": "yarn link",
+    "test": "jest --passWithNoTests",
+    "test:watch": "jest --watch"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "tslib": "^2.0.1",
+    "chalk": "^4.1.0",
+    "commander": "^6.1.0",
+    "inquirer": "^7.3.3"
+  },
+  "bin": {
+    "cli": "./bin/run"
+  }
+}
