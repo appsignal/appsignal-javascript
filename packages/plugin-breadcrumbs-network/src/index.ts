@@ -47,7 +47,7 @@ function networkBreadcrumbsPlugin(options?: Partial<PluginOptions>) {
               action:
                 this.status >= 400
                   ? `Request failed with code ${this.status}`
-                  : `Recieved a response with code ${this.status}`,
+                  : `Received a response with code ${this.status}`,
               category: "XMLHttpRequest",
               metadata
             })
@@ -106,7 +106,7 @@ function networkBreadcrumbsPlugin(options?: Partial<PluginOptions>) {
             const { status: statusCode } = response
 
             appsignal.addBreadcrumb({
-              action: `Recieved a response with code ${statusCode}`,
+              action: `Received a response with code ${statusCode}`,
               category: "Fetch",
               metadata
             })
