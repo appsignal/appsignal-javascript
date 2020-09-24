@@ -40,7 +40,9 @@ export class Span extends Serializable<SpanData> {
       name: error.name || "Error",
       message:
         error.message ||
-        `setError received ${error}, which did not provide an error message, or was not an object with a valid message property`,
+        `setError received "${
+          typeof error !== "string" ? JSON.stringify(error) : error
+        }", which did not provide an error message, or was not an object with a valid message property`,
       backtrace: getStacktrace(error)
     }
 
