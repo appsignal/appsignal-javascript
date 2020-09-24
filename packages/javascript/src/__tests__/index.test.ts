@@ -18,7 +18,7 @@ describe("Appsignal", () => {
     expect(appsignal.VERSION).toEqual(VERSION)
   })
 
-  it("recieves a namespace if one is passed to the constructor", () => {
+  it("receives a namespace if one is passed to the constructor", () => {
     appsignal = new Appsignal({ key: "TESTKEY", namespace: "test" })
 
     const span = appsignal.createSpan()
@@ -28,7 +28,7 @@ describe("Appsignal", () => {
     expect(result.namespace).toEqual("test")
   })
 
-  it("recieves an array of ignored patterns if one is passed to the constructor", () => {
+  it("receives an array of ignored patterns if one is passed to the constructor", () => {
     const ignored = [/Ignore me/gm]
 
     appsignal = new Appsignal({
