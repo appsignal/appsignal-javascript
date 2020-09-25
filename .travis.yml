@@ -1,11 +1,11 @@
 language: node_js
 node_js:
 - stable
-cache: yarn
+cache: npm
 install:
-  - yarn install
+  - npm install
 script:
   - lerna bootstrap
   - lerna link
-  - yarn build
-  - yarn test
+  - npm run build
+  - npm run test

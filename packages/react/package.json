@@ -7,13 +7,14 @@
   "author": "Adam Yeats <adam@appsignal.com>",
   "license": "MIT",
   "scripts": {
-    "build": "yarn build:cjs && yarn build:esm",
+    "build": "npm run build:cjs && npm run build:esm",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:esm:watch": "tsc -p tsconfig.esm.json -w --preserveWatchOutput",
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "build:cjs:watch": "tsc -p tsconfig.cjs.json -w --preserveWatchOutput",
     "build:watch": "run-p build:cjs:watch build:esm:watch",
     "clean": "rimraf dist coverage",
+    "link:npm": "npm link",
     "link:yarn": "yarn link",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"

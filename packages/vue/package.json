@@ -14,6 +14,7 @@
     "build:cjs:watch": "tsc -p tsconfig.cjs.json -w --preserveWatchOutput",
     "build:watch": "run-p build:cjs:watch build:esm:watch",
     "clean": "rimraf dist coverage",
+    "link:npm": "npm link",
     "link:yarn": "yarn link",
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
