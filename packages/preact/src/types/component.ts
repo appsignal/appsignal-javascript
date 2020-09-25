@@ -1,7 +1,9 @@
+import { JSX } from "preact"
+
 export type Props = {
   instance: any
   action?: string
-  children: React.ReactNode
+  children: JSX.Element
   fallback?: Function
   tags?: { [key: string]: string }
 }

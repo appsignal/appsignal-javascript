@@ -7,4 +7,5 @@ install:
 script:
   - lerna bootstrap
   - lerna link
+  - yarn build
   - yarn test

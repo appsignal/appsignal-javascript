@@ -1,4 +1,4 @@
-import { Component } from "preact"
+import { Component, ComponentChild } from "preact"
 import { Props, State } from "./types/component"
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -27,7 +27,7 @@ export class ErrorBoundary extends Component<Props, State> {
     this.setState({ error })
   }
 
-  public render(): React.ReactNode {
+  public render() {
     if (this.state.error) {
       return this.props.fallback ? this.props.fallback(this.state.error) : null
     }
