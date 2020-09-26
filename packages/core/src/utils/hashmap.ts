@@ -4,10 +4,6 @@ import { HashMap, HashMapValue } from "@appsignal/types"
  * Converts all values in a flat object to a string.
  *
  * Adapted from https://stackoverflow.com/questions/46982698/how-do-i-convert-all-property-values-in-an-object-to-type-string
- *
- * @param   {object}  obj:      A flat object structure
- *
- * @return  {object}            A sanitized object
  */
 export function toHashMapString(
   obj?: HashMap<any>
@@ -25,6 +21,9 @@ export function toHashMapString(
   return obj
 }
 
+/**
+ * Converts any non-string, boolean or number value in an object to a string
+ */
 export function toHashMap(
   obj?: HashMap<any>
 ): HashMap<HashMapValue> | undefined {

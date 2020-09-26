@@ -29,7 +29,7 @@ export class PushApi {
     this._apiKey = options.key
     this._clientVersion = options.version
 
-    this._transport = this._createTransport()
+    this._transport = this._createTransport(this._url())
   }
 
   /**
@@ -52,9 +52,7 @@ export class PushApi {
    *
    * @return  {ITransport}  A Transport object
    */
-  private _createTransport(): Transport {
-    const url = this._url()
-
+  private _createTransport(url: string): Transport {
     switch (Environment.transport()) {
       case "XDomainRequest":
         return new XDomainTransport(url)

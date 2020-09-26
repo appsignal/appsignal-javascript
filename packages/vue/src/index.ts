@@ -1,12 +1,15 @@
-export function errorHandler(appsignal: any, Vue?: any) {
-  const { version = "unknown" } = Vue
+import Appsignal from "@appsignal/javascript"
+import Vue, { VueConstructor } from "vue"
 
-  return function(error: Error, vm: any, info: string) {
-    const { tag } = vm.$vnode.componentOptions
+export function errorHandler(appsignal: Appsignal, Vue?: VueConstructor<Vue>) {
+  const version = Vue?.version ?? ""
+
+  return function (error: Error, vm: Vue, info: string) {
+    const { componentOptions } = vm.$vnode
     const span = appsignal.createSpan()
 
     span
-      .setAction(tag || undefined)
+      .setAction(componentOptions?.tag || "")
       .setTags({ framework: "Vue", info, version })
       .setError(error)
 
