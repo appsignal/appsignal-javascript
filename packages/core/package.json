@@ -15,7 +15,7 @@
     "build:watch": "run-p build:cjs:watch build:esm:watch",
     "clean": "rimraf dist coverage",
     "link:yarn": "yarn link",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "test:watch": "jest --watch"
   },
   "publishConfig": {
