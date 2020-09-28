@@ -9,7 +9,7 @@ export function errorHandler(appsignal: Appsignal, Vue?: VueConstructor<Vue>) {
     const span = appsignal.createSpan()
 
     span
-      .setAction(componentOptions?.tag || "")
+      .setAction(componentOptions?.tag || "[unknown Vue component]")
       .setTags({ framework: "Vue", info, version })
       .setError(error)
 
