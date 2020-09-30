@@ -50,7 +50,7 @@ We recommend using a relevant [integration](#integrations) as a better way to ha
 
 ## Installation
 
-First, sign up for an AppSignal account and add the `@appsignal/javascript` package to your `package.json`. Then, run `yarn install`/`npm install`.
+First, [sign up][appsignal-sign-up] for an AppSignal account and add the `@appsignal/javascript` package to your `package.json`. Then, run `yarn install`/`npm install`.
 
 You can also add these packages to your `package.json` on the command line:
 
@@ -123,15 +123,13 @@ yarn test
 
 This repo uses [Semantic Versioning][semver] (often referred to as _semver_). Each package in the repository is versioned independently from one another.
 
-@TODO: define how this works once we know more about releasing
-
 ## Contributing
 
 Thinking of contributing to this repo? Awesome! 🚀
 
 Please follow our [Contributing guide][contributing-guide] in our documentation and follow our [Code of Conduct][coc].
 
-Also, we would be very happy to send you Stroopwafles. Have look at everyone we send a package to so far on our [Stroopwafles page][waffles-page].
+Also, we would be very happy to send you Stroopwafels. Have look at everyone we send a package to so far on our [Stroopwafels page][waffles-page].
 
 ## Support
 
