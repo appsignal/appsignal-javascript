@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.5
+- Dependency bumps
+- Improve the default error message if an invalid error object is passed to `span.setError` (#424)
+- Test coverage improvements
+
 ## 1.3.4
 - Dependency bumps
 - Ignore node `https` module in browser compilation. Fixes #389 and #386.
