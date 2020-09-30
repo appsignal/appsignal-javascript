@@ -48,11 +48,12 @@ export const diagnose = ({
   }
 
   const diag = spawn(
-    `${process.cwd()}/node_modules/@appsignal/nodejs/bin/diagnose`
+    `${process.cwd()}/node_modules/@appsignal/nodejs/bin/diagnose`,
+    {
+      cwd: __dirname,
+      stdio: "inherit"
+    }
   )
-
-  diag.stdout.on("data", data => console.log(`${data}`))
-  diag.stderr.on("data", data => console.error(`${data}`))
 
   diag.on("close", code => {
     console.log(`Child process exited with code ${code}`)

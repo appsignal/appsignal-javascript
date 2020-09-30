@@ -12,7 +12,7 @@ export class CLI {
 
   public run() {
     this.cmd
-      .command("install [variant]")
+      .command("install")
       .description("installs AppSignal")
       .action(install)
 
