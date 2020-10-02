@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.6
+- Add even more detail to default error message in setError if no `error.message` exists
+- Dependency bumps
+
 ## 1.3.5
 - Dependency bumps
 - Improve the default error message if an invalid error object is passed to `span.setError` (#424)
