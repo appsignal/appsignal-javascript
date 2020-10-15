@@ -1,4 +1,5 @@
 {
+  "name": "appsignal-javascript",
   "private": true,
   "dependencies": {},
   "devDependencies": {
@@ -50,5 +51,8 @@
   "workspaces": [
     "packages/*"
   ],
-  "name": "appsignal-javascript"
+  "volta": {
+    "node": "14.13.1",
+    "yarn": "1.22.5"
+  }
 }
