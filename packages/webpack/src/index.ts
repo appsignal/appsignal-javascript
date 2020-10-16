@@ -21,7 +21,7 @@ type Asset = {
   filePath: string
 }
 
-class AppsignalPlugin implements Plugin {
+export class AppsignalPlugin implements Plugin {
   public name = "AppsignalPlugin"
   public options: PluginOptions
 
@@ -137,5 +137,3 @@ class AppsignalPlugin implements Plugin {
     return Promise.all(promises)
   }
 }
-
-export { AppsignalPlugin }

@@ -8,7 +8,7 @@ import { XHRTransport } from "./transports/xhr"
 import { FetchTransport } from "./transports/fetch"
 import { NodeTransport } from "./transports/node"
 
-import { PushApiOptions } from "./types/options"
+import { PushApiOptions } from "./interfaces/options"
 import { Transport } from "./interfaces/transport"
 
 export class PushApi {

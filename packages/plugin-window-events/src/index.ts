@@ -1,3 +1,5 @@
+import { JSClient } from "@appsignal/types"
+
 function windowEventsPlugin(options?: { [key: string]: any }) {
   const ctx = window as Window
 
@@ -7,7 +9,7 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
     ...options
   }
 
-  return function(this: any) {
+  return function (this: JSClient) {
     const self = this
 
     const prev = {
@@ -44,7 +46,11 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
           // or don't return a stacktrace
           span.setError({
             name: "Error",
-            message: event,
+            // `event` shoiuld be the message in most browsers
+            message:
+              typeof event === "string"
+                ? event
+                : 'An HTML onerror="" handler failed to execute',
             stack: `at ${source}:${lineno}${colno ? `:${colno}` : ""}`
           })
         }

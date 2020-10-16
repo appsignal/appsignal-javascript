@@ -31,7 +31,7 @@ describe("toHashMapString", () => {
     const hm = toHashMapString({ string: "abc", number: 123, boolean: true })
 
     if (hm) {
-      Object.values(hm).forEach((el: string) =>
+      Object.values(hm).forEach(el =>
         expect(typeof el === "string").toBeTruthy()
       )
     }

@@ -1,5 +1,7 @@
+import { JSClient } from "@appsignal/types"
+
 export type Props = {
-  instance: any
+  instance: JSClient
   action?: string
   children: React.ReactNode
   fallback?: Function

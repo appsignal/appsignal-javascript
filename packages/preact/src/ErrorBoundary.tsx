@@ -1,4 +1,4 @@
-import { Component, ComponentChild } from "preact"
+import { Component } from "preact"
 import { Props, State } from "./types/component"
 
 export class ErrorBoundary extends Component<Props, State> {
@@ -14,13 +14,14 @@ export class ErrorBoundary extends Component<Props, State> {
     const span = appsignal.createSpan()
 
     span
-      .setAction(action !== "" ? action : undefined)
       .setError({
         name,
         message,
         stack
       })
       .setTags({ framework: "Preact", ...tags })
+
+    if (action && action !== "") span.setAction(action)
 
     appsignal.send(span)
 

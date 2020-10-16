@@ -1,5 +1,7 @@
+import { JSClient, JSSpan } from "@appsignal/types"
+
 export function installErrorHandler(
-  appsignal: any,
+  appsignal: JSClient,
   Ember = (window as any).Ember
 ) {
   const prevHandler = Ember.onerror
@@ -9,8 +11,8 @@ export function installErrorHandler(
     return
   }
 
-  Ember.onerror = function(error: Error): void {
-    const span = appsignal.createSpan((span: any) => span.setError(error))
+  Ember.onerror = function (error: Error): void {
+    const span = appsignal.createSpan((span: JSSpan) => span.setError(error))
 
     appsignal.send(span)
 
@@ -22,7 +24,7 @@ export function installErrorHandler(
   }
 
   // fired when ember's internal promise implementation throws an unhandled exception
-  Ember.RSVP.on("error", function(reason: any): void {
+  Ember.RSVP.on("error", function (reason: any): void {
     const span = appsignal.createSpan()
 
     if (reason instanceof Error) {

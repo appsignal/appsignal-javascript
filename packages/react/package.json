@@ -18,6 +18,9 @@
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
+  "dependencies": {
+    "@appsignal/types": "^1.0.0"
+  },
   "peerDependencies": {
     "react": "^16.8.6"
   },

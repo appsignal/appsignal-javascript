@@ -4,7 +4,7 @@
  */
 
 import { compose, toHashMap } from "@appsignal/core"
-import { Breadcrumb } from "@appsignal/types"
+import { Breadcrumb, JSClient, Hook } from "@appsignal/types"
 
 import { VERSION } from "./version"
 import { PushApi } from "./api"
@@ -13,18 +13,16 @@ import { Span } from "./span"
 import { Queue } from "./queue"
 import { Dispatcher } from "./dispatcher"
 
-import { Hook } from "./interfaces/hook"
-import { AppsignalOptions } from "./types/options"
+import { AppsignalOptions } from "./interfaces/options"
 
-export default class Appsignal {
+export default class Appsignal implements JSClient {
   public VERSION = VERSION
-
-  public ignored: RegExp[]
+  public ignored: RegExp[] = []
 
   private _dispatcher: Dispatcher
   private _options: AppsignalOptions
   private _api: PushApi
-  private _breadcrumbs: Breadcrumb[]
+  private _breadcrumbs: Breadcrumb[] = []
 
   private _hooks = {
     decorators: Array<Hook>(),
@@ -42,7 +40,7 @@ export default class Appsignal {
    * @param   {AppsignalOptions}  options        An object of options to configure the AppSignal client
    */
   constructor(options: AppsignalOptions) {
-    const { key = "", uri, revision } = options
+    const { key = "", uri, revision, ignoreErrors } = options
 
     // `revision` should be a `string`, but we attempt to
     // normalise to one anyway
@@ -61,11 +59,12 @@ export default class Appsignal {
       version: this.VERSION
     })
 
-    // ignored exeptions are checked against the `message`
+    // ignored exceptions are checked against the `message`
     // property of a given `Error`
-    this.ignored = options.ignoreErrors || []
+    if (ignoreErrors && Array.isArray(ignoreErrors)) {
+      this.ignored = ignoreErrors
+    }
 
-    this._breadcrumbs = []
     this._dispatcher = new Dispatcher(this._queue, this._api)
 
     this._options = options
@@ -235,7 +234,7 @@ export default class Appsignal {
    *
    * @return  {Span}              An AppSignal `Span` object
    */
-  public createSpan(fn?: Function): Span {
+  public createSpan(fn?: (span: Span) => void): Span {
     const { revision = "", namespace } = this._options
 
     const span = new Span({
@@ -262,7 +261,7 @@ export default class Appsignal {
    *
    * @return  {Promise<any>}      A Promise containing the return value of the function, or a `Span` if an error was thrown.
    */
-  public async wrap(fn: Function, tags = {}, namespace?: string): Promise<any> {
+  public async wrap<T>(fn: () => T, tags = {}, namespace?: string): Promise<T> {
     try {
       return await fn()
     } catch (e) {
