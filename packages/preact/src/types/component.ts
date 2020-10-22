@@ -1,7 +1,8 @@
+import { JSClient } from "@appsignal/types"
 import { JSX } from "preact"
 
 export type Props = {
-  instance: any
+  instance: JSClient
   action?: string
   children: JSX.Element
   fallback?: Function

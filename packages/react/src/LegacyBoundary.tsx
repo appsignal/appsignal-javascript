@@ -9,18 +9,19 @@ export class LegacyBoundary extends React.Component<Props, State> {
   }
 
   public unstable_handleError(error: Error): void {
-    const { instance: appsignal, action } = this.props
+    const { instance: appsignal, action, tags = {} } = this.props
     const { name, message, stack } = error
     const span = appsignal.createSpan()
 
     span
-      .setAction(action !== "" ? action : undefined)
       .setError({
         name,
         message,
         stack
       })
-      .setTags({ framework: "Legacy React" })
+      .setTags({ framework: "Legacy React", ...tags })
+
+    if (action && action !== "") span.setAction(action)
 
     appsignal.send(span)
 

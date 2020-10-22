@@ -1,6 +1,8 @@
+import { JSClient, JSSpan } from "@appsignal/types"
+
 function pathDecoratorPlugin(options?: { [key: string]: any }) {
-  return function(this: any) {
-    const decorator = (span: any) =>
+  return function (this: JSClient) {
+    const decorator = (span: JSSpan) =>
       span.setTags({ path: window.location.pathname })
 
     this.addDecorator(decorator)

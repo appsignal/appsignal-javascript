@@ -1,15 +1,15 @@
-type BaseOptions = {
+interface BaseOptions {
   key?: string
   uri?: string
 }
 
-export type AppsignalOptions = BaseOptions & {
+export interface AppsignalOptions extends BaseOptions {
   namespace?: string
   revision?: string
   ignoreErrors?: RegExp[]
 }
 
-export type PushApiOptions = BaseOptions & {
+export interface PushApiOptions extends BaseOptions {
   key: string
   version: string
 }

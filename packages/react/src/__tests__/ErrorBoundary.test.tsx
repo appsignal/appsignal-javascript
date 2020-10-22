@@ -36,7 +36,7 @@ describe("<ErrorBoundary />", () => {
       </ErrorBoundary>
     )
 
-    expect(mock.setAction).toBeCalledWith(undefined)
+    expect(mock.setAction).not.toBeCalled()
     expect(mock.setTags).toBeCalledWith({ framework: "React" })
     expect(mock.setError).toBeCalled()
 

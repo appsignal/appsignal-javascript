@@ -1,3 +1,4 @@
+import { JSClient } from "@appsignal/types"
 import { plugin } from "../index"
 
 describe("windowEventsPlugin", () => {
@@ -6,13 +7,13 @@ describe("windowEventsPlugin", () => {
   const setActionMock = jest.fn()
   const setErrorMock = jest.fn()
 
-  const mockAppsignal = {
+  const mockAppsignal = ({
     createSpan: jest.fn().mockImplementation(() => ({
       setAction: setActionMock,
       setError: setErrorMock
     })),
     send: jest.fn()
-  }
+  } as unknown) as JSClient
 
   it("responds to options object", () => {
     const opts = {

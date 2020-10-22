@@ -1,3 +1,4 @@
+import { JSClient } from "@appsignal/types"
 import { Breadcrumb } from "@appsignal/types"
 
 const SUPPORTED_CONSOLE_METHODS = ["log", "debug", "info", "warn", "error"]
@@ -9,7 +10,7 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
       typeof (console as any)[method] === "function"
   )
 
-  return function(this: any) {
+  return function (this: JSClient) {
     const self = this
 
     CONSOLE_LOG_METHODS.forEach((method: string) => {

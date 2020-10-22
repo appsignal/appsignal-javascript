@@ -19,7 +19,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/javascript": "^1.3.6"
+    "@appsignal/types": "^1.0.0"
   },
   "peerDependencies": {
     "vue": ">= 2.6.0"

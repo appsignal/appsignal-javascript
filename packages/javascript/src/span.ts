@@ -1,8 +1,8 @@
 import { Serializable, getStacktrace, toHashMapString } from "@appsignal/core"
-import { SpanData, Breadcrumb, HashMap, HashMapValue } from "@appsignal/types"
+import { JSSpanData, Breadcrumb, HashMap, HashMapValue } from "@appsignal/types"
 
-export class Span extends Serializable<SpanData> {
-  constructor(span?: Partial<SpanData>) {
+export class Span extends Serializable<JSSpanData> {
+  constructor(span?: Partial<JSSpanData>) {
     super({
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",
