@@ -4,19 +4,30 @@ import chalk from "chalk"
 import inquirer from "inquirer"
 
 import { SUPPORTED_NODEJS_INTEGRATIONS } from "../constants"
+import { validate } from "../utils"
 
 export async function installNode(pkg: { [key: string]: any }) {
   const { apiKey } = await inquirer.prompt([
     {
       type: "input",
       name: "apiKey",
-      message: "What's your Push API Key?"
+      message: "What's your Push API Key?",
+      validate: async apiKey => {
+        try {
+          const validated = await validate({ apiKey })
+
+          if (validated === true) {
+            return validated
+          } else {
+            return "Oops, looks like that wasn't a valid Push API key! Please try again."
+          }
+        } catch (e) {
+          console.error(e)
+          process.exit(1)
+        }
+      }
     }
   ])
-
-  console.log() // blank line
-
-  console.log("Checking to see if your Push API key is valid...")
 
   // detect if user is using yarn
   const isUsingYarn = existsSync(`${process.cwd()}/yarn.lock`)
