@@ -48,7 +48,7 @@ export async function install() {
       await installNode(pkg)
     }
 
-    console.log("\n✅ Done!")
+    console.log("✅ Done!")
     return
   } catch (error) {
     if (error.isTtyError) {
