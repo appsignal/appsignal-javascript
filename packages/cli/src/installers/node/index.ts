@@ -2,9 +2,9 @@ import { existsSync } from "fs"
 import { spawnSync, spawn } from "child_process"
 import chalk from "chalk"
 import inquirer from "inquirer"
+import { validatePushApiKey } from "@appsignal/core"
 
 import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
-import { validate } from "../../utils"
 
 /**
  * This is the very last thing to be displayed by the installer CLI! The
@@ -168,7 +168,7 @@ export async function installNode(pkg: { [key: string]: any }) {
  */
 async function validateApiKey(apiKey: string) {
   try {
-    const validated = await validate({ apiKey })
+    const validated = await validatePushApiKey({ apiKey })
 
     if (validated === true) {
       return validated
