@@ -21,6 +21,10 @@ export class CLI {
       .description("runs the diagnose command (Node.js integration only)")
       .option("-e, --environment <env>", "Which environment to use")
       .option("-k, --api-key <key>", "Which API key to use")
+      .option(
+        "--no-report",
+        "Don't send report automatically send the report to AppSignal"
+      )
       .action(diagnose)
 
     this.cmd.parse(process.argv)
