@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "@appsignal/types": "^2.0.0",
+    "isomorphic-unfetch": "^3.1.0",
     "tslib": "^2.0.3"
   }
 }
