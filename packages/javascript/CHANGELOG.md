@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.7
+- Dependency bumps
+- Use @appsignal/types 2.0.0
+
 ## 1.3.6
 - Add even more detail to default error message in setError if no `error.message` exists
 - Dependency bumps
