@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.8
+- Dependency bumps
+
 ## 1.3.7
 - Dependency bumps
 - Use @appsignal/types 2.0.0
