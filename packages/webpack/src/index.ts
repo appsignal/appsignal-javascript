@@ -30,7 +30,8 @@ export class AppsignalPlugin implements Plugin {
   constructor(options: PluginOptions) {
     this._request = axios.create({
       baseURL: options.endpoint || "https://appsignal.com/api",
-      timeout: options.timeout || 5000
+      timeout: options.timeout || 5000,
+      maxBodyLength: Math.floor(16 * 1000000) // 16MB, the max allowed on the server
     })
 
     this.options = options
