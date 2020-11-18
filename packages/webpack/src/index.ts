@@ -27,9 +27,34 @@ export class AppsignalPlugin implements WebpackPluginInstance {
   private _request: AxiosInstance
 
   constructor(options: PluginOptions) {
+    const {
+      apiKey,
+      release,
+      appName,
+      environment,
+      urlRoot,
+      timeout,
+      endpoint
+    } = options
+
+    if (!apiKey) {
+      throw new Error("AppSignal Plugin: No `apiKey` provided to constructor.")
+    } else if (!release) {
+      throw new Error("AppSignal Plugin: No `release` provided to constructor.")
+    } else if (!appName) {
+      throw new Error("AppSignal Plugin: No `appName` provided to constructor.")
+    } else if (!urlRoot) {
+      throw new Error("AppSignal Plugin: No `urlRoot` provided to constructor.")
+    }
+
+    // set the default environment from NODE_ENV or fall back to "development"
+    if (!environment) {
+      options.environment = process.env.NODE_ENV || "development"
+    }
+
     this._request = axios.create({
-      baseURL: options.endpoint || "https://appsignal.com/api",
-      timeout: options.timeout || 5000,
+      baseURL: endpoint || "https://appsignal.com/api",
+      timeout: timeout || 5000,
       maxBodyLength: Math.floor(16 * 1000000) // 16MB, the max allowed on the server
     })
 
