@@ -1,9 +1,13 @@
 import axios, { AxiosInstance } from "axios"
-import { compilation, Compiler, Plugin, Stats } from "webpack"
+import { Compilation, Compiler, Stats, WebpackPluginInstance } from "webpack"
 import FormData from "form-data"
-import fs from "fs"
+import fs from "fs/promises"
+import path from "path"
 
-type Compilation = compilation.Compilation
+/**
+ * This plugin borrows heavily from https://github.com/40thieves/webpack-sentry-plugin
+ * We thank the original author(s) for their work!
+ */
 
 type PluginOptions = {
   apiKey: string
@@ -16,21 +20,42 @@ type PluginOptions = {
   endpoint?: string
 }
 
-type Asset = {
-  name: string
-  filePath: string
-}
-
-export class AppsignalPlugin implements Plugin {
+export class AppsignalPlugin implements WebpackPluginInstance {
   public name = "AppsignalPlugin"
   public options: PluginOptions
 
   private _request: AxiosInstance
 
   constructor(options: PluginOptions) {
+    const {
+      apiKey,
+      release,
+      appName,
+      environment,
+      urlRoot,
+      timeout = 5000,
+      endpoint = "https://appsignal.com/api"
+    } = options
+
+    if (!apiKey) {
+      throw new Error("AppSignal Plugin: No `apiKey` provided to constructor.")
+    } else if (!release) {
+      throw new Error("AppSignal Plugin: No `release` provided to constructor.")
+    } else if (!appName) {
+      throw new Error("AppSignal Plugin: No `appName` provided to constructor.")
+    } else if (!urlRoot) {
+      throw new Error("AppSignal Plugin: No `urlRoot` provided to constructor.")
+    }
+
+    // set the default environment from NODE_ENV or fall back to "development"
+    if (!environment) {
+      options.environment = process.env.NODE_ENV || "development"
+    }
+
     this._request = axios.create({
-      baseURL: options.endpoint || "https://appsignal.com/api",
-      timeout: options.timeout || 5000
+      baseURL: endpoint,
+      timeout,
+      maxBodyLength: Math.floor(16 * 1000000) // 16MB, the max allowed on the server
     })
 
     this.options = options
@@ -44,61 +69,70 @@ export class AppsignalPlugin implements Plugin {
   }
 
   private onAfterEmit = async (compilation: Compilation) => {
-    const { assets } = compilation
     const { release } = this.options
+    const files = this.getFiles(compilation)
 
-    const script = this.getAssetOfType(/\.js$/, assets)
-    const sourcemap = this.getAssetOfType(/\.map$/, assets)
-
-    if (!script || !sourcemap) return
+    if (files.length === 0) return
 
     try {
-      const form = this.createForm(script.name, release, sourcemap.filePath)
-      await this.upload(form)
+      const forms = await Promise.all(
+        files.map(file => this.createForm(file!.name, release, file!.filePath))
+      )
+
+      console.log(forms)
+      // await Promise.all(forms.map(form => this.upload(form)))
     } catch (error) {
-      compilation.errors.push(`AppSignal Plugin: ${error}`)
+      throw new Error(`AppSignal Plugin: ${error}`)
     }
   }
 
-  private onDone = async (stats: Stats) => {
-    const { assets } = stats.compilation
-
+  private onDone = async ({ compilation }: Stats) => {
     if (this.options.deleteAfterCompile) {
-      await this.deleteFiles(assets)
+      await this.deleteFiles(compilation)
     }
   }
 
-  private getAssetOfType(rx: RegExp, assets: any): Asset {
+  private getFiles(compilation: Compilation) {
+    const { assets, compiler } = compilation
+
     return Object.keys(assets)
       .map(name => {
-        if (rx.test(name)) {
-          return { name, filePath: assets[name].existsAt }
-        }
+        const filePath = path.join(
+          compilation.getPath(compiler.outputPath),
+          name.split("?")[0]
+        )
 
-        return null
+        if (/\.js$|\.map$/.test(name)) {
+          return { name, filePath }
+        } else {
+          return null
+        }
       })
-      .filter(el => el)[0] as Asset
+      .filter(el => el)
   }
 
-  private createForm(
+  private async createForm(
     name: string,
     revision: string,
     filePath: string
-  ): FormData {
+  ): Promise<FormData> {
     const form = new FormData()
     const { urlRoot } = this.options
 
-    const _appendName = (url: string) =>
+    function appendName(url: string) {
       form.append("name[]", `${url.replace(/\/$/, "")}/${name}`)
-
-    if (Array.isArray(urlRoot)) {
-      urlRoot.forEach(url => _appendName(url))
-    } else {
-      _appendName(urlRoot)
     }
 
+    if (Array.isArray(urlRoot)) {
+      urlRoot.forEach(url => appendName(url))
+    } else {
+      appendName(urlRoot)
+    }
+
+    const file = await fs.readFile(filePath)
+
     form.append("revision", revision)
-    form.append("file", fs.readFileSync(filePath))
+    form.append("file", file)
 
     return form
   }
@@ -116,20 +150,23 @@ export class AppsignalPlugin implements Plugin {
     })
   }
 
-  private async deleteFiles(assets: any) {
+  private async deleteFiles(compilation: Compilation) {
+    const { assets, compiler } = compilation
+
     const promises = Object.keys(assets)
       .filter(name => /\.map$/.test(name))
       .map(name => {
-        const filePath = assets[name].existsAt
+        const filePath = path.join(
+          compilation.getPath(compiler.outputPath),
+          name.split("?")[0]
+        )
 
         if (filePath) {
-          return fs.promises.unlink(filePath)
+          return fs.unlink(filePath)
         } else {
-          console.warn(`
-            ⚠️ [AppsignalPlugin]: unable to delete '${name}' 
-            File does not exist. it may not have been created
-            due to a build error.
-          `)
+          console.warn(
+            `⚠️ [AppsignalPlugin]: unable to delete '${name}. File does not exist. it may not have been created due to a build error.`
+          )
         }
       })
       .filter(el => el)
