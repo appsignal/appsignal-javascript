@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from "axios"
 import { Compilation, Compiler, Stats, WebpackPluginInstance } from "webpack"
 import FormData from "form-data"
-import fs from "fs"
+import fs from "fs/promises"
 import path from "path"
 
 /**
@@ -82,7 +82,12 @@ export class AppsignalPlugin implements WebpackPluginInstance {
     if (!script || !sourcemap) return
 
     try {
-      const form = this.createForm(script.name, release, sourcemap.filePath)
+      const form = await this.createForm(
+        script.name,
+        release,
+        sourcemap.filePath
+      )
+
       console.log(form)
       // await this.upload(form)
     } catch (error) {
@@ -115,11 +120,11 @@ export class AppsignalPlugin implements WebpackPluginInstance {
       .filter(el => el)[0] as Asset
   }
 
-  private createForm(
+  private async createForm(
     name: string,
     revision: string,
     filePath: string
-  ): FormData {
+  ): Promise<FormData> {
     const form = new FormData()
     const { urlRoot } = this.options
 
@@ -133,8 +138,10 @@ export class AppsignalPlugin implements WebpackPluginInstance {
       appendName(urlRoot)
     }
 
+    const file = await fs.readFile(filePath)
+
     form.append("revision", revision)
-    form.append("file", fs.readFileSync(filePath))
+    form.append("file", file)
 
     return form
   }
@@ -164,7 +171,7 @@ export class AppsignalPlugin implements WebpackPluginInstance {
         )
 
         if (filePath) {
-          return fs.promises.unlink(filePath)
+          return fs.unlink(filePath)
         } else {
           console.warn(
             `⚠️ [AppsignalPlugin]: unable to delete '${name}. File does not exist. it may not have been created due to a build error.`
