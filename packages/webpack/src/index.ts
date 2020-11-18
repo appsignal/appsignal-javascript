@@ -1,9 +1,8 @@
 import axios, { AxiosInstance } from "axios"
-import { compilation, Compiler, Plugin, Stats } from "webpack"
+import { Compilation, Compiler, Stats, WebpackPluginInstance } from "webpack"
 import FormData from "form-data"
 import fs from "fs"
-
-type Compilation = compilation.Compilation
+import path from "path"
 
 type PluginOptions = {
   apiKey: string
@@ -21,7 +20,7 @@ type Asset = {
   filePath: string
 }
 
-export class AppsignalPlugin implements Plugin {
+export class AppsignalPlugin implements WebpackPluginInstance {
   public name = "AppsignalPlugin"
   public options: PluginOptions
 
@@ -45,35 +44,40 @@ export class AppsignalPlugin implements Plugin {
   }
 
   private onAfterEmit = async (compilation: Compilation) => {
-    const { assets } = compilation
     const { release } = this.options
 
-    const script = this.getAssetOfType(/\.js$/, assets)
-    const sourcemap = this.getAssetOfType(/\.map$/, assets)
+    const script = this.getAssetOfType(/\.js$/, compilation)
+    const sourcemap = this.getAssetOfType(/\.map$/, compilation)
 
     if (!script || !sourcemap) return
 
     try {
       const form = this.createForm(script.name, release, sourcemap.filePath)
-      await this.upload(form)
+      console.log(form)
+      // await this.upload(form)
     } catch (error) {
-      compilation.errors.push(`AppSignal Plugin: ${error}`)
+      throw new Error(`AppSignal Plugin: ${error}`)
     }
   }
 
-  private onDone = async (stats: Stats) => {
-    const { assets } = stats.compilation
-
+  private onDone = async ({ compilation }: Stats) => {
     if (this.options.deleteAfterCompile) {
-      await this.deleteFiles(assets)
+      await this.deleteFiles(compilation)
     }
   }
 
-  private getAssetOfType(rx: RegExp, assets: any): Asset {
+  private getAssetOfType(rx: RegExp, compilation: Compilation): Asset {
+    const { assets, compiler } = compilation
+
     return Object.keys(assets)
       .map(name => {
+        const filePath = path.join(
+          compilation.getPath(compiler.outputPath),
+          name.split("?")[0]
+        )
+
         if (rx.test(name)) {
-          return { name, filePath: assets[name].existsAt }
+          return { name, filePath }
         }
 
         return null
@@ -89,13 +93,14 @@ export class AppsignalPlugin implements Plugin {
     const form = new FormData()
     const { urlRoot } = this.options
 
-    const _appendName = (url: string) =>
+    function appendName(url: string) {
       form.append("name[]", `${url.replace(/\/$/, "")}/${name}`)
+    }
 
     if (Array.isArray(urlRoot)) {
-      urlRoot.forEach(url => _appendName(url))
+      urlRoot.forEach(url => appendName(url))
     } else {
-      _appendName(urlRoot)
+      appendName(urlRoot)
     }
 
     form.append("revision", revision)
@@ -117,20 +122,23 @@ export class AppsignalPlugin implements Plugin {
     })
   }
 
-  private async deleteFiles(assets: any) {
+  private async deleteFiles(compilation: Compilation) {
+    const { assets, compiler } = compilation
+
     const promises = Object.keys(assets)
       .filter(name => /\.map$/.test(name))
       .map(name => {
-        const filePath = assets[name].existsAt
+        const filePath = path.join(
+          compilation.getPath(compiler.outputPath),
+          name.split("?")[0]
+        )
 
         if (filePath) {
           return fs.promises.unlink(filePath)
         } else {
-          console.warn(`
-            ⚠️ [AppsignalPlugin]: unable to delete '${name}' 
-            File does not exist. it may not have been created
-            due to a build error.
-          `)
+          console.warn(
+            `⚠️ [AppsignalPlugin]: unable to delete '${name}. File does not exist. it may not have been created due to a build error.`
+          )
         }
       })
       .filter(el => el)
