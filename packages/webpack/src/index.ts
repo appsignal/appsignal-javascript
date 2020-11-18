@@ -20,11 +20,6 @@ type PluginOptions = {
   endpoint?: string
 }
 
-type Asset = {
-  name: string
-  filePath: string
-}
-
 export class AppsignalPlugin implements WebpackPluginInstance {
   public name = "AppsignalPlugin"
   public options: PluginOptions
@@ -38,8 +33,8 @@ export class AppsignalPlugin implements WebpackPluginInstance {
       appName,
       environment,
       urlRoot,
-      timeout,
-      endpoint
+      timeout = 5000,
+      endpoint = "https://appsignal.com/api"
     } = options
 
     if (!apiKey) {
@@ -58,8 +53,8 @@ export class AppsignalPlugin implements WebpackPluginInstance {
     }
 
     this._request = axios.create({
-      baseURL: endpoint || "https://appsignal.com/api",
-      timeout: timeout || 5000,
+      baseURL: endpoint,
+      timeout,
       maxBodyLength: Math.floor(16 * 1000000) // 16MB, the max allowed on the server
     })
 
@@ -75,21 +70,16 @@ export class AppsignalPlugin implements WebpackPluginInstance {
 
   private onAfterEmit = async (compilation: Compilation) => {
     const { release } = this.options
+    const files = this.getFiles(compilation)
 
-    const script = this.getAssetOfType(/\.js$/, compilation)
-    const sourcemap = this.getAssetOfType(/\.map$/, compilation)
-
-    if (!script || !sourcemap) return
+    if (files.length === 0) return
 
     try {
-      const form = await this.createForm(
-        script.name,
-        release,
-        sourcemap.filePath
+      const forms = await Promise.all(
+        files.map(file => this.createForm(file!.name, release, file!.filePath))
       )
 
-      console.log(form)
-      // await this.upload(form)
+      await Promise.all(forms.map(form => this.upload(form)))
     } catch (error) {
       throw new Error(`AppSignal Plugin: ${error}`)
     }
@@ -101,7 +91,7 @@ export class AppsignalPlugin implements WebpackPluginInstance {
     }
   }
 
-  private getAssetOfType(rx: RegExp, compilation: Compilation): Asset {
+  private getFiles(compilation: Compilation) {
     const { assets, compiler } = compilation
 
     return Object.keys(assets)
@@ -111,13 +101,13 @@ export class AppsignalPlugin implements WebpackPluginInstance {
           name.split("?")[0]
         )
 
-        if (rx.test(name)) {
+        if (/\.js$|\.map$/.test(name)) {
           return { name, filePath }
+        } else {
+          return null
         }
-
-        return null
       })
-      .filter(el => el)[0] as Asset
+      .filter(el => el)
   }
 
   private async createForm(
