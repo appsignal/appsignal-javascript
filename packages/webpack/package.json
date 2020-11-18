@@ -19,7 +19,7 @@
     "test:watch": "jest --watch"
   },
   "peerDependencies": {
-    "webpack": "^4 || ^5.0.0-alpha.11"
+    "webpack": "^4 || ^5"
   },
   "publishConfig": {
     "access": "public"
