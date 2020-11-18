@@ -4,6 +4,11 @@ import FormData from "form-data"
 import fs from "fs"
 import path from "path"
 
+/**
+ * This plugin borrows heavily from https://github.com/40thieves/webpack-sentry-plugin
+ * We thank the original author(s) for their work!
+ */
+
 type PluginOptions = {
   apiKey: string
   release: string
