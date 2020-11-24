@@ -1,4 +1,4 @@
-import { JSClient, JSSpan } from "@appsignal/types"
+import type { JSClient, JSSpan } from "@appsignal/types"
 
 function pathDecoratorPlugin(options?: { [key: string]: any }) {
   return function (this: JSClient) {
