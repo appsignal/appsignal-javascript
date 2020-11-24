@@ -1,4 +1,4 @@
-import { JSClient, JSSpan } from "@appsignal/types"
+import type { JSClient, JSSpan } from "@appsignal/types"
 
 export function installErrorHandler(appsignal: JSClient, application: any) {
   const prevHandler = application.handleError

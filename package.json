@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@angular/core": "^11.0.0",
+    "@angular/core": "^11.0.2",
     "@testing-library/preact": "^2.0.0",
     "@testing-library/react": "^11.1.2",
     "@types/inquirer": "^7.3.1",
