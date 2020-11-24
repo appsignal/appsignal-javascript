@@ -4,7 +4,7 @@
  */
 
 import { compose, toHashMap } from "@appsignal/core"
-import { Breadcrumb, JSClient, Hook } from "@appsignal/types"
+import type { Breadcrumb, JSClient, Hook } from "@appsignal/types"
 
 import { VERSION } from "./version"
 import { PushApi } from "./api"

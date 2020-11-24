@@ -3,6 +3,7 @@
   "version": "2.0.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "types": "dist/cjs/index",
   "repository": "git@github.com:appsignal/appsignal-javascript.git",
   "author": "Adam Yeats <adam@appsignal.com>",
   "license": "MIT",

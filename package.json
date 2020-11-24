@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
+    "@appsignal/types": "^2.0.1",
     "@angular/core": "^11.0.2",
     "@testing-library/preact": "^2.0.0",
     "@testing-library/react": "^11.1.2",
