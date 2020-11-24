@@ -1,4 +1,4 @@
-import { JSClient } from "@appsignal/types"
+import type { JSClient } from "@appsignal/types"
 
 function windowEventsPlugin(options?: { [key: string]: any }) {
   const ctx = window as Window
