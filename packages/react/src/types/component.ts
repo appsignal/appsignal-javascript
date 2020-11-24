@@ -1,4 +1,4 @@
-import { JSClient } from "@appsignal/types"
+import type { JSClient } from "@appsignal/types"
 
 export type Props = {
   instance: JSClient
