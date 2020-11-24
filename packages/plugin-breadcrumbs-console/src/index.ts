@@ -1,5 +1,4 @@
-import { JSClient } from "@appsignal/types"
-import { Breadcrumb } from "@appsignal/types"
+import type { JSClient, Breadcrumb } from "@appsignal/types"
 
 const SUPPORTED_CONSOLE_METHODS = ["log", "debug", "info", "warn", "error"]
 

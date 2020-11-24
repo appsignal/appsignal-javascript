@@ -1,5 +1,5 @@
-import { JSClient } from "@appsignal/types"
 import Vue, { VueConstructor } from "vue"
+import type { JSClient } from "@appsignal/types"
 
 export function errorHandler(appsignal: JSClient, Vue?: VueConstructor<Vue>) {
   const version = Vue?.version ?? ""

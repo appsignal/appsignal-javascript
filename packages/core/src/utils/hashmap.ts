@@ -1,4 +1,4 @@
-import { HashMap, HashMapValue } from "@appsignal/types"
+import type { HashMap, HashMapValue } from "@appsignal/types"
 
 /**
  * Converts all values in a flat object to a string.
