@@ -32,7 +32,7 @@ blocks:
           commands:
             - yarn build
             - cache store packages-$SEMAPHORE_GIT_SHA-$SEMAPHORE_GIT_BRANCH packages
-  - name: "Core Library"
+  - name: "Tests"
     dependencies: ["Install and Build"]
     task:
       prologue:
@@ -40,37 +40,37 @@ blocks:
           - cache restore
           - cache restore packages-$SEMAPHORE_GIT_SHA-$SEMAPHORE_GIT_BRANCH
       jobs:
-        - name: JavaScript
+        - name: All
           commands:
-            - yarn lerna run test --scope="@appsignal/javascript"
-        - name: JavaScript Core
-          commands:
-            - yarn lerna run test --scope="@appsignal/core"
-  - name: "Integrations"
-    dependencies: ["Core Library"]
-    task:
-      prologue:
-        commands:
-          - cache restore
-          - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
-      jobs:
-        - name: Preact
-          commands:
-            - yarn lerna run test --scope="@appsignal/preact"
-        - name: React
-          commands:
-            - yarn lerna run test --scope="@appsignal/react"
-        - name: Vue
-          commands:
-            - yarn lerna run test --scope="@appsignal/vue"
-  - name: "Plugins"
-    dependencies: ["Core Library"]
-    task:
-      prologue:
-        commands:
-          - cache restore
-          - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
-      jobs:
-        - name: Window Events
-          commands:
-            - yarn lerna run test --scope="@appsignal/plugin-window-events"
+            - yarn lerna run test
+  #       - name: JavaScript Core
+  #         commands:
+  #           - yarn lerna run test --scope="@appsignal/core"
+  # - name: "Integrations"
+  #   dependencies: ["Install and Build"]
+  #   task:
+  #     prologue:
+  #       commands:
+  #         - cache restore
+  #         - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
+  #     jobs:
+  #       - name: Preact
+  #         commands:
+  #           - yarn lerna run test --scope="@appsignal/preact"
+  #       - name: React
+  #         commands:
+  #           - yarn lerna run test --scope="@appsignal/react"
+  #       - name: Vue
+  #         commands:
+  #           - yarn lerna run test --scope="@appsignal/vue"
+  # - name: "Plugins"
+  #   dependencies: ["Install and Build"]
+  #   task:
+  #     prologue:
+  #       commands:
+  #         - cache restore
+  #         - cache restore packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
+  #     jobs:
+  #       - name: Window Events
+  #         commands:
+  #           - yarn lerna run test --scope="@appsignal/plugin-window-events"
