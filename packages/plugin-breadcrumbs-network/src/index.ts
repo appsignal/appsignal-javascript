@@ -1,4 +1,4 @@
-import { JSClient } from "@appsignal/types"
+import type { JSClient } from "@appsignal/types"
 
 type PluginOptions = {
   // A boolean value representing whether the plugin should bind to `XMLHttpRequest`

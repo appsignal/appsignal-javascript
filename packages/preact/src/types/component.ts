@@ -1,5 +1,5 @@
-import { JSClient } from "@appsignal/types"
 import { JSX } from "preact"
+import type { JSClient } from "@appsignal/types"
 
 export type Props = {
   instance: JSClient

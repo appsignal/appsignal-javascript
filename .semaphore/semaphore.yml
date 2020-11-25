@@ -47,7 +47,7 @@ blocks:
           commands:
             - yarn lerna run test --scope="@appsignal/core"
   - name: "Integrations"
-    dependencies: ["Core Library"]
+    dependencies: ["Install and Build"]
     task:
       prologue:
         commands:
@@ -64,7 +64,7 @@ blocks:
           commands:
             - yarn lerna run test --scope="@appsignal/vue"
   - name: "Plugins"
-    dependencies: ["Core Library"]
+    dependencies: ["Install and Build"]
     task:
       prologue:
         commands:
