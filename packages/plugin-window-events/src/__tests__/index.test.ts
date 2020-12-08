@@ -15,6 +15,10 @@ describe("windowEventsPlugin", () => {
     send: jest.fn()
   } as unknown) as JSClient
 
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
+
   it("responds to options object", () => {
     const opts = {
       onerror: false,
@@ -86,6 +90,34 @@ describe("windowEventsPlugin", () => {
         name: "UnhandledPromiseRejectionError",
         message: "{}",
         stack: error.stack
+      })
+    })
+
+    it("can handle a promise rejection without a reason", () => {
+      plugin({}).call(mockAppsignal)
+
+      ctx.onunhandledrejection!({} as PromiseRejectionEvent)
+
+      expect(mockAppsignal.createSpan).toHaveBeenCalled()
+
+      expect(setErrorMock).toHaveBeenCalledWith({
+        name: "UnhandledPromiseRejectionError",
+        message: undefined,
+        stack: ""
+      })
+    })
+
+    it("can handle a promise rejection without an argument", () => {
+      plugin({}).call(mockAppsignal)
+
+      ctx.onunhandledrejection!((undefined as unknown) as PromiseRejectionEvent)
+
+      expect(mockAppsignal.createSpan).toHaveBeenCalled()
+
+      expect(setErrorMock).toHaveBeenCalledWith({
+        name: "UnhandledPromiseRejectionError",
+        message: undefined,
+        stack: ""
       })
     })
   })
