@@ -72,12 +72,12 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
       span.setError({
         name: "UnhandledPromiseRejectionError",
         message:
-          typeof error.reason === "string"
+          error && typeof error.reason === "string"
             ? error.reason
-            : JSON.stringify(error.reason),
+            : JSON.stringify(error?.reason),
         // if `reason` is an instance of `Error`, then it may contain
         // a stack. we try to get it here, or just return an empty string
-        stack: error.reason.stack || ""
+        stack: error?.reason?.stack || "No stacktrace available"
       })
 
       self.send(span)
