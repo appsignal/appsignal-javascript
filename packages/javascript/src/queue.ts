@@ -16,7 +16,9 @@ export class Queue {
   }
 
   public push(item: Span | Span[]) {
-    this._data.push(...item)
+    return Array.isArray(item)
+      ? this._data.push(...item)
+      : this._data.push(item)
   }
 
   public *drain() {
