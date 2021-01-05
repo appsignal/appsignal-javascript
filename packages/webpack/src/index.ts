@@ -101,7 +101,7 @@ export class AppsignalPlugin implements WebpackPluginInstance {
           name.split("?")[0]
         )
 
-        if (/\.js$|\.map$/.test(name)) {
+        if (/\.map$/.test(name)) {
           return { name, filePath }
         } else {
           return null
