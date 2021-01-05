@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.10
+- Dependency bumps
+
 ## 1.3.9
 - Fix `Queue.push` causing a failed compile due to correctness improvement in `tsc`
 - Dependency bumps
