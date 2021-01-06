@@ -119,7 +119,10 @@ export class AppsignalPlugin implements WebpackPluginInstance {
     const { urlRoot } = this.options
 
     function appendName(url: string) {
-      form.append("name[]", `${url.replace(/\/$/, "")}/${name}`)
+      form.append(
+        "name[]",
+        `${url.replace(/\/$/, "")}/${name.replace(/(.map)$/, "")}`
+      )
     }
 
     if (Array.isArray(urlRoot)) {
