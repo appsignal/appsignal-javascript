@@ -28,9 +28,8 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import Appsignal from '@appsignal/javascript';
 import { createErrorHandlerFactory } from '@appsignal/angular';
 
-const appsignal = new Appsignal({
-  key: '973a461b-2584-4c6a-9ec6-5849a8908fb4',
-  uri: 'https://error-tracker.staging.lol/collect',
+const appsignal = new Appsignal({ 
+  key: 'YOUR FRONTEND API KEY'
 });
 
 @NgModule({
