@@ -3,8 +3,6 @@ name: Feature request
 about: "☝️ Are we missing something? Suggest an idea for this project!"
 title: ''
 labels: requests
-assignees: xadamy
-
 ---
 
 **Is your feature request related to a problem? Please describe.**

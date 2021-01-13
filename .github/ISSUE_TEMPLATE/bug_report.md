@@ -4,8 +4,6 @@ about: "\U0001F41E Run into a bug whilst using the library? Help us improve by r
   a bug!"
 title: ''
 labels: bug
-assignees: xadamy
-
 ---
 
 _"Think of your bug report like a good tweet: You want it short, sweet, and to the point."_ 🐞
