@@ -6,6 +6,10 @@ title: ''
 labels: bug
 ---
 
+If your bug is about how AppSignal works in your app specifically we recommend you contact us at support@appsignal.com with your bug report instead.
+
+---
+
 _"Think of your bug report like a good tweet: You want it short, sweet, and to the point."_ 🐞
 
 **Describe the bug**
