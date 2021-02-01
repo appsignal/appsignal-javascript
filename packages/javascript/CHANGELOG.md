@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.3.12
+- Dependency bumps
+
 ## 1.3.11
 - Dependency bumps
 
