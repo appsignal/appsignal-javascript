@@ -1,8 +1,8 @@
 import axios, { AxiosInstance } from "axios"
-import { Compilation, Compiler, Stats, WebpackPluginInstance } from "webpack"
 import FormData from "form-data"
 import fs from "fs/promises"
 import path from "path"
+import { Compilation, Compiler, Stats, WebpackPluginInstance } from "webpack"
 
 /**
  * This plugin borrows heavily from https://github.com/40thieves/webpack-sentry-plugin
@@ -164,15 +164,19 @@ export class AppsignalPlugin implements WebpackPluginInstance {
         )
 
         if (filePath) {
-          return fs.unlink(filePath)
+          return fs.unlink(filePath).catch(() => this.logFileRemoveError(name))
         } else {
-          console.warn(
-            `⚠️ [AppsignalPlugin]: unable to delete '${name}. File does not exist. it may not have been created due to a build error.`
-          )
+          this.logFileRemoveError(name)
         }
       })
       .filter(el => el)
 
     return Promise.all(promises)
+  }
+
+  logFileRemoveError(name: string) {
+    console.warn(
+      `⚠️ [AppsignalPlugin]: unable to delete '${name}. File does not exist. it may not have been created due to a build error.`
+    )
   }
 }
