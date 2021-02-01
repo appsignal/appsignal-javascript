@@ -55,7 +55,7 @@ export class AppsignalPlugin implements WebpackPluginInstance {
     this._request = axios.create({
       baseURL: endpoint,
       timeout,
-      maxBodyLength: Math.floor(16 * 1000000) // 16MB, the max allowed on the server
+      maxBodyLength: Math.floor(100 * 1000000) // 100MB, the max allowed on the server
     })
 
     this.options = options
