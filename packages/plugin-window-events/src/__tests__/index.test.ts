@@ -41,7 +41,11 @@ describe("windowEventsPlugin", () => {
       ctx.onerror!(msg, "test", 1, 1, error)
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
-      expect(setErrorMock).toHaveBeenCalledWith(error)
+      expect(setErrorMock).toHaveBeenCalledWith({
+        name: [error.name, msg].join(": "),
+        message: error.message,
+        stack: error.stack
+      })
     })
 
     it("can be called without an error parameter", () => {

@@ -16,7 +16,13 @@ export class ErrorBoundary extends React.Component<Props, State> {
     const { instance: appsignal, action, tags = {} } = this.props
     const span = appsignal.createSpan()
 
-    span.setError(error).setTags({ framework: "React", ...tags })
+    span
+      .setError({
+        name: [error.name, error.message].join(": "),
+        message: error.message,
+        stack: error.stack
+      })
+      .setTags({ framework: "React", ...tags })
 
     if (action && action !== "") span.setAction(action)
 

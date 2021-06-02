@@ -40,7 +40,11 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
         )
       } else {
         if (error) {
-          span.setError(error)
+          span.setError({
+            name: [error.name, error.message].join(": "),
+            message: error.message,
+            stack: error.stack
+          })
         } else {
           // handle browsers that don't supply an `error` argument
           // or don't return a stacktrace
