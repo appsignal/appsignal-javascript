@@ -24,6 +24,6 @@
   "dependencies": {
     "@appsignal/types": "^2.0.5",
     "isomorphic-unfetch": "^3.1.0",
-    "tslib": "^2.0.3"
+    "tslib": "^2.2.0"
   }
 }
