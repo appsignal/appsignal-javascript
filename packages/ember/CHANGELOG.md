@@ -1,0 +1,1 @@
+# AppSignal for Ember changelog
