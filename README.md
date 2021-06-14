@@ -5,7 +5,7 @@
 - [Changelog][changelog]
 - [Support][contact]
 
-[![Build Status](https://travis-ci.org/appsignal/appsignal-javascript.svg?branch=develop)](https://travis-ci.org/appsignal/appsignal-javascript) [![lerna](https://img.shields.io/badge/maintained%20with-lerna-cc00ff.svg)](https://lerna.js.org/) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Build Status](https://travis-ci.org/appsignal/appsignal-javascript.svg?branch=develop)](https://travis-ci.org/appsignal/appsignal-javascript) [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 ## Description
 
@@ -88,19 +88,20 @@ If you're stuck, feel free to [contact us][contact] for help!
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
+This repository is a [mono-managed monorepo](https://github.com/appsignal/mono/), containing packages (located in the `/packages` directory) that map to separate `npm` modules.
 
-To install the dependencies:
+First install mono on your local machine by [following the mono installation steps](https://github.com/appsignal/mono/#installation).
+
+Then install the dependencies and prepare the project for development use using mono:
 
 ```bash
-yarn install
-lerna bootstrap
+mono bootstrap
 ```
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 
 ```bash
-yarn build:watch
+mono run yarn build:watch --parallel
 ```
 
 You can also build the library without watching the directory:
@@ -116,7 +117,7 @@ yarn build:esm    # just ESM
 The tests for this library use [Jest](https://jestjs.io) as the test runner. Once you've installed the dependencies, you can run the following command in the root of this repository to run the tests for all packages, or in the directory of a package to run only the tests pertaining to that package:
 
 ```bash
-yarn test
+mono test
 ```
 
 ### Versioning
