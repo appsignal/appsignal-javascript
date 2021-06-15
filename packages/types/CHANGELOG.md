@@ -1,0 +1,1 @@
+# AppSignal types changelog

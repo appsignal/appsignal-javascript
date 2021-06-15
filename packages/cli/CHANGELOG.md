@@ -1,0 +1,1 @@
+# AppSignal CLI changelog

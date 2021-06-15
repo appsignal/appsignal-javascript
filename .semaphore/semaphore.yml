@@ -17,20 +17,22 @@ global_job_config:
     commands:
       - checkout
       - sem-version node 12
+
+      # Mono setup
+      - script/setup
+      - source ~/.bashrc
 blocks:
   - name: "Install and Build"
     dependencies: []
     task:
       prologue:
         commands:
-          - yarn install --frozen-lockfile
-          - yarn lerna bootstrap
-          - yarn lerna link
+          - mono bootstrap --ci
           - cache store
       jobs:
         - name: Build
           commands:
-            - yarn build
+            - mono build
             - cache store packages-$SEMAPHORE_GIT_SHA-$SEMAPHORE_GIT_BRANCH packages
   - name: "Tests"
     dependencies: ["Install and Build"]
@@ -42,10 +44,10 @@ blocks:
       jobs:
         - name: All
           commands:
-            - yarn lerna run test
+            - mono test
   #       - name: JavaScript Core
   #         commands:
-  #           - yarn lerna run test --scope="@appsignal/core"
+  #           - mono test --package "@appsignal/core"
   # - name: "Integrations"
   #   dependencies: ["Install and Build"]
   #   task:
@@ -56,13 +58,13 @@ blocks:
   #     jobs:
   #       - name: Preact
   #         commands:
-  #           - yarn lerna run test --scope="@appsignal/preact"
+  #           - mono test --package "@appsignal/preact"
   #       - name: React
   #         commands:
-  #           - yarn lerna run test --scope="@appsignal/react"
+  #           - mono test --package "@appsignal/react"
   #       - name: Vue
   #         commands:
-  #           - yarn lerna run test --scope="@appsignal/vue"
+  #           - mono test --package "@appsignal/vue"
   # - name: "Plugins"
   #   dependencies: ["Install and Build"]
   #   task:
@@ -73,4 +75,4 @@ blocks:
   #     jobs:
   #       - name: Window Events
   #         commands:
-  #           - yarn lerna run test --scope="@appsignal/plugin-window-events"
+  #           - mono test --package "@appsignal/plugin-window-events"
