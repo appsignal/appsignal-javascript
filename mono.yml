@@ -1,0 +1,5 @@
+---
+language: nodejs
+npm_client: yarn
+repo: "https://github.com/appsignal/appsignal-javascript"
+packages_dir: packages

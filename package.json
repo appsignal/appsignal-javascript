@@ -14,7 +14,6 @@
     "@types/react-dom": "^16.9.8",
     "husky": "^4.3.6",
     "jest": "^26.6.3",
-    "lerna": "^3.22.1",
     "lint-staged": "^10.5.3",
     "npm-run-all": "^4.1.5",
     "preact": "^10.5.7",
@@ -29,14 +28,16 @@
     "webpack": "^5.11.0"
   },
   "scripts": {
-    "build": "lerna run --stream --concurrency 1 --sort build",
-    "build:cjs": "lerna run --stream --concurrency 1 --sort build:cjs",
-    "build:esm": "lerna run --stream --concurrency 1 --sort build:esm",
-    "build:watch": "lerna run build:watch --stream --no-sort --concurrency 9999",
-    "clean": "lerna run --stream clean",
-    "link:yarn": "lerna run --stream --concurrency 1 link:yarn",
-    "test": "lerna run --stream --concurrency 1 --sort test",
-    "prepublishOnly": "yarn clean && lerna bootstrap && lerna link && yarn build"
+    "bootstrap": "echo Please run 'mono bootstrap' instead.",
+    "bootstrap:ci": "echo Please run 'mono bootstrap --ci' instead.",
+    "build": "echo Please run 'mono build' instead.",
+    "build:watch": "echo Please run 'mono run npm run build:watch --parallel' instead.",
+    "build:ext": "echo Please run 'mono run npm run build:ext --package @appsignal/nodejs-ext' instead.",
+    "build:cjs": "echo Please run 'mono run yarn run build:esm' instead.",
+    "build:esm": "echo Please run 'mono run yarn run build:esm' instead.",
+    "build:watch": "echo Please run 'mono run npm run build:watch --parallel' instead.",
+    "clean": "echo Please run 'mono clean' instead.",
+    "test": "echo Please run 'mono test' instead."
   },
   "husky": {
     "hooks": {

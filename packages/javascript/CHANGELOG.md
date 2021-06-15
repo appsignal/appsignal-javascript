@@ -1,4 +1,4 @@
-# Changelog
+# AppSignal for JavaScript changelog
 
 ## 1.3.12
 - Dependency bumps

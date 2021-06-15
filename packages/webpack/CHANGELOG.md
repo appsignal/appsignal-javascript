@@ -1,0 +1,1 @@
+# AppSignal for webpack changelog
