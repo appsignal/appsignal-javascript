@@ -16,17 +16,27 @@ global_job_config:
   prologue:
     commands:
       - checkout
-      - sem-version node 12
-
-      # Mono setup
-      - script/setup
-      - source ~/.bashrc
 blocks:
+  - name: Linters
+    dependencies: []
+    task:
+      env_vars:
+        - name: LINTJE_VERSION
+          value: "0.2.0"
+      jobs:
+        - name: Git Lint (Lintje)
+          commands:
+            - script/install_lintje
+            - $HOME/bin/lintje $SEMAPHORE_GIT_COMMIT_RANGE
   - name: "Install and Build"
     dependencies: []
     task:
       prologue:
         commands:
+          - sem-version node 12
+          # Mono setup
+          - script/setup
+          - source ~/.bashrc
           - mono bootstrap --ci
           - cache store
       jobs:
@@ -39,6 +49,12 @@ blocks:
     task:
       prologue:
         commands:
+          - sem-version node 12
+          # Mono setup
+          - script/setup
+          - source ~/.bashrc
+          - mono bootstrap --ci
+
           - cache restore
           - cache restore packages-$SEMAPHORE_GIT_SHA-$SEMAPHORE_GIT_BRANCH
       jobs:

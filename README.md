@@ -138,12 +138,12 @@ Also, we would be very happy to send you Stroopwafels. Have look at everyone we 
 
 Also see our [SUPPORT.md file](SUPPORT.md).
 
-[appsignal]: https://appsignal.com
+[appsignal]: https://www/appsignal.com/javascript
 [appsignal-sign-up]: https://appsignal.com/users/sign_up
 [contact]: mailto:support@appsignal.com
 [coc]: https://docs.appsignal.com/appsignal/code-of-conduct.html
-[waffles-page]: https://appsignal.com/waffles
+[waffles-page]: https://www.appsignal.com/waffles
 [docs]: https://docs.appsignal.com/front-end/
-[contributing-guide]: http://docs.appsignal.com/appsignal/contributing.html
+[contributing-guide]: https://docs.appsignal.com/appsignal/contributing.html
 [changelog]: https://github.com/appsignal/appsignal-javascript/blob/develop/packages/javascript/CHANGELOG.md
 [semver]: http://semver.org/
