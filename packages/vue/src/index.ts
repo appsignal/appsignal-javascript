@@ -1,17 +1,30 @@
-import Vue, { VueConstructor } from "vue"
+import { App, ComponentPublicInstance } from "vue"
 import type { JSClient } from "@appsignal/types"
 
-export function errorHandler(appsignal: JSClient, Vue?: VueConstructor<Vue>) {
-  const version = Vue?.version ?? ""
+export function errorHandler(appsignal: JSClient, app?: App) {
+  const version = app?.version ?? ""
 
-  return function (error: Error, vm: Vue, info: string) {
-    const { componentOptions } = vm.$vnode
+  return function (
+    error: unknown,
+    instance: ComponentPublicInstance,
+    info: string
+  ) {
+    let file
+    if ("$vnode" in instance) {
+      file = (instance as any).$vnode.componentOptions.tag
+    } else {
+      const path = instance.$options.__file
+
+      // get filename from path
+      if (path) file = path.substr(path.lastIndexOf("/") + 1)
+    }
+
     const span = appsignal.createSpan()
 
     span
-      .setAction(componentOptions?.tag || "[unknown Vue component]")
+      .setAction(file || "[unknown Vue component]")
       .setTags({ framework: "Vue", info, version })
-      .setError(error)
+      .setError(error as Error)
 
     appsignal.send(span)
 
