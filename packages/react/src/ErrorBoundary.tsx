@@ -5,7 +5,8 @@ export class ErrorBoundary extends React.Component<Props, State> {
   state = { error: undefined }
 
   static defaultProps = {
-    action: ""
+    action: "",
+    addUrls: false
   }
 
   static getDerivedStateFromError(error: Error): State {
@@ -16,6 +17,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
     const { instance: appsignal, action, tags = {} } = this.props
     const span = appsignal.createSpan()
 
+    if (addUrls) tags.currentUrl ||= window.location.href
     span.setError(error).setTags({ framework: "React", ...tags })
 
     if (action && action !== "") span.setAction(action)
