@@ -24,7 +24,7 @@
     "stimulus": "^1.1.1",
     "ts-jest": "^26.4.4",
     "typescript": "^4.1.3",
-    "vue": "^2.6.12",
+    "vue": "^3.0.0",
     "webpack": "^5.11.0"
   },
   "scripts": {
@@ -35,7 +35,6 @@
     "build:ext": "echo Please run 'mono run npm run build:ext --package @appsignal/nodejs-ext' instead.",
     "build:cjs": "echo Please run 'mono run yarn run build:esm' instead.",
     "build:esm": "echo Please run 'mono run yarn run build:esm' instead.",
-    "build:watch": "echo Please run 'mono run npm run build:watch --parallel' instead.",
     "clean": "echo Please run 'mono clean' instead.",
     "test": "echo Please run 'mono test' instead."
   },
