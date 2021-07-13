@@ -6,13 +6,13 @@ export function errorHandler(appsignal: JSClient, app?: App) {
 
   return function (
     error: unknown,
-    instance: ComponentPublicInstance,
+    instance: ComponentPublicInstance | null,
     info: string
   ) {
     let file
-    if ("$vnode" in instance) {
+    if (instance && "$vnode" in instance) {
       file = (instance as any).$vnode.componentOptions.tag
-    } else {
+    } else if (instance?.$options.__file) {
       const path = instance.$options.__file
 
       // get filename from path
