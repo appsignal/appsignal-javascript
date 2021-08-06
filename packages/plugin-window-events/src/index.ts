@@ -71,10 +71,7 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
 
       span.setError({
         name: "UnhandledPromiseRejectionError",
-        message:
-          error && typeof error.reason === "string"
-            ? error.reason
-            : JSON.stringify(error?.reason),
+        message: _reasonFromError(error),
         // if `reason` is an instance of `Error`, then it may contain
         // a stack. we try to get it here, or just return an empty string
         stack: error?.reason?.stack || "No stacktrace available"
@@ -93,6 +90,22 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
 
     if (opts.onunhandledrejection) {
       ctx.onunhandledrejection = _onUnhandledRejectionHandler
+    }
+  }
+
+  function _reasonFromError(error: PromiseRejectionEvent) {
+    if (!error) {
+      return undefined
+    }
+    if (typeof error.reason === "string") {
+      return error.reason
+    }
+
+    try {
+      return JSON.stringify(error.reason)
+    } catch (e) {
+      console.error("Could not serialize error reason to String.", e)
+      return undefined
     }
   }
 }
