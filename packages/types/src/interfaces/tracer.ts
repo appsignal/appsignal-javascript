@@ -32,6 +32,20 @@ export interface Tracer {
   currentSpan(): NodeSpan
 
   /**
+   * Returns the root Span.
+   *
+   * If there is no root Span available, `undefined` is returned.
+   */
+  rootSpan(): NodeSpan | undefined
+
+  /**
+   * Adds the given error to the root Span.
+   *
+   * If there is no root Span available to add the error, `undefined` is returned.
+   */
+  addError(error: Error): NodeSpan | undefined
+
+  /**
    * Executes a given function asynchronously within the context of a given
    * `Span`. When the function has finished executing, any value returned by
    * the given function is returned, but the `Span` remains active unless it is
