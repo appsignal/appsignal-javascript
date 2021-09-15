@@ -32,11 +32,11 @@ export interface Tracer {
   currentSpan(): NodeSpan
 
   /**
+   *
    * Returns the root Span.
    *
-   * If there is no root Span available, `undefined` is returned.
    */
-  rootSpan(): NodeSpan | undefined
+  rootSpan(): NodeSpan
 
   /**
    * Adds the given error to the root Span.
