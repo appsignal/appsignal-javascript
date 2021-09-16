@@ -1,5 +1,10 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.14
+
+- patch - Update @appsignal/core dependency to 1.1.9.
+- patch - Update @appsignal/types dependency to 2.1.1.
+
 ## 1.3.13
 
 - [d0d57e3](https://github.com/appsignal/appsignal-javascript/commit/d0d57e3b6cb559939fb40d3eb83760fdbc8bbad6) patch - Update tslib dependency to 2.3.x.
