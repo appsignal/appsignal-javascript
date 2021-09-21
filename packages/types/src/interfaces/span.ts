@@ -76,9 +76,9 @@ export interface NodeSpan {
   child(): NodeSpan
 
   /**
-   * Adds a given `Error` object to the current `Span`.
+   * Sets a given `Error` object to the current `Span`.
    */
-  addError(error: Error): this
+  setError(error: Error): this
 
   /**
    * Sets a data collection as sample data on the current `Span`.

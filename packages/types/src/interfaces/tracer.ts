@@ -43,7 +43,7 @@ export interface Tracer {
    *
    * If there is no root Span available to add the error, `undefined` is returned.
    */
-  addError(error: Error): NodeSpan | undefined
+  setError(error: Error): NodeSpan | undefined
 
   /**
    * Executes a given function asynchronously within the context of a given
