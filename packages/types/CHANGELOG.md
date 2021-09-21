@@ -1,5 +1,9 @@
 # AppSignal types changelog
 
+## 2.1.2
+
+- [91708f8](https://github.com/appsignal/appsignal-javascript/commit/91708f841c5c6440dbc6878c855f2e3b30e0d2bd) patch - Rename addError helper functions to setError in NodeJS
+
 ## 2.1.1
 
 - [9b7f5c3](https://github.com/appsignal/appsignal-javascript/commit/9b7f5c3aadf03937f9ea2738ccd558a3f93ae90c) patch - Tracer rootSpan does not return undefined anymore, but returns a NoopSpan instead.

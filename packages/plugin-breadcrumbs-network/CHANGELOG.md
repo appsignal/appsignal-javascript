@@ -1,5 +1,9 @@
 # AppSignal for plugin-breadcrumbs-network changelog
 
+## 1.1.15
+
+- patch - Update @appsignal/types dependency to 2.1.2.
+
 ## 1.1.14
 
 - patch - Update @appsignal/types dependency to 2.1.1.

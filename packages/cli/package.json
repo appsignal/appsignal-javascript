@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/cli",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "main": "./dist/index",
   "repository": "git@github.com:appsignal/appsignal-javascript.git",
   "author": "Adam Yeats <adam@appsignal.com>",
@@ -17,7 +17,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@appsignal/core": "=1.1.9",
+    "@appsignal/core": "=1.1.10",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "inquirer": "^7.3.3"
