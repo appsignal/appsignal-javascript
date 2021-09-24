@@ -81,7 +81,7 @@ export interface NodeSpan {
   setError(error: Error): this
 
   /**
-   * @deprecated since NodeJS version 2.1.0
+   * @deprecated since Node.js version 2.1.0
    * Use `setError` instead
    */
   addError(error: Error): this
