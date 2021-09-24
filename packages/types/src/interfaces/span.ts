@@ -81,6 +81,12 @@ export interface NodeSpan {
   setError(error: Error): this
 
   /**
+   * @deprecated since Node.js version 2.1.0
+   * Use `setError` instead
+   */
+  addError(error: Error): this
+
+  /**
    * Sets a data collection as sample data on the current `Span`.
    */
   setSampleData(
