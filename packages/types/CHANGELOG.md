@@ -1,5 +1,12 @@
 # AppSignal types changelog
 
+## 2.1.3
+
+- [8bc4082](https://github.com/appsignal/appsignal-javascript/commit/8bc408201293a6e551516caa7b20c812f94a7808) patch - Deprecate addError helper for spans
+  
+  Errors are now added through the tracer in the Node.js integration
+  using the `setError` function. `span.addError()` is not used anymore.
+
 ## 2.1.2
 
 - [91708f8](https://github.com/appsignal/appsignal-javascript/commit/91708f841c5c6440dbc6878c855f2e3b30e0d2bd) patch - Rename addError helper functions to setError in NodeJS
