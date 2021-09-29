@@ -52,7 +52,7 @@ export interface Tracer {
    * The created `RootSpan` is passed as the single argument to the given function.
    * This allows you to add arbitrary metadata to it.
    */
-  sendError<T>(error: Error, fn: (s: NodeSpan) => T): void
+  sendError<T>(error: Error, fn?: (s: NodeSpan) => T): void
 
   /**
    * Executes a given function asynchronously within the context of a given
