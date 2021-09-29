@@ -1,5 +1,12 @@
 # AppSignal types changelog
 
+## 2.1.4
+
+- [3d03c0b](https://github.com/appsignal/appsignal-javascript/commit/3d03c0b6b7490d3d574dbfdaf190045d9983bb74) patch - Add sendError helper to Tracer
+  
+  The sendError() function gives the ability to track errors without
+  the need of a root span present in the given context.
+
 ## 2.1.3
 
 - [8bc4082](https://github.com/appsignal/appsignal-javascript/commit/8bc408201293a6e551516caa7b20c812f94a7808) patch - Deprecate addError helper for spans

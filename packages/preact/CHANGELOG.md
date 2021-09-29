@@ -1,5 +1,9 @@
 # AppSignal for preact changelog
 
+## 1.0.13
+
+- patch - Update @appsignal/types dependency to 2.1.4.
+
 ## 1.0.12
 
 - patch - Update @appsignal/types dependency to 2.1.3.
