@@ -90,6 +90,11 @@ export interface JSClient extends BaseClient {
   /**
    * Records and sends a browser `Error` to AppSignal.
    */
+  send<T>(error: Error, fn?: (span: JSSpan) => T): Promise<JSSpan> | void
+
+  /**
+   * Records and sends a browser `Error` to AppSignal.
+   */
   send(error: Error, tags?: object, namespace?: string): Promise<JSSpan> | void
 
   /**
@@ -102,6 +107,9 @@ export interface JSClient extends BaseClient {
     tags?: object,
     namespace?: string
   ): Promise<any> | void
+
+  sendError<T>(error: Error): Promise<JSSpan> | void
+  sendError<T>(error: Error, fn?: (span: JSSpan) => T): Promise<JSSpan> | void
 
   /**
    * Records and sends a browser `Error` to AppSignal. An alias to `#send()`
@@ -126,6 +134,13 @@ export interface JSClient extends BaseClient {
    * Creates a new `Span`, augmented with the current environment.
    */
   createSpan(fn?: (span: JSSpan) => void): JSSpan
+
+  /**
+   * Wraps and catches errors within a given function. If the function throws an
+   * error, a rejected `Promise` will be returned and the error thrown will be
+   * logged to AppSignal.
+   */
+  wrap<T>(fn: () => T, callbackFn?: (span: JSSpan) => T): Promise<T>
 
   /**
    * Wraps and catches errors within a given function. If the function throws an
