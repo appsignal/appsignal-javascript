@@ -46,6 +46,15 @@ export interface Tracer {
   setError(error: Error): NodeSpan | undefined
 
   /**
+   * Sends an error in a newly created `RootSpan` that will be closed after
+   * the given error is added to it.
+   *
+   * The created `RootSpan` is passed as the single argument to the given function.
+   * This allows you to add arbitrary metadata to it.
+   */
+  sendError<T>(error: Error, fn: (s: NodeSpan) => T): void
+
+  /**
    * Executes a given function asynchronously within the context of a given
    * `Span`. When the function has finished executing, any value returned by
    * the given function is returned, but the `Span` remains active unless it is
