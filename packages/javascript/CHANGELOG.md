@@ -1,5 +1,10 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.18
+
+- patch - Update @appsignal/core dependency to 1.1.13.
+- patch - Update @appsignal/types dependency to 2.1.5.
+
 ## 1.3.17
 
 - patch - Update @appsignal/core dependency to 1.1.12.

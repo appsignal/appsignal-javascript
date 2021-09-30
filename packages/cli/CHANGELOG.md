@@ -1,5 +1,9 @@
 # AppSignal CLI changelog
 
+## 1.1.10
+
+- patch - Update @appsignal/core dependency to 1.1.13.
+
 ## 1.1.9
 
 - patch - Update @appsignal/core dependency to 1.1.12.

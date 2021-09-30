@@ -1,5 +1,9 @@
 # AppSignal for plugin-window-events changelog
 
+## 1.0.13
+
+- patch - Update @appsignal/types dependency to 2.1.5.
+
 ## 1.0.12
 
 - patch - Update @appsignal/types dependency to 2.1.4.

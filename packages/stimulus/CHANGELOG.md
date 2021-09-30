@@ -1,5 +1,9 @@
 # AppSignal for stimulus changelog
 
+## 1.0.12
+
+- patch - Update @appsignal/types dependency to 2.1.5.
+
 ## 1.0.11
 
 - patch - Update @appsignal/types dependency to 2.1.4.

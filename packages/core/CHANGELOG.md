@@ -1,5 +1,9 @@
 # AppSignal for Angular changelog
 
+## 1.1.13
+
+- patch - Update @appsignal/types dependency to 2.1.5.
+
 ## 1.1.12
 
 - patch - Update @appsignal/types dependency to 2.1.4.
