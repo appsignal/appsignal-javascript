@@ -8,6 +8,7 @@
   "license": "MIT",
   "scripts": {
     "build": "yarn build:cjs && yarn build:esm",
+    "postbuild": "yarn versionfile",
     "build:esm": "tsc -p tsconfig.esm.json",
     "build:esm:watch": "tsc -p tsconfig.esm.json -w --preserveWatchOutput",
     "build:cjs": "tsc -p tsconfig.cjs.json",
