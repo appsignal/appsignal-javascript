@@ -1,5 +1,9 @@
 # AppSignal types changelog
 
+## 2.1.5
+
+- [2ad4ccb](https://github.com/appsignal/appsignal-javascript/commit/2ad4ccbe26aa5c820eca5f4c9c204dc71d26cc82) patch - Make sendError callback argument optional for Node.js Tracer.
+
 ## 2.1.4
 
 - [3d03c0b](https://github.com/appsignal/appsignal-javascript/commit/3d03c0b6b7490d3d574dbfdaf190045d9983bb74) patch - Add sendError helper to Tracer
