@@ -74,6 +74,22 @@ describe("Appsignal", () => {
       expect(promise).resolves
     })
 
+    it("modifies the span before pushing the error", async () => {
+      const message = "test error"
+      let resultSpan: Span | undefined
+      const promise = appsignal.sendError(new Error(message), function (span) {
+        span.setAction("CustomAction")
+        resultSpan = span
+      })
+
+      await expect(promise).resolves
+      if (resultSpan) {
+        expect(resultSpan.serialize()?.action).toBe("CustomAction")
+      } else {
+        throw new Error("No resultSpan found!")
+      }
+    })
+
     it("doesn't send an invalid error", () => {
       const spy = jest.spyOn(console, "error").mockImplementation()
 
@@ -155,6 +171,28 @@ describe("Appsignal", () => {
         .catch(e => expect(e.message).toEqual("test error"))
 
       expect(promise).rejects
+    })
+
+    it("modifies the span before pushing the error", async () => {
+      let resultSpan: Span | undefined
+      const promise = appsignal
+        .wrap(
+          () => {
+            throw new Error("test error")
+          },
+          function (span) {
+            span.setAction("CustomAction")
+            resultSpan = span
+          }
+        )
+        .catch(e => expect(e.message).toEqual("test error"))
+
+      await expect(promise).rejects
+      if (resultSpan) {
+        expect(resultSpan.serialize()?.action).toBe("CustomAction")
+      } else {
+        throw new Error("No resultSpan found!")
+      }
     })
   })
 

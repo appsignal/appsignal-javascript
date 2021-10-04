@@ -4,7 +4,7 @@
  */
 
 import { compose, toHashMap } from "@appsignal/core"
-import type { Breadcrumb, JSClient, Hook } from "@appsignal/types"
+import type { Breadcrumb, JSClient, Hook, HashMap } from "@appsignal/types"
 
 import { VERSION } from "./version"
 import { PushApi } from "./api"
@@ -74,6 +74,16 @@ export default class Appsignal implements JSClient {
    * Records and sends a browser `Error` to AppSignal.
    *
    * @param   {Error}             error          A JavaScript Error object
+   * @param   {Function | void}   fn             Optional callback function to modify span before it's sent.
+   *
+   * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
+   */
+  public send<T>(error: Error, fn?: (span: Span) => T): Promise<Span> | void
+
+  /**
+   * Records and sends a browser `Error` to AppSignal.
+   *
+   * @param   {Error}             error          A JavaScript Error object
    * @param   {object}            tags           An key, value object of tags
    * @param   {string}            namespace      An optional namespace name
    *
@@ -97,14 +107,14 @@ export default class Appsignal implements JSClient {
   /**
    *
    * @param   {Error | Span}      data           A JavaScript Error or Appsignal Span object
-   * @param   {object}            tags           An key, value object of tags
-   * @param   {string}            namespace      An optional namespace name
+   * @param   {object | Function} tagsOrFn       An key-value object of tags or a callback function to customize the span before it is sent.
+   * @param   {string}            namespace      DEPRECATED: An optional namespace name.
    *
    * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
-  public send(
+  public send<T>(
     data: Error | Span,
-    tags = {},
+    tagsOrFn?: object | ((span: Span) => T),
     namespace?: string
   ): Promise<any> | void {
     if (!(data instanceof Error) && !(data instanceof Span)) {
@@ -148,8 +158,25 @@ export default class Appsignal implements JSClient {
       compose(...this._hooks.decorators)(span)
     }
 
-    if (tags) span.setTags(tags)
-    if (namespace) span.setNamespace(namespace)
+    if (tagsOrFn) {
+      if (typeof tagsOrFn === "function") {
+        const callback = tagsOrFn
+        callback(span)
+      } else {
+        console.warn(
+          "[APPSIGNAL]: DEPRECATED: Calling the `send`/`sendError` function with a tags object is deprecated. Use the callback argument instead."
+        )
+        const tags = (toHashMap(tagsOrFn) || {}) as HashMap<string>
+        span.setTags(tags)
+      }
+    }
+    if (namespace) {
+      console.warn(
+        "[APPSIGNAL]: DEPRECATED: Calling the `send`/`sendError` function with a namespace is deprecated. Use the callback argument instead."
+      )
+      span.setNamespace(namespace)
+    }
+
     if (this._breadcrumbs.length > 0) span.setBreadcrumbs(this._breadcrumbs)
 
     // A Span can be "overridden" with metadata after it has been created,
@@ -194,22 +221,30 @@ export default class Appsignal implements JSClient {
     }
   }
 
+  sendError<T>(error: Error): Promise<Span> | void
+  sendError<T>(error: Error, callback: (span: Span) => T): Promise<Span> | void
+  sendError<T>(
+    error: Error,
+    tags?: object,
+    namespace?: string
+  ): Promise<Span> | void
+
   /**
    * Records and sends a browser `Error` to AppSignal. An alias to `#send()`
    * to maintain compatibility.
    *
    * @param   {Error}             error          A JavaScript Error object
-   * @param   {object}            tags           An key, value object of tags
-   * @param   {string}            namespace      An optional namespace name
+   * @param   {object | Function} tagsOrFn       An key-value object of tags or callback function to customize the span before it is sent.
+   * @param   {string}            namespace      DEPRECATED: An optional namespace name
    *
    * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
-  public sendError(
+  public sendError<T>(
     error: Error,
-    tags?: object,
+    tagsOrFn?: object | ((span: Span) => T),
     namespace?: string
   ): Promise<Span> | void {
-    return this.send(error, tags, namespace)
+    return this.send(error, tagsOrFn, namespace)
   }
 
   /**
@@ -254,18 +289,40 @@ export default class Appsignal implements JSClient {
    * Wraps and catches errors within a given function. If the function throws an
    * error, a rejected `Promise` will be returned and the error thrown will be
    * logged to AppSignal.
+   */
+  public async wrap<T>(fn: () => T, callbackFn?: (span: Span) => T): Promise<T>
+
+  /**
+   * Wraps and catches errors within a given function. If the function throws an
+   * error, a rejected `Promise` will be returned and the error thrown will be
+   * logged to AppSignal.
+   */
+  public async wrap<T>(
+    fn: () => T,
+    tags?: object,
+    namespace?: string
+  ): Promise<T>
+
+  /**
+   * Wraps and catches errors within a given function. If the function throws an
+   * error, a rejected `Promise` will be returned and the error thrown will be
+   * logged to AppSignal.
    *
    * @param   {Function}          fn             A function to wrap
-   * @param   {object}            tags           An key, value object of tags
-   * @param   {string}            namespace      An optional namespace name
+   * @param   {object | Function} tagsOrFn       An key-value object of tags or a callback function to customize the span before it is sent.
+   * @param   {string}            namespace      DEPRECATED: An optional namespace name
    *
    * @return  {Promise<any>}      A Promise containing the return value of the function, or a `Span` if an error was thrown.
    */
-  public async wrap<T>(fn: () => T, tags = {}, namespace?: string): Promise<T> {
+  public async wrap<T>(
+    fn: () => T,
+    tagsOrFn?: object | ((span: Span) => T),
+    namespace?: string
+  ): Promise<T> {
     try {
       return await fn()
     } catch (e) {
-      await this.sendError(e, tags, namespace)
+      await this.sendError(e, tagsOrFn, namespace)
       return Promise.reject(e)
     }
   }
