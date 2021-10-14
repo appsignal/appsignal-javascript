@@ -20,14 +20,10 @@ blocks:
   - name: Linters
     dependencies: []
     task:
-      env_vars:
-        - name: LINTJE_VERSION
-          value: "0.2.0"
       jobs:
         - name: Git Lint (Lintje)
           commands:
-            - script/install_lintje
-            - $HOME/bin/lintje $SEMAPHORE_GIT_COMMIT_RANGE
+            - script/lint_git
   - name: "Install and Build"
     dependencies: []
     task:
