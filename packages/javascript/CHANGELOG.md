@@ -1,5 +1,31 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.19
+
+- [387ee27](https://github.com/appsignal/appsignal-javascript/commit/387ee2711554b5e701be37a9b70d9c01861b6ef5) patch - Fix the reported library version of the JavaScript package. This was stuck on 1.3.12 for the last few releases.
+- [e737a7f](https://github.com/appsignal/appsignal-javascript/commit/e737a7f8ca15cbe3577a7209e641b43610f0f68b) patch - Add callback argument to the `sendError` function to allow for more customization of errors sent with `sendError` and `wrap`. The `tags` and `namespace` parameters are now deprecated for both helpers.
+  
+  ```js
+  // Deprecated behavior
+  appsignal.sendError(
+    new Error("sendError with tags and namespace argument"),
+    { tag1: "value 1", tag2: "value 2" },
+    "custom_namespace"
+  );
+  
+  // New behavior
+  appsignal.sendError(
+    new Error("sendError with callback argument"),
+    function(span) {
+      span.setAction("SendErrorTestAction");
+      span.setNamespace("custom_namespace");
+      span.setTags({ tag1: "value 1", tag2: "value 2" });
+    }
+  );
+  ```
+- patch - Update @appsignal/core dependency to 1.1.14.
+- patch - Update @appsignal/types dependency to 2.1.6.
+
 ## 1.3.18
 
 - patch - Update @appsignal/core dependency to 1.1.13.
