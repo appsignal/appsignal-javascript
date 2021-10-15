@@ -36,7 +36,9 @@
     "build:cjs": "echo Please run 'mono run yarn run build:esm' instead.",
     "build:esm": "echo Please run 'mono run yarn run build:esm' instead.",
     "clean": "echo Please run 'mono clean' instead.",
-    "test": "echo Please run 'mono test' instead."
+    "test": "echo Please run 'mono test' instead.",
+    "lint": "prettier --check **/*.{js,ts}",
+    "lint:write": "prettier --write **/*.{js,ts}"
   },
   "husky": {
     "hooks": {
