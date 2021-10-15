@@ -18,6 +18,10 @@ global_job_config:
     value: 'true'
   - name: NODE_ENV
     value: test
+  - name: _PACKAGES_CACHE
+    value: v1
+  - name: _BUNDLER_CACHE
+    value: v1
   prologue:
     commands:
     - checkout
@@ -43,7 +47,7 @@ blocks:
       - bundle config set clean 'true'
       - bundle config set path .bundle
       - bundle install --jobs=3 --retry=3
-      - cache store $_BUNDLER_CACHE-bundler-$(checksum Gemfile.log) .bundle
+      - cache store $_BUNDLER_CACHE-bundler-$(checksum Gemfile.lock) .bundle
       - bundle exec rubocop
     - name: JavaScript Lint (Prettier)
       env_vars:
@@ -51,7 +55,6 @@ blocks:
         value: '16'
       commands:
       - cache restore
-      - mono bootstrap --ci
       - cache store
       - mono bootstrap
       - npm run lint
@@ -62,6 +65,9 @@ blocks:
   dependencies:
   - Validation
   task:
+    env_vars:
+    - name: NODE_VERSION
+      value: '16'
     prologue:
       commands:
       - cache restore
@@ -96,37 +102,37 @@ blocks:
       - mono test --package=@appsignal/plugin-window-events
     - name: "@appsignal/preact - preact@latest"
       commands:
-      - cd packages/preact && npm install preact@latest --save-dev
+      - "(cd packages/preact && npm install preact@latest --save-dev)"
       - mono test --package=@appsignal/preact
     - name: "@appsignal/preact - preact@10.5.15"
       commands:
-      - cd packages/preact && npm install preact@10.5.15 --save-dev
+      - "(cd packages/preact && npm install preact@10.5.15 --save-dev)"
       - mono test --package=@appsignal/preact
     - name: "@appsignal/preact - preact@10.4.8"
       commands:
-      - cd packages/preact && npm install preact@10.4.8 --save-dev
+      - "(cd packages/preact && npm install preact@10.4.8 --save-dev)"
       - mono test --package=@appsignal/preact
     - name: "@appsignal/react - react@latest"
       commands:
-      - cd packages/react && npm install react@latest --save-dev
+      - "(cd packages/react && npm install react@latest --save-dev)"
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@17.0.2"
       commands:
-      - cd packages/react && npm install react@17.0.2 --save-dev
+      - "(cd packages/react && npm install react@17.0.2 --save-dev)"
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@16.14.0"
       commands:
-      - cd packages/react && npm install react@16.14.0 --save-dev
+      - "(cd packages/react && npm install react@16.14.0 --save-dev)"
       - mono test --package=@appsignal/react
     - name: "@appsignal/vue - vue@latest"
       commands:
-      - cd packages/vue && npm install vue@latest --save-dev
+      - "(cd packages/vue && npm install vue@latest --save-dev)"
       - mono test --package=@appsignal/vue
     - name: "@appsignal/vue - vue@3.2.20"
       commands:
-      - cd packages/vue && npm install vue@3.2.20 --save-dev
+      - "(cd packages/vue && npm install vue@3.2.20 --save-dev)"
       - mono test --package=@appsignal/vue
     - name: "@appsignal/vue - vue@3.1.5"
       commands:
-      - cd packages/vue && npm install vue@3.1.5 --save-dev
+      - "(cd packages/vue && npm install vue@3.1.5 --save-dev)"
       - mono test --package=@appsignal/vue

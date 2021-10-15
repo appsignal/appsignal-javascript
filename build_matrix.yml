@@ -14,6 +14,10 @@ semaphore: # Default `.semaphore/semaphore.yml` contents
         value: 'true'
       - name: NODE_ENV
         value: test
+      - name: _PACKAGES_CACHE
+        value: v1
+      - name: _BUNDLER_CACHE
+        value: v1
     prologue:
       commands:
         - checkout
@@ -40,7 +44,7 @@ semaphore: # Default `.semaphore/semaphore.yml` contents
               - bundle config set clean 'true'
               - bundle config set path .bundle
               - bundle install --jobs=3 --retry=3
-              - cache store $_BUNDLER_CACHE-bundler-$(checksum Gemfile.log) .bundle
+              - cache store $_BUNDLER_CACHE-bundler-$(checksum Gemfile.lock) .bundle
               - bundle exec rubocop
           - name: JavaScript Lint (Prettier)
             env_vars:
@@ -48,7 +52,6 @@ semaphore: # Default `.semaphore/semaphore.yml` contents
                 value: "16"
             commands:
               - cache restore
-              - mono bootstrap --ci
               - cache store
               - mono bootstrap
               - npm run lint
