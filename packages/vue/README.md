@@ -4,7 +4,7 @@
 - [Documentation][docs]
 - [Support][contact]
 
-The `@appsignal/javascript` integration for Vue v2.6+. 
+The `@appsignal/javascript` integration for Vue v2.6+ and Vue v.3.0+.
 
 ## Installation
 
@@ -19,7 +19,7 @@ npm install --save @appsignal/javascript @appsignal/vue
 
 ## Usage
 
-### `Vue.config.errorHandler`
+### `Vue.config.errorHandler` in Vue 2
 
 The default Vue integration is a function that binds to the `Vue.config.errorHandler` hook. In a new app created using `@vue/cli`, your `main.js`/`.ts` file would look something like this:
 
@@ -32,7 +32,7 @@ import store from './store'
 import Appsignal from "@appsignal/javascript"
 import { errorHandler } from "@appsignal/vue"
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
@@ -43,6 +43,23 @@ new Vue({
   store,
   render: h => h(App)
 }).$mount('#app')
+```
+
+### `Vue.config.errorHandler` in Vue 3
+
+The default Vue integration is a function that binds to the `Vue.config.errorHandler` hook. In a new app created using `@vue/cli`, your `main.js`/`.ts` file would look something like this:
+
+```js
+import { createApp } from 'vue'
+import App from './App.vue'
+import Appsignal from "@appsignal/javascript"
+import { errorHandler } from "@appsignal/vue"
+const appsignal = new Appsignal({
+  key: "YOUR FRONTEND API KEY"
+})
+const app = createApp(App)
+app.config.errorHandler = errorHandler(appsignal, app)
+app.mount('#app')
 ```
 
 ## Development

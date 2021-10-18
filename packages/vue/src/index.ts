@@ -1,15 +1,17 @@
-import Vue, { VueConstructor } from "vue"
+import { VueApp, VueViewModel } from "./types"
 import type { JSClient } from "@appsignal/types"
 
-export function errorHandler(appsignal: JSClient, Vue?: VueConstructor<Vue>) {
-  const version = Vue?.version ?? ""
+export function errorHandler(appsignal: JSClient, app?: VueApp) {
+  const version = app?.version ?? ""
 
-  return function (error: Error, vm: Vue, info: string) {
-    const { componentOptions } = vm.$vnode
+  return function (error: Error, vm: VueViewModel, info: string) {
+    const componentName = vm.$vnode
+      ? vm.$vnode.componentOptions.tag // Vue 2
+      : vm.$options.name // Vue 3
     const span = appsignal.createSpan()
 
     span
-      .setAction(componentOptions?.tag || "[unknown Vue component]")
+      .setAction(componentName || "[unknown Vue component]")
       .setTags({ framework: "Vue", info, version })
       .setError(error)
 
