@@ -91,6 +91,18 @@ blocks:
       - cache restore $_PACKAGES_CACHE-packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
       - mono bootstrap --ci
     jobs:
+    - name: "@appsignal/angular - angular@latest"
+      commands:
+      - "(cd packages/angular && npm install @angular/core@latest --save-dev)"
+      - mono test --package=@appsignal/angular
+    - name: "@appsignal/angular - angular@8.2.14"
+      commands:
+      - "(cd packages/angular && npm install @angular/core@8.2.14 --save-dev)"
+      - mono test --package=@appsignal/angular
+    - name: "@appsignal/angular - angular@8.1.3"
+      commands:
+      - "(cd packages/angular && npm install @angular/core@8.1.3 --save-dev)"
+      - mono test --package=@appsignal/angular
     - name: "@appsignal/core - core"
       commands:
       - mono test --package=@appsignal/core
