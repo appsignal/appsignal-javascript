@@ -1,0 +1,161 @@
+semaphore: # Default `.semaphore/semaphore.yml` contents
+  version: v1.0
+  name: AppSignal for JavaScript
+  agent:
+    machine:
+      type: e1-standard-2
+      os_image: ubuntu1804
+  auto_cancel:
+    running:
+      when: branch != 'master' AND branch != 'develop'
+  global_job_config:
+    env_vars:
+      - name: RUNNING_IN_CI
+        value: 'true'
+      - name: NODE_ENV
+        value: test
+      - name: _PACKAGES_CACHE
+        value: v1
+      - name: _BUNDLER_CACHE
+        value: v1
+    prologue:
+      commands:
+        - checkout
+        - "[ -n \"$NODE_VERSION\" ] && sem-version node $NODE_VERSION || echo Skipping Node.js install"
+
+        # Mono setup
+        - script/setup
+        - source ~/.bashrc
+  blocks:
+    - name: Validation
+      dependencies: []
+      task:
+        jobs:
+          - name: Validate CI setup
+            commands:
+              - rake build_matrix:semaphore:validate
+    - name: Linters
+      dependencies: []
+      task:
+        jobs:
+          - name: Ruby Lint (RuboCop)
+            commands:
+              - cache restore $_BUNDLER_CACHE-bundler-$(checksum Gemfile.lock)
+              - bundle config set clean 'true'
+              - bundle config set path .bundle
+              - bundle install --jobs=3 --retry=3
+              - cache store $_BUNDLER_CACHE-bundler-$(checksum Gemfile.lock) .bundle
+              - bundle exec rubocop
+          - name: JavaScript Lint (Prettier)
+            env_vars:
+              - name: NODE_VERSION
+                value: "16"
+            commands:
+              - cache restore
+              - cache store
+              - mono bootstrap
+              - npm run lint
+          - name: Git Lint (Lintje)
+            commands:
+              - script/lint_git
+
+matrix:
+  packages:
+    - package: "@appsignal/angular"
+      path: "packages/angular"
+      variations:
+        - name: "angular@latest"
+          packages:
+            "@angular/core": "latest"
+        - name: "angular@8.2.14"
+          packages:
+            "@angular/core": "8.2.14"
+        - name: "angular@8.1.3"
+          packages:
+            "@angular/core": "8.1.3"
+    - package: "@appsignal/cli"
+      path: "packages/cli"
+      variations:
+        - name: "cli"
+    - package: "@appsignal/core"
+      path: "packages/core"
+      variations:
+        - name: "core"
+    - package: "@appsignal/ember"
+      path: "packages/ember"
+      variations:
+        - name: "ember@latest"
+          packages:
+            ember-source: "latest"
+        - name: "ember@3.28.1"
+          packages:
+            ember-source: "3.28.1"
+        - name: "ember@3.27.5"
+          packages:
+            ember-source: "3.27.5"
+    - package: "@appsignal/javascript"
+      path: "packages/javascript"
+      variations:
+        - name: "javascript"
+    - package: "@appsignal/plugin-breadcrumbs-console"
+      path: "packages/plugin-breadcrumbs-console"
+      variations:
+        - name: "plugin-breadcrumbs-console"
+    - package: "@appsignal/plugin-breadcrumbs-network"
+      path: "packages/plugin-breadcrumbs-network"
+      variations:
+        - name: "plugin-breadcrumbs-network"
+    - package: "@appsignal/plugin-path-decorator"
+      path: "packages/plugin-path-decorator"
+      variations:
+        - name: "plugin-path-decorator"
+    - package: "@appsignal/plugin-window-events"
+      path: "packages/plugin-window-events"
+      variations:
+        - name: "plugin-window-events"
+    - package: "@appsignal/preact"
+      path: "packages/preact"
+      variations:
+        - name: "preact@latest"
+          packages:
+            preact: "latest"
+        - name: "preact@10.5.15"
+          packages:
+            preact: "10.5.15"
+        - name: "preact@10.4.8"
+          packages:
+            preact: "10.4.8"
+    - package: "@appsignal/react"
+      path: "packages/react"
+      variations:
+        - name: "react@latest"
+          packages:
+            react: "latest"
+        - name: "react@17.0.2"
+          packages:
+            react: "17.0.2"
+        - name: "react@16.14.0"
+          packages:
+            react: "16.14.0"
+    - package: "@appsignal/stimulus"
+      path: "packages/stimulus"
+      variations:
+        - name: "stimulus@latest"
+          packages:
+            stimulus: "latest"
+        - name: "stimulus@3.0.1"
+          packages:
+            stimulus: "3.0.1"
+        - name: "stimulus@2.0.0"
+          packages:
+            stimulus: "2.0.0"
+    - package: "@appsignal/types"
+      path: "packages/types"
+      variations:
+        - name: "types"
+    - package: "@appsignal/vue"
+      path: "packages/vue"
+      variations:
+        - name: "vue@latest"
+          packages:
+            vue: "latest"
