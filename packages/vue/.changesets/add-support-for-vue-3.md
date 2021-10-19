@@ -4,9 +4,7 @@ bump: "minor"
 
 Add support for Vue 3
 
-Vue 3.0+ is now supported. Previously we were relying only on
-the 2.0 Vue object to install the error handling function. Now we
-support the two latest major versions of the framework.
+Vue 3.0+ is now supported. Previously we were relying only on the 2.0 Vue object to install the error handling function. Now we support the two latest major versions of the framework.
 
 To install AppSignal error tracking:
 
@@ -23,4 +21,4 @@ app.config.errorHandler = errorHandler(appsignal, app)
 app.mount('#app')
 ```
 
-More info on README.md
+More info on [README.md](https://github.com/appsignal/appsignal-javascript/tree/main/packages/vue)

@@ -159,3 +159,9 @@ matrix:
         - name: "vue@latest"
           packages:
             vue: "latest"
+        - name: "vue@3.2.20"
+          packages:
+            vue: "3.2.20"
+        - name: "vue@2.6.14"
+          packages:
+            vue: "2.6.14"
