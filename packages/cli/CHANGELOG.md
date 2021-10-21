@@ -1,5 +1,9 @@
 # AppSignal CLI changelog
 
+## 1.1.12
+
+- [69f6b73](https://github.com/appsignal/appsignal-javascript/commit/69f6b73bf09b7b73075f23f0580c2d86a2ba4c03) patch - Fix the "install" and "diagnose" cli commands by including the bin wrapper in the distributed package.
+
 ## 1.1.11
 
 - patch - Update @appsignal/core dependency to 1.1.14.
