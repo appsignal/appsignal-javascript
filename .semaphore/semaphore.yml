@@ -140,3 +140,11 @@ blocks:
       commands:
       - "(cd packages/vue && npm install vue@latest --save-dev)"
       - mono test --package=@appsignal/vue
+    - name: "@appsignal/vue - vue@3.2.20"
+      commands:
+      - "(cd packages/vue && npm install vue@3.2.20 --save-dev)"
+      - mono test --package=@appsignal/vue
+    - name: "@appsignal/vue - vue@2.6.14"
+      commands:
+      - "(cd packages/vue && npm install vue@2.6.14 --save-dev)"
+      - mono test --package=@appsignal/vue

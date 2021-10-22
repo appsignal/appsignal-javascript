@@ -1,4 +1,4 @@
-import Vue from "vue"
+import { VueApp } from "../types"
 import { errorHandler } from "../index"
 
 describe("Vue errorHandler", () => {
@@ -19,11 +19,12 @@ describe("Vue errorHandler", () => {
     }
   })
 
-  it("works", () => {
-    const TAG_NAME = "testaction"
+  it("calls AppSignal helper methods when Vue 2", () => {
+    const TAG_NAME = "testactionV2"
     const err = new Error("test")
+    const version = "v2.0.0"
 
-    const vueMock: any = {
+    const vue2Mock: any = {
       $vnode: {
         componentOptions: {
           tag: TAG_NAME
@@ -31,18 +32,40 @@ describe("Vue errorHandler", () => {
       }
     }
 
-    errorHandler(appsignal, Vue)(err, vueMock, "INFO")
+    errorHandler(appsignal, { version } as VueApp)(err, vue2Mock, "INFO")
 
     expect(mock.setAction).toBeCalledWith(TAG_NAME)
 
     expect(mock.setTags).toBeCalledWith({
       framework: "Vue",
       info: "INFO",
-      version: Vue.version
+      version: version
     })
 
     expect(mock.setError).toBeCalledWith(err)
 
     expect(appsignal.send).toBeCalled()
+  })
+
+  it("calls AppSignal helper methods when Vue 3", () => {
+    const TAG_NAME = "testactionV3"
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    const vue3Mock: any = {
+      $options: {
+        name: TAG_NAME
+      }
+    }
+
+    errorHandler(appsignal, { version } as VueApp)(err, vue3Mock, "INFO")
+
+    expect(mock.setAction).toBeCalledWith(TAG_NAME)
+
+    expect(mock.setTags).toBeCalledWith({
+      framework: "Vue",
+      info: "INFO",
+      version: version
+    })
   })
 })
