@@ -112,4 +112,43 @@ describe("BreadcrumbsConsolePlugin", () => {
       })
     })
   })
+
+  describe("when console function is called with a normal object argument", () => {
+    it("adds breadcrumb without argument", () => {
+      const obj = { value1: "abc", nested: { value2: "def" } }
+      console.log(obj)
+
+      expect(logMock).toHaveBeenCalledWith(obj)
+      expect(errorMock).not.toHaveBeenCalled()
+      expect(addBreadcrumb).toHaveBeenCalledWith({
+        action: "Console logged a value",
+        category: "console.log",
+        metadata: {
+          argument0: `{"value1":"abc","nested":{"value2":"def"}}`
+        }
+      })
+    })
+  })
+
+  describe("when console function is called with a circular argument", () => {
+    it("adds breadcrumb without argument", () => {
+      const obj: { [key: string]: string | object } = { value1: "abc" }
+      obj.obj = obj
+      console.log(obj)
+
+      expect(logMock).toHaveBeenCalledWith(obj)
+      expect(errorMock).toHaveBeenCalledTimes(1)
+      expect(errorMock).toHaveBeenCalledWith(
+        'Could not serialize "console.log" to String.',
+        expect.any(Error)
+      )
+      expect(addBreadcrumb).toHaveBeenCalledWith({
+        action: "Console logged a value",
+        category: "console.log",
+        metadata: {
+          argument0: "[Value could not be serialized]"
+        }
+      })
+    })
+  })
 })
