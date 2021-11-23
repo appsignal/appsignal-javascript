@@ -109,6 +109,9 @@ blocks:
     - name: "@appsignal/javascript - javascript"
       commands:
       - mono test --package=@appsignal/javascript
+    - name: "@appsignal/plugin-breadcrumbs-console - plugin-breadcrumbs-console"
+      commands:
+      - mono test --package=@appsignal/plugin-breadcrumbs-console
     - name: "@appsignal/plugin-window-events - plugin-window-events"
       commands:
       - mono test --package=@appsignal/plugin-window-events
