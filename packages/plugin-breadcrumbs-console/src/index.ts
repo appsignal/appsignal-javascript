@@ -32,7 +32,7 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
               // attempt to get a useful value
               // the `metadata` object should be <string, string>, so nested
               // objects won't necessarily work here
-              typeof arg === "string" ? arg : JSON.stringify(arg))
+              serializeValue(arg, method))
         )
 
         self.addBreadcrumb(breadcrumb)
@@ -42,6 +42,19 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
 
       ;(console as any)[method] = _console
     })
+  }
+}
+
+function serializeValue(value: any, method: string) {
+  if (typeof value === "string") {
+    return value
+  } else {
+    try {
+      return JSON.stringify(value)
+    } catch (error) {
+      console.error(`Could not serialize "console.${method}" to String.`, error)
+      return "[Value could not be serialized]"
+    }
   }
 }
 
