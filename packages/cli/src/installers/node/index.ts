@@ -11,14 +11,14 @@ import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
  * indendation is intentional, due to JavaScripts handling of multi-line
  * strings
  */
-const displayOutroMessage = (apiKey: string, name: string) => `
+const displayOutroMessage = (pushApiKey: string, name: string) => `
 🎉 ${chalk.greenBright(
   "Great news!"
 )} You've just installed AppSignal to your project!
 
 The next step is adding your Push API key to your project. The best way to do this is with an environment variable:
 
-${chalk.bold(`export APPSIGNAL_PUSH_API_KEY="${apiKey}"`)}
+${chalk.bold(`export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"`)}
 
 If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
 
@@ -48,10 +48,10 @@ Need any further help? Feel free to ask a human at ${chalk.bold(
 export async function installNode(pkg: { [key: string]: any }) {
   const cwd = process.cwd()
 
-  const { apiKey, name } = await inquirer.prompt([
+  const { pushApiKey, name } = await inquirer.prompt([
     {
       type: "input",
-      name: "apiKey",
+      name: "pushApiKey",
       message: "What's your Push API Key?",
       validate: validateApiKey
     },
@@ -129,7 +129,7 @@ export async function installNode(pkg: { [key: string]: any }) {
         ...process.env,
         APPSIGNAL_APP_ENV: "development",
         APPSIGNAL_APP_NAME: name,
-        APPSIGNAL_PUSH_API_KEY: apiKey
+        APPSIGNAL_PUSH_API_KEY: pushApiKey
       },
       stdio: "ignore"
     }).unref()
@@ -159,16 +159,16 @@ export async function installNode(pkg: { [key: string]: any }) {
     )
   }
 
-  console.log(displayOutroMessage(apiKey, name))
+  console.log(displayOutroMessage(pushApiKey, name))
 }
 
 /**
  * Validates the answer from Inquirer.js to validate the Push API key that is
  * asked for in question one
  */
-async function validateApiKey(apiKey: string) {
+async function validateApiKey(pushApiKey: string) {
   try {
-    const validated = await validatePushApiKey({ apiKey })
+    const validated = await validatePushApiKey({ apiKey: pushApiKey })
 
     if (validated === true) {
       return validated
