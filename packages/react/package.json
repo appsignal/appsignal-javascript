@@ -22,7 +22,7 @@
     "@appsignal/types": "=2.1.6"
   },
   "peerDependencies": {
-    "react": "^16.8.6"
+    "react": ">= 16.8.6 < 18.0.0"
   },
   "publishConfig": {
     "access": "public"
