@@ -1,5 +1,11 @@
 # AppSignal for react changelog
 
+## 1.0.15
+
+### Added
+
+- [e030546](https://github.com/appsignal/appsignal-javascript/commit/e0305463f9623581d26a02b8273737b9126bbe90) patch - Update @appsignal/react package to allow React 17 installs.
+
 ## 1.0.14
 
 - patch - Update @appsignal/types dependency to 2.1.6.
