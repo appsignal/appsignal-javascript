@@ -46,15 +46,31 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
 }
 
 function serializeValue(value: any, method: string) {
-  if (typeof value === "string") {
-    return value
-  } else {
-    try {
-      return JSON.stringify(value)
-    } catch (error) {
-      console.error(`Could not serialize "console.${method}" to String.`, error)
-      return "[Value could not be serialized]"
+  switch (typeof value) {
+    case "string":
+      return value
+    case "undefined":
+      return "undefined"
+    default:
+      return JSON.stringify(value, circularReplacer())
+  }
+}
+
+function circularReplacer() {
+  const seenValue: any[] = []
+  const seenKey: string[] = []
+  return (key: string, value: any) => {
+    if (typeof value === "object" && value !== null) {
+      const i = seenValue.indexOf(value)
+      if (i !== -1) {
+        return `[cyclic value: ${seenKey[i] || "root object"}]`
+      } else {
+        seenValue.push(value)
+        seenKey.push(key)
+      }
     }
+
+    return value
   }
 }
 
