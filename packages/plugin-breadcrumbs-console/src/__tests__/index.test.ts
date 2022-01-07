@@ -114,12 +114,11 @@ describe("BreadcrumbsConsolePlugin", () => {
   })
 
   describe("when console function is called with a normal object argument", () => {
-    it("adds breadcrumb without argument", () => {
+    it("adds breadcrumb with argument", () => {
       const obj = { value1: "abc", nested: { value2: "def" } }
       console.log(obj)
 
       expect(logMock).toHaveBeenCalledWith(obj)
-      expect(errorMock).not.toHaveBeenCalled()
       expect(addBreadcrumb).toHaveBeenCalledWith({
         action: "Console logged a value",
         category: "console.log",
@@ -131,22 +130,21 @@ describe("BreadcrumbsConsolePlugin", () => {
   })
 
   describe("when console function is called with a circular argument", () => {
-    it("adds breadcrumb without argument", () => {
-      const obj: { [key: string]: string | object } = { value1: "abc" }
+    it("adds breadcrumb with cyclic values replaced", () => {
+      const obj: { [key: string]: any } = { value1: "abc", nested: {} }
       obj.obj = obj
+      obj.nested["inside"] = obj.nested
       console.log(obj)
 
       expect(logMock).toHaveBeenCalledWith(obj)
-      expect(errorMock).toHaveBeenCalledTimes(1)
-      expect(errorMock).toHaveBeenCalledWith(
-        'Could not serialize "console.log" to String.',
-        expect.any(Error)
-      )
       expect(addBreadcrumb).toHaveBeenCalledWith({
         action: "Console logged a value",
         category: "console.log",
         metadata: {
-          argument0: "[Value could not be serialized]"
+          argument0:
+            `{"value1":"abc",` +
+            `"nested":{"inside":"[cyclic value: nested]"},` +
+            `"obj":"[cyclic value: root object]"}`
         }
       })
     })
