@@ -1,4 +1,20 @@
 /**
+ * Check if the given object is an error-like object.
+ *
+ * @param   {Error | T}     error      An `Error` object or an error-like object
+ *
+ * @return  {boolean}
+ */
+export function isError<T extends Error>(error: Error | T): boolean {
+  return (
+    typeof (error as any).message !== "undefined" &&
+    (typeof (error as any).stacktrace !== "undefined" ||
+      typeof (error as any)["opera#sourceloc"] !== "undefined" ||
+      typeof (error as any).stack !== "undefined")
+  )
+}
+
+/**
  * Get backtrace from an `Error` object, or an error-like object
  *
  * @param   {Error | T}     error      An `Error` object or an error-like object
