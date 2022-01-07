@@ -94,26 +94,29 @@ describe("windowEventsPlugin", () => {
     })
 
     it("handles a promise rejection with an circular structure as a reason", () => {
-      console.error = jest.fn()
-
       plugin({}).call(mockAppsignal)
 
       // Create circular reference in the reason object
-      const reason = { abc: "def", foo: "bar", reason: {} }
+      const reason = {
+        abc: "def",
+        foo: "bar",
+        reason: {},
+        nested: { inside: {} }
+      }
       reason.reason = reason
+      reason.nested.inside = reason.nested
       ctx.onunhandledrejection!({ reason } as PromiseRejectionEvent)
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "UnhandledPromiseRejectionError",
-        message: undefined,
+        message:
+          `{"abc":"def","foo":"bar",` +
+          `"reason":"[cyclic value: root object]",` +
+          `"nested":{"inside":"[cyclic value: nested]"}}`,
         stack: "No stacktrace available"
       })
-      expect(console.error).toHaveBeenCalledWith(
-        "Could not serialize error reason to String.",
-        expect.any(Error)
-      )
     })
 
     it("can handle a promise rejection without a reason", () => {
