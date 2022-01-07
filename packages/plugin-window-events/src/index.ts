@@ -101,11 +101,24 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
       return error.reason
     }
 
-    try {
-      return JSON.stringify(error.reason)
-    } catch (e) {
-      console.error("Could not serialize error reason to String.", e)
-      return undefined
+    return JSON.stringify(error.reason, circularReplacer())
+  }
+
+  function circularReplacer() {
+    const seenValue: any[] = []
+    const seenKey: string[] = []
+    return (key: string, value: any) => {
+      if (typeof value === "object" && value !== null) {
+        const i = seenValue.indexOf(value)
+        if (i !== -1) {
+          return `[cyclic value: ${seenKey[i] || "root object"}]`
+        } else {
+          seenValue.push(value)
+          seenKey.push(key)
+        }
+      }
+
+      return value
     }
   }
 }
