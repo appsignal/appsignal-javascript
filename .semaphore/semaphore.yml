@@ -57,7 +57,7 @@ blocks:
       - cache restore
       - cache store
       - mono bootstrap
-      - npm run lint
+      - yarn lint
     - name: Git Lint (Lintje)
       commands:
       - script/lint_git
@@ -91,17 +91,17 @@ blocks:
       - cache restore $_PACKAGES_CACHE-packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
       - mono bootstrap --ci
     jobs:
-    - name: "@appsignal/angular - angular@latest"
+    - name: "@appsignal/angular - angular@12.2.15"
       commands:
-      - "(cd packages/angular && npm install @angular/core@latest --save-dev)"
+      - yarn add @angular/core@12.2.15 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/angular
     - name: "@appsignal/angular - angular@8.2.14"
       commands:
-      - "(cd packages/angular && npm install @angular/core@8.2.14 --save-dev)"
+      - yarn add @angular/core@8.2.14 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/angular
     - name: "@appsignal/angular - angular@8.1.3"
       commands:
-      - "(cd packages/angular && npm install @angular/core@8.1.3 --save-dev)"
+      - yarn add @angular/core@8.1.3 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/angular
     - name: "@appsignal/core - core"
       commands:
@@ -117,37 +117,37 @@ blocks:
       - mono test --package=@appsignal/plugin-window-events
     - name: "@appsignal/preact - preact@latest"
       commands:
-      - "(cd packages/preact && npm install preact@latest --save-dev)"
+      - yarn add preact@latest --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/preact
     - name: "@appsignal/preact - preact@10.5.15"
       commands:
-      - "(cd packages/preact && npm install preact@10.5.15 --save-dev)"
+      - yarn add preact@10.5.15 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/preact
     - name: "@appsignal/preact - preact@10.4.8"
       commands:
-      - "(cd packages/preact && npm install preact@10.4.8 --save-dev)"
+      - yarn add preact@10.4.8 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/preact
     - name: "@appsignal/react - react@latest"
       commands:
-      - "(cd packages/react && npm install react@latest --save-dev)"
+      - yarn add react@latest --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@17.0.2"
       commands:
-      - "(cd packages/react && npm install react@17.0.2 --save-dev)"
+      - yarn add react@17.0.2 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@16.14.0"
       commands:
-      - "(cd packages/react && npm install react@16.14.0 --save-dev)"
+      - yarn add react@16.14.0 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/react
     - name: "@appsignal/vue - vue@latest"
       commands:
-      - "(cd packages/vue && npm install vue@latest --save-dev)"
+      - yarn add vue@latest --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/vue
     - name: "@appsignal/vue - vue@3.2.20"
       commands:
-      - "(cd packages/vue && npm install vue@3.2.20 --save-dev)"
+      - yarn add vue@3.2.20 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/vue
     - name: "@appsignal/vue - vue@2.6.14"
       commands:
-      - "(cd packages/vue && npm install vue@2.6.14 --save-dev)"
+      - yarn add vue@2.6.14 --dev --ignore-workspace-root-check
       - mono test --package=@appsignal/vue
