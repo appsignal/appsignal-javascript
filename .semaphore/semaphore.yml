@@ -91,6 +91,14 @@ blocks:
       - cache restore $_PACKAGES_CACHE-packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION
       - mono bootstrap --ci
     jobs:
+    - name: "@appsignal/angular - angular@latest"
+      commands:
+      - yarn add @angular/core@latest --dev --ignore-workspace-root-check
+      - mono test --package=@appsignal/angular
+    - name: "@appsignal/angular - angular@13.1.1"
+      commands:
+      - yarn add @angular/core@13.1.1 --dev --ignore-workspace-root-check
+      - mono test --package=@appsignal/angular
     - name: "@appsignal/angular - angular@12.2.15"
       commands:
       - yarn add @angular/core@12.2.15 --dev --ignore-workspace-root-check

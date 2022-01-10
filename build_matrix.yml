@@ -64,6 +64,12 @@ matrix:
     - package: "@appsignal/angular"
       path: "packages/angular"
       variations:
+        - name: "angular@latest"
+          packages:
+            "@angular/core": "latest"
+        - name: "angular@13.1.1"
+          packages:
+            "@angular/core": "13.1.1"
         - name: "angular@12.2.15"
           packages:
             "@angular/core": "12.2.15"
