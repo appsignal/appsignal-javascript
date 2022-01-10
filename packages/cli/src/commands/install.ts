@@ -50,7 +50,7 @@ export async function install() {
 
     console.log("✅ Done!")
     return
-  } catch (error) {
+  } catch (error: any) {
     if (error.isTtyError) {
       console.warn(
         "Prompt couldn't be rendered in the current environment, exiting..."

@@ -321,7 +321,7 @@ export default class Appsignal implements JSClient {
   ): Promise<T> {
     try {
       return await fn()
-    } catch (e) {
+    } catch (e: any) {
       await this.sendError(e, tagsOrFn, namespace)
       return Promise.reject(e)
     }
