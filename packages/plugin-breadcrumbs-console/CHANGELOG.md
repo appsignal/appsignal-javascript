@@ -1,5 +1,12 @@
 # AppSignal for plugin-breadcrumbs-console changelog
 
+## 1.1.21
+
+### Changed
+
+- [60b3ee1](https://github.com/appsignal/appsignal-javascript/commit/60b3ee1d6478d03062c6b9c2896623ce1036c93a) patch - Serialise circular references in console arguments, omitting the cyclic value instead of throwing an error.
+- patch - Update @appsignal/javascript dependency to 1.3.20.
+
 ## 1.1.20
 
 - [7d138c6](https://github.com/appsignal/appsignal-javascript/commit/7d138c67783edc3fa4b2b8b481659c4b8936a57e) patch - Fix the error that was thrown when a circular structure console argument was logged. It will no longer throw the error and instead send a replacement value of the value that could not be send as a JSON value.

@@ -1,5 +1,11 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.20
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.15.
+
 ## 1.3.19
 
 - [387ee27](https://github.com/appsignal/appsignal-javascript/commit/387ee2711554b5e701be37a9b70d9c01861b6ef5) patch - Fix the reported library version of the JavaScript package. This was stuck on 1.3.12 for the last few releases.

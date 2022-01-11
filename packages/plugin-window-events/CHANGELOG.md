@@ -1,5 +1,11 @@
 # AppSignal for plugin-window-events changelog
 
+## 1.0.15
+
+### Changed
+
+- [37809a5](https://github.com/appsignal/appsignal-javascript/commit/37809a54789cd29cb37f3465f22ba410773bb82c) patch - Serialise circular references in window errors, omitting the cyclic value instead of throwing an error.
+
 ## 1.0.14
 
 - patch - Update @appsignal/types dependency to 2.1.6.

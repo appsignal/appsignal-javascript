@@ -1,5 +1,15 @@
 # AppSignal for react changelog
 
+## 1.0.16
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.15.
+
+### Fixed
+
+- [f46c436](https://github.com/appsignal/appsignal-javascript/commit/f46c4362efd7ca8e414c3cf56c3938ecb7a5b03e) patch - In the React ErrorBoundary, check if the thrown object is an error. This prevents an error being thrown when the previously thrown error was not an error. Scenarios like `throw new Event("my event")` are now ignored.
+
 ## 1.0.15
 
 ### Added
