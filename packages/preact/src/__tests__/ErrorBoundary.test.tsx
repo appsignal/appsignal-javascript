@@ -10,15 +10,22 @@ describe("<ErrorBoundary />", () => {
     return <div></div>
   }
 
-  const mock: any = {
-    setAction: jest.fn(() => mock),
-    setError: jest.fn(() => mock),
-    setTags: jest.fn(() => mock)
+  const BrokenEvent = () => {
+    throw new Event("My event")
+    return <div></div>
   }
 
-  const SpanMock = jest.fn().mockImplementation(() => mock)
+  let mock: any
+  let SpanMock: any
 
   beforeEach(() => {
+    jest.resetAllMocks()
+    mock = {
+      setAction: jest.fn(() => mock),
+      setError: jest.fn(() => mock),
+      setTags: jest.fn(() => mock)
+    }
+    SpanMock = jest.fn().mockImplementation(() => mock)
     instance = {
       createSpan: () => new SpanMock(),
       send: jest.fn()
@@ -41,6 +48,22 @@ describe("<ErrorBoundary />", () => {
     expect(mock.setError).toBeCalled()
 
     expect(instance.send).toBeCalled()
+  })
+
+  it("ignores non-Error objects being thrown", () => {
+    expect(() => {
+      render(
+        <ErrorBoundary instance={instance}>
+          <BrokenEvent />
+        </ErrorBoundary>
+      )
+    }).toThrow()
+
+    expect(mock.setAction).not.toBeCalled()
+    expect(mock.setTags).not.toBeCalled()
+    expect(mock.setError).not.toBeCalled()
+
+    expect(instance.send).not.toBeCalled()
   })
 
   it("modifies the action if provided as a prop", () => {

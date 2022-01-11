@@ -19,7 +19,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/types": "=2.1.6"
+    "@appsignal/types": "=2.1.6",
+    "@appsignal/core": "=1.1.15"
   },
   "peerDependencies": {
     "preact": "^10.0.0"

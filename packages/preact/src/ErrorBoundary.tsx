@@ -1,5 +1,6 @@
 import { Component } from "preact"
 import { Props, State } from "./types/component"
+import { isError } from "@appsignal/core"
 
 export class ErrorBoundary extends Component<Props, State> {
   state = { error: undefined }
@@ -9,6 +10,8 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, info: any): void {
+    if (!isError(error)) return
+
     const { instance: appsignal, action, tags } = this.props
     const { name, message, stack } = error
     const span = appsignal.createSpan()
