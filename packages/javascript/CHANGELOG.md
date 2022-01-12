@@ -1,5 +1,17 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.21
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.16.
+- patch - Update @appsignal/types dependency to 2.1.7.
+- patch - Update @appsignal/core dependency to 1.1.16.
+
+### Fixed
+
+- [038d1b8](https://github.com/appsignal/appsignal-javascript/commit/038d1b8beb4042b2610ee3db1c6b3bdb3c9e881f) patch - Fix distributed sourcemaps to include the referenced source properly.
+
 ## 1.3.20
 
 ### Changed

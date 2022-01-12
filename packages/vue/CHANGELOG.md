@@ -1,5 +1,15 @@
 # AppSignal for vue changelog
 
+## 1.1.1
+
+### Changed
+
+- patch - Update @appsignal/types dependency to 2.1.7.
+
+### Fixed
+
+- [038d1b8](https://github.com/appsignal/appsignal-javascript/commit/038d1b8beb4042b2610ee3db1c6b3bdb3c9e881f) patch - Fix distributed sourcemaps to include the referenced source properly.
+
 ## 1.1.0
 
 - [66f074c](https://github.com/appsignal/appsignal-javascript/commit/66f074c3e94a209870246771a9d17c13db705d37) minor - Add support for Vue 3

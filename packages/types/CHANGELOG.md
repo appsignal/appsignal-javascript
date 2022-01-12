@@ -1,5 +1,11 @@
 # AppSignal types changelog
 
+## 2.1.7
+
+### Fixed
+
+- [038d1b8](https://github.com/appsignal/appsignal-javascript/commit/038d1b8beb4042b2610ee3db1c6b3bdb3c9e881f) patch - Fix distributed sourcemaps to include the referenced source properly.
+
 ## 2.1.6
 
 - [e737a7f](https://github.com/appsignal/appsignal-javascript/commit/e737a7f8ca15cbe3577a7209e641b43610f0f68b) patch - Add callback argument to the `sendError` function to allow for more customization of errors sent with `sendError` and `wrap`. The `tags` and `namespace` parameters are now deprecated for both helpers.
