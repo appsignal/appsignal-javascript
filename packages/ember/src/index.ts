@@ -1,8 +1,9 @@
 import type { JSClient, JSSpan } from "@appsignal/types"
+import Ember from 'ember';
 
 export function installErrorHandler(
   appsignal: JSClient,
-  Ember = (window as any).Ember
+  Ember = Ember
 ) {
   const prevHandler = Ember.onerror
 
