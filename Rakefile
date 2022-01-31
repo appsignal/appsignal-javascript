@@ -54,7 +54,7 @@ namespace :build_matrix do
               packages = dependency_specification.map do |name, version|
                 "#{name}@#{version}"
               end.join(" ")
-              "yarn add #{packages} --dev --ignore-workspace-root-check"
+              "script/install_packages #{packages}"
             end
 
           next unless has_package_tests

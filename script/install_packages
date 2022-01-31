@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -eu
+
+echo "$ yarn add"
+yarn add --dev --ignore-workspace-root-check "$@"
+
+echo "Check installed packages"
+successfully_installed=true
+for package_item in "$@"; do
+  if echo "$package_item" | grep "@latest"; then
+    # Don't perform check for `@latest`, because the installed version number
+    # won't match
+    continue
+  fi
+
+  if ! yarn list | grep "$package_item"; then
+    successfully_installed=false
+    echo "Failed to install: $package_item"
+  fi
+done
+
+if ! $successfully_installed; then
+  echo "Installed packages:"
+  yarn list
+  exit 1
+fi

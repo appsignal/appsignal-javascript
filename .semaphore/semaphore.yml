@@ -93,11 +93,11 @@ blocks:
     jobs:
     - name: "@appsignal/angular - angular@12.2.15"
       commands:
-      - yarn add @angular/core@12.2.15 --dev --ignore-workspace-root-check
+      - script/install_packages @angular/core@12.2.15
       - mono test --package=@appsignal/angular
     - name: "@appsignal/angular - angular@11.2.14"
       commands:
-      - yarn add @angular/core@11.2.14 --dev --ignore-workspace-root-check
+      - script/install_packages @angular/core@11.2.14
       - mono test --package=@appsignal/angular
     - name: "@appsignal/core - core"
       commands:
@@ -113,37 +113,37 @@ blocks:
       - mono test --package=@appsignal/plugin-window-events
     - name: "@appsignal/preact - preact@latest"
       commands:
-      - yarn add preact@latest --dev --ignore-workspace-root-check
+      - script/install_packages preact@latest
       - mono test --package=@appsignal/preact
     - name: "@appsignal/preact - preact@10.5.15"
       commands:
-      - yarn add preact@10.5.15 --dev --ignore-workspace-root-check
+      - script/install_packages preact@10.5.15
       - mono test --package=@appsignal/preact
     - name: "@appsignal/preact - preact@10.4.8"
       commands:
-      - yarn add preact@10.4.8 --dev --ignore-workspace-root-check
+      - script/install_packages preact@10.4.8
       - mono test --package=@appsignal/preact
     - name: "@appsignal/react - react@latest"
       commands:
-      - yarn add react@latest --dev --ignore-workspace-root-check
+      - script/install_packages react@latest
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@17.0.2"
       commands:
-      - yarn add react@17.0.2 --dev --ignore-workspace-root-check
+      - script/install_packages react@17.0.2
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@16.14.0"
       commands:
-      - yarn add react@16.14.0 --dev --ignore-workspace-root-check
+      - script/install_packages react@16.14.0
       - mono test --package=@appsignal/react
     - name: "@appsignal/vue - vue@latest"
       commands:
-      - yarn add vue@latest --dev --ignore-workspace-root-check
+      - script/install_packages vue@latest
       - mono test --package=@appsignal/vue
     - name: "@appsignal/vue - vue@3.2.20"
       commands:
-      - yarn add vue@3.2.20 --dev --ignore-workspace-root-check
+      - script/install_packages vue@3.2.20
       - mono test --package=@appsignal/vue
     - name: "@appsignal/vue - vue@2.6.14"
       commands:
-      - yarn add vue@2.6.14 --dev --ignore-workspace-root-check
+      - script/install_packages vue@2.6.14
       - mono test --package=@appsignal/vue
