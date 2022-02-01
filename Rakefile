@@ -49,34 +49,23 @@ namespace :build_matrix do
         package["variations"].each do |variation|
           variation_name = variation.fetch("name")
           dependency_specification = variation["packages"]
-          update_package_version_command, update_test_app_version_command =
+          update_package_version_command =
             if dependency_specification
               packages = dependency_specification.map do |name, version|
                 "#{name}@#{version}"
               end.join(" ")
-              [
-                "yarn add #{packages} --dev --ignore-workspace-root-check",
-                "script/install_test_example_packages " \
-                  "#{File.basename package["path"]} #{packages}"
-              ]
+              "script/install_packages #{packages}"
             end
 
-          if has_package_tests
-            test_jobs << build_semaphore_job(
-              "name" => "#{package["package"]} - #{variation_name}",
-              "commands" => ([
-                update_package_version_command,
-                "mono test --package=#{package["package"]}"
-              ] + package.fetch("extra_commands", [])).compact
-            )
-          end
+          next unless has_package_tests
 
-          package.fetch("extra_tests", []).each do |test_name, extra_tests|
-            test_jobs << build_semaphore_job(
-              "name" => "#{package["package"]} - #{variation_name} - #{test_name}",
-              "commands" => ([update_test_app_version_command] + extra_tests).compact
-            )
-          end
+          test_jobs << build_semaphore_job(
+            "name" => "#{package["package"]} - #{variation_name}",
+            "commands" => ([
+              update_package_version_command,
+              "mono test --package=#{package["package"]}"
+            ] + package.fetch("extra_commands", [])).compact
+          )
         end
       end
 
