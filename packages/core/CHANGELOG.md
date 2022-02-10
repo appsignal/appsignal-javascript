@@ -1,4 +1,4 @@
-# AppSignal for Angular changelog
+# AppSignal Core changelog
 
 ## 1.1.17
 
