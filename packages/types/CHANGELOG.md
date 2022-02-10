@@ -1,5 +1,15 @@
 # AppSignal types changelog
 
+## 3.0.0
+
+### Changed
+
+- [449d4d4](https://github.com/appsignal/appsignal-javascript/commit/449d4d40381e7e6c13076732a8b4e7f65f94d5db) patch - Update package metadata to be more up-to-date and to specify the package location in the mono repository.
+
+### Removed
+
+- [21c1401](https://github.com/appsignal/appsignal-javascript/commit/21c140146e616fc6f4f0fcf7dc7e9185ab0caa02) major - Remove the Node.js types from the `@appsignal/types` package. These types are now included in the `@appsignal/nodejs` package instead.
+
 ## 2.1.7
 
 ### Fixed

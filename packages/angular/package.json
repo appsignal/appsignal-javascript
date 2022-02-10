@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/angular",
-  "version": "1.0.14",
+  "version": "1.0.15",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/types": "=2.1.7"
+    "@appsignal/types": "=3.0.0"
   },
   "peerDependencies": {
     "@angular/core": ">= 8.0.0"

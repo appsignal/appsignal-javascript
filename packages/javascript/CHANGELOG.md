@@ -1,5 +1,13 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.22
+
+### Changed
+
+- [449d4d4](https://github.com/appsignal/appsignal-javascript/commit/449d4d40381e7e6c13076732a8b4e7f65f94d5db) patch - Update package metadata to be more up-to-date and to specify the package location in the mono repository.
+- patch - Update @appsignal/core dependency to 1.1.17.
+- patch - Update @appsignal/types dependency to 3.0.0.
+
 ## 1.3.21
 
 ### Changed
