@@ -4,7 +4,6 @@
   "dependencies": {},
   "devDependencies": {
     "@angular/core": "^12.2.15",
-    "@appsignal/types": "^2.1.5",
     "@testing-library/preact": "^2.0.1",
     "@testing-library/react": "^11.1.2",
     "@types/inquirer": "^7.3.1",
