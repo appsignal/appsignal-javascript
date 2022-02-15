@@ -1,10 +1,10 @@
-import { VueApp, VueViewModel } from "./types"
+import { VueApp } from "./types"
 import type { JSClient } from "@appsignal/types"
 
 export function errorHandler(appsignal: JSClient, app?: VueApp) {
   const version = app?.version ?? ""
 
-  return function (error: Error, vm: VueViewModel, info: string) {
+  return function (error: any, vm: any, info: string) {
     const componentName = vm.$vnode
       ? vm.$vnode.componentOptions.tag // Vue 2
       : vm.$options.name // Vue 3
