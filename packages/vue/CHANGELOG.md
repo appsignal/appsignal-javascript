@@ -1,5 +1,11 @@
 # AppSignal for vue changelog
 
+## 1.1.3
+
+### Fixed
+
+- [d5c8751](https://github.com/appsignal/appsignal-javascript/commit/d5c8751a183ce6ce24b2f30f56bd582fe0e841ba) patch - Fixed a bug that was preventing Vue3 apps written in TypeScript from starting up.
+
 ## 1.1.2
 
 ### Changed
