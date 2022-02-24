@@ -66,7 +66,7 @@ export async function installNode(pkg: { [key: string]: any }) {
   // detect if user is using yarn
   const isUsingYarn = existsSync(`${cwd}/yarn.lock`)
 
-  const modules = Object.keys(pkg.dependencies)
+  const modules = Object.keys(pkg.dependencies || {})
     .map(dep => SUPPORTED_NODEJS_INTEGRATIONS[dep])
     .filter(dep => dep)
 

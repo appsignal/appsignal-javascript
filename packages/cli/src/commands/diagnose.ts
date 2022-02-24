@@ -30,7 +30,7 @@ export const diagnose = ({
     console.log("🔭 Checking your package.json for @appsignal/nodejs...")
     const pkg = require(`${process.cwd()}/package.json`)
 
-    if (!("@appsignal/nodejs" in pkg.dependencies)) {
+    if (!("@appsignal/nodejs" in (pkg.dependencies || {}))) {
       console.error("Couldn't find @appsignal/nodejs in your dependencies")
       process.exit(1)
     }
