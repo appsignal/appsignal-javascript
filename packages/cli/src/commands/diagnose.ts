@@ -1,4 +1,5 @@
 import { spawnSync } from "child_process"
+import { checkForAppsignalPackage } from "../utils"
 
 /**
  * Usage: npx @appsignal/cli diagnose [options]
@@ -25,24 +26,7 @@ export const diagnose = ({
 }): void => {
   const cwd = process.cwd()
 
-  // some checks to ensure we are in the right place
-  try {
-    console.log("🔭 Checking your package.json for @appsignal/nodejs...")
-    const pkg = require(`${process.cwd()}/package.json`)
-
-    if (!("@appsignal/nodejs" in (pkg.dependencies || {}))) {
-      console.error("Couldn't find @appsignal/nodejs in your dependencies")
-      process.exit(1)
-    }
-
-    console.log("✅ Found it! Running the diagnose tool...")
-  } catch (e) {
-    console.error(
-      "Couldn't find a package.json in your current working directory"
-    )
-
-    process.exit(1)
-  }
+  checkForAppsignalPackage()
 
   if (apiKey) {
     process.env["APPSIGNAL_PUSH_API_KEY"] = apiKey
