@@ -1,10 +1,11 @@
 import { existsSync } from "fs"
-import { spawnSync, spawn } from "child_process"
+import { spawnSync } from "child_process"
 import chalk from "chalk"
 import inquirer from "inquirer"
 import { validatePushApiKey } from "@appsignal/core"
 
 import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
+import { spawnDemo } from "../../commands/demo"
 
 /**
  * This is the very last thing to be displayed by the installer CLI! The
@@ -66,7 +67,7 @@ export async function installNode(pkg: { [key: string]: any }) {
   // detect if user is using yarn
   const isUsingYarn = existsSync(`${cwd}/yarn.lock`)
 
-  const modules = Object.keys(pkg.dependencies)
+  const modules = Object.keys(pkg.dependencies || {})
     .map(dep => SUPPORTED_NODEJS_INTEGRATIONS[dep])
     .filter(dep => dep)
 
@@ -122,27 +123,11 @@ export async function installNode(pkg: { [key: string]: any }) {
     }
 
     // send a demo sample
-    spawn("node", [`${__dirname}/demo.js`], {
-      cwd,
-      detached: true,
-      env: {
-        ...process.env,
-        APPSIGNAL_APP_ENV: "development",
-        APPSIGNAL_APP_NAME: name,
-        APPSIGNAL_PUSH_API_KEY: pushApiKey
-      },
-      stdio: "ignore"
-    }).unref()
-
-    console.log() // blank line
-
-    console.log(chalk.greenBright("📡 Demonstration sample data sent!"))
-
-    console.log() // blank line
-
-    console.log(
-      "It may take a minute for the data to appear on https://appsignal.com/accounts"
-    )
+    spawnDemo({
+      APPSIGNAL_APP_ENV: "development",
+      APPSIGNAL_APP_NAME: name,
+      APPSIGNAL_PUSH_API_KEY: pushApiKey
+    })
   } else {
     const mods = modules.join(" ")
 
