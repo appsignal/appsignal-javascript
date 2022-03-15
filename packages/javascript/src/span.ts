@@ -1,4 +1,9 @@
-import { Serializable, getStacktrace, toHashMapString } from "@appsignal/core"
+import {
+  Serializable,
+  getStacktrace,
+  toHashMapString,
+  isError
+} from "@appsignal/core"
 import type {
   JSSpanData,
   Breadcrumb,
@@ -39,20 +44,11 @@ export class Span extends Serializable<JSSpanData> {
   }
 
   public setError<T extends Error>(error: Error | T): this {
-    if (!error) return this
+    if (!error || !isError(error)) return this
 
     this._data.error = {
       name: error.name || "[unknown]",
-      message:
-        error.message ||
-        "setError received an invalid object or type which did not provide an error message or was not an object with a valid message property.\n\nHere's some more information about what we received:\n\n" +
-          `typeof: ${typeof error}\n` +
-          `constructor.name: ${
-            error.constructor.name ?? "[no constructor]"
-          }\n` +
-          `As a string: "${
-            typeof error !== "string" ? JSON.stringify(error) : error
-          }"`,
+      message: error.message,
       backtrace: getStacktrace(error)
     }
 
