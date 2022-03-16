@@ -51,22 +51,6 @@ describe("<ErrorBoundary />", () => {
     expect(instance.send).toBeCalled()
   })
 
-  it("ignores non-Error objects being thrown", () => {
-    expect(() => {
-      render(
-        <ErrorBoundary instance={instance} fallback={() => <div>Fallback</div>}>
-          <BrokenEvent />
-        </ErrorBoundary>
-      )
-    }).toThrow(Event)
-
-    expect(mock.setAction).not.toBeCalled()
-    expect(mock.setTags).not.toBeCalled()
-    expect(mock.setError).not.toBeCalled()
-
-    expect(instance.send).not.toBeCalled()
-  })
-
   it("modifies the action if provided as a prop", () => {
     render(
       <ErrorBoundary instance={instance} action="testaction">
