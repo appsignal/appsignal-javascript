@@ -1,5 +1,12 @@
 # AppSignal CLI changelog
 
+## 1.1.16
+
+### Added
+
+- [39438e9](https://github.com/appsignal/appsignal-javascript/commit/39438e9f0649177fe55243054e8b0e8de1bd4515) patch - Add demo command. Run `npx @appsignal/cli demo` in your Node.js project to
+  send sample demonstration data to AppSignal.
+
 ## 1.1.15
 
 ### Changed

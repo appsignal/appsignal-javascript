@@ -1,5 +1,11 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.23
+
+### Changed
+
+- [5fc4962](https://github.com/appsignal/appsignal-javascript/commit/5fc4962feef894a17ab17aaf54c65c5b14f10476) patch - Thrown non-error objects are now ignored instead of being reported with a generic message.
+
 ## 1.3.22
 
 ### Changed

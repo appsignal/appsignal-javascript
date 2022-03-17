@@ -1,5 +1,11 @@
 # AppSignal for preact changelog
 
+## 1.0.18
+
+### Removed
+
+- [a33e5fd](https://github.com/appsignal/appsignal-javascript/commit/a33e5fdbadb3a56f6cece03e2906a900bb2763a3) patch - Remove error type check on ErrorBoundary. This is now done in the `setError` helper instead for all function calls.
+
 ## 1.0.17
 
 ### Changed

@@ -1,5 +1,11 @@
 # AppSignal for react changelog
 
+## 1.0.19
+
+### Removed
+
+- [a958e07](https://github.com/appsignal/appsignal-javascript/commit/a958e0752f1816f0a9643e905a5a143f8e74c9ea) patch - Remove error type check on ErrorBoundary. This is now done in the `setError` helper instead for all function calls.
+
 ## 1.0.18
 
 ### Changed
