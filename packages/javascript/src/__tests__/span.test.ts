@@ -20,56 +20,10 @@ describe("Span", () => {
       expect(span.serialize().error.message).toEqual("No error has been set")
     })
 
-    describe("bad input", () => {
-      it("handles strings", () => {
-        span.setError(("a string" as unknown) as Error)
-        expect(span.serialize().error.message).toEqual(
-          "setError received an invalid object or type which did not provide an error message or was not an object with a valid message property.\n\nHere's some more information about what we received:\n\n" +
-            `typeof: string\n` +
-            `constructor.name: String\n` +
-            `As a string: "a string"`
-        )
-      })
-
-      it("handles numbers", () => {
-        span.setError((123 as unknown) as Error)
-        expect(span.serialize().error.message).toEqual(
-          "setError received an invalid object or type which did not provide an error message or was not an object with a valid message property.\n\nHere's some more information about what we received:\n\n" +
-            `typeof: number\n` +
-            `constructor.name: Number\n` +
-            `As a string: "123"`
-        )
-      })
-
-      it("handles booleans", () => {
-        span.setError((true as unknown) as Error)
-        expect(span.serialize().error.message).toEqual(
-          "setError received an invalid object or type which did not provide an error message or was not an object with a valid message property.\n\nHere's some more information about what we received:\n\n" +
-            `typeof: boolean\n` +
-            `constructor.name: Boolean\n` +
-            `As a string: "true"`
-        )
-      })
-
-      it("handles arrays", () => {
-        span.setError(([] as unknown) as Error)
-        expect(span.serialize().error.message).toEqual(
-          "setError received an invalid object or type which did not provide an error message or was not an object with a valid message property.\n\nHere's some more information about what we received:\n\n" +
-            `typeof: object\n` +
-            `constructor.name: Array\n` +
-            `As a string: "[]"`
-        )
-      })
-
-      it("handles objects", () => {
-        span.setError(({} as unknown) as Error)
-        expect(span.serialize().error.message).toEqual(
-          "setError received an invalid object or type which did not provide an error message or was not an object with a valid message property.\n\nHere's some more information about what we received:\n\n" +
-            `typeof: object\n` +
-            `constructor.name: Object\n` +
-            `As a string: "{}"`
-        )
-      })
+    it("returns the span when the passed object is not an error", () => {
+      const event = new CloseEvent("event")
+      span.setError((event as unknown) as Error)
+      expect(span.serialize().error.message).toEqual("No error has been set")
     })
   })
 })

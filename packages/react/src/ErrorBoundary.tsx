@@ -1,6 +1,5 @@
 import React from "react"
 import { Props, State } from "./types/component"
-import { isError } from "@appsignal/core"
 
 export class ErrorBoundary extends React.Component<Props, State> {
   state = { error: undefined }
@@ -10,12 +9,10 @@ export class ErrorBoundary extends React.Component<Props, State> {
   }
 
   static getDerivedStateFromError(error: Error): State {
-    return isError(error) ? { error } : {}
+    return { error }
   }
 
   public componentDidCatch(error: Error): void {
-    if (!isError(error)) return
-
     const { instance: appsignal, action, tags = {} } = this.props
     const span = appsignal.createSpan()
 
