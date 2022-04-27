@@ -128,12 +128,14 @@ matrix:
         - name: "react@latest"
           packages:
             react: "latest"
+        - name: "react@18.1.0"
+          packages:
+            react: "18.1.0"
         - name: "react@17.0.2"
           packages:
             react: "17.0.2"
-        - name: "react@16.14.0"
-          packages:
-            react: "16.14.0"
+            react-dom: "17.0.2"
+            "@testing-library/react": "11.1.2"
     - package: "@appsignal/stimulus"
       path: "packages/stimulus"
       variations:

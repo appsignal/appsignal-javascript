@@ -127,13 +127,13 @@ blocks:
       commands:
       - script/install_packages react@latest
       - mono test --package=@appsignal/react
+    - name: "@appsignal/react - react@18.1.0"
+      commands:
+      - script/install_packages react@18.1.0
+      - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@17.0.2"
       commands:
-      - script/install_packages react@17.0.2
-      - mono test --package=@appsignal/react
-    - name: "@appsignal/react - react@16.14.0"
-      commands:
-      - script/install_packages react@16.14.0
+      - script/install_packages react@17.0.2 react-dom@17.0.2 @testing-library/react@11.1.2
       - mono test --package=@appsignal/react
     - name: "@appsignal/vue - vue@latest"
       commands:
