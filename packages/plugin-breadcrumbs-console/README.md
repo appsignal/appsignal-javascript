@@ -6,6 +6,8 @@
 
 The `@appsignal/javascript` plugin for automatically adding a breadcrumb on every call to any of the [supported `console` methods](https://github.com/appsignal/appsignal-javascript/blob/develop/packages/plugin-breadcrumbs-console/src/index.ts#L3), e.g. `console.log`, `console.warn`.
 
+See also the [mono repo README](../../README.md) for more information.
+
 ## Installation
 
 Add the  `@appsignal/plugin-breadcrumbs-console` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
@@ -23,7 +25,7 @@ npm install --save @appsignal/javascript @appsignal/plugin-breadcrumbs-console
 import Appsignal from "@appsignal/javascript"
 import { plugin } from "@appsignal/plugin-breadcrumbs-console"
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
@@ -34,14 +36,7 @@ appsignal.use(plugin(options))
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

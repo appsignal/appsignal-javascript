@@ -6,6 +6,8 @@
 
 The `@appsignal/javascript` integration for Preact v10.0.0-rc.0+ (Preact X). As Preact X is currently pre-release, you should also consider this pre-release functionality.
 
+See also the [mono repo README](../../README.md) for more information.
+
 ## Installation
 
 Add the  `@appsignal/preact` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
@@ -29,7 +31,7 @@ import { Component } from 'preact'
 import Appsignal from "@appsignal/javascript"
 import { ErrorBoundary } from "@appsignal/preact"
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
@@ -40,8 +42,8 @@ const FallbackComponent = () => (
 export default class App extends Component {
 	render() {
     return (
-      <ErrorBoundary 
-        instance={appsignal} 
+      <ErrorBoundary
+        instance={appsignal}
         tags={{ tag: "value" }} {/* Optional */}
         fallback={(error) => <FallbackComponent />} {/* Optional */}
       >
@@ -56,14 +58,7 @@ export default class App extends Component {
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

@@ -4,7 +4,9 @@
 - [Documentation][docs]
 - [Support][contact]
 
-The `@appsignal/javascript` integration for Stimulus v1.1+. 
+The `@appsignal/javascript` integration for Stimulus v1.1+.
+
+See also the [mono repo README](../../README.md) for more information.
 
 ## Installation
 
@@ -30,7 +32,7 @@ import { definitionsFromContext } from "stimulus/webpack-helpers"
 import Appsignal from "@appsignal/javascript"
 import { installErrorHandler } from "@appsignal/stimulus"
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
@@ -44,16 +46,9 @@ application.load(definitionsFromContext(context))
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
-
-You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
+You can then run the following to start the compiler in _watch_ mode in this sub directory. This automatically compiles both the ES Module and CommonJS variants:
 
 ```bash
 yarn build:watch

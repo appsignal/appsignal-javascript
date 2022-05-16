@@ -4,7 +4,9 @@
 - [Documentation][docs]
 - [Support][contact]
 
-The `@appsignal/javascript` integration for Webpack v4+. 
+The `@appsignal/javascript` integration for Webpack v4+.
+
+See also the [mono repo README](../../README.md) for more information.
 
 ⚠️ The Webpack plugin is currently in **BETA**. Please report any bugs to us [here](https://github.com/appsignal/appsignal-javascript/issues), your feedback is appreciated.
 
@@ -55,14 +57,7 @@ module.exports = config
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

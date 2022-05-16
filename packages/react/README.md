@@ -6,6 +6,8 @@
 
 The `@appsignal/javascript` integration for React v15+.
 
+See also the [mono repo README](../../README.md) for more information.
+
 ## Installation
 
 Add the  `@appsignal/react` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
@@ -29,7 +31,7 @@ import ReactDOM from "react-dom"
 import Appsignal from "@appsignal/javascript"
 import { ErrorBoundary } from "@appsignal/react"
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
@@ -79,14 +81,7 @@ ReactDOM.render(<App />, document.getElementById("root"))
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

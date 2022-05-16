@@ -6,6 +6,8 @@
 
 The `@appsignal/javascript` integration for Angular v8+. The integration may work on lower versions of Angular, but it has not been tested with them. 
 
+See also the [mono repo README](../../README.md) for more information.
+
 ## Installation
 
 Add the  `@appsignal/angular` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
@@ -21,14 +23,14 @@ npm install --save @appsignal/javascript @appsignal/angular
 
 ### `AppsignalErrorHandler`
 
-The default Angular integration is a class that extends the the `ErrorHandler` class provided by `@angular/core`. In a new app created using `@angular/cli`, your `app.module.ts` file might include something like this:
+The default Angular integration is a class that extends the `ErrorHandler` class provided by `@angular/core`. In a new app created using `@angular/cli`, your `app.module.ts` file might include something like this:
 
 ```js
 import { ErrorHandler, NgModule } from '@angular/core';
 import Appsignal from '@appsignal/javascript';
 import { createErrorHandlerFactory } from '@appsignal/angular';
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: 'YOUR FRONTEND API KEY'
 });
 
@@ -49,14 +51,7 @@ export class AppModule {}
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

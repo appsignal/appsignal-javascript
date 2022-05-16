@@ -4,7 +4,9 @@
 - [Documentation][docs]
 - [Support][contact]
 
-The `@appsignal/javascript` integration for Ember v3.11+. 
+The `@appsignal/javascript` integration for Ember v3.11+.
+
+See also the [mono repo README](../../README.md) for more information.
 
 ## Installation
 
@@ -37,7 +39,7 @@ The default Ember integration is a function that binds to the `Ember.onerror` an
 import Appsignal from "@appsignal/javascript"
 import { installErrorHandler } from "@appsignal/ember"
 
-const appsignal = new Appsignal({ 
+const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
@@ -50,14 +52,7 @@ The integration will look for `window.Ember` to bind to by default. You can also
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

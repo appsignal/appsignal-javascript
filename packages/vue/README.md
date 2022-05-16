@@ -6,6 +6,8 @@
 
 The `@appsignal/javascript` integration for Vue v2.6+ and Vue v.3.0+.
 
+See also the [mono repo README](../../README.md) for more information.
+
 ## Installation
 
 Add the  `@appsignal/vue` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
@@ -66,14 +68,7 @@ app.mount('#app')
 
 ### Installation
 
-This repository is a Lerna-managed monorepo, containing packages (located in the `/packages` directory) that map to separate `npm` modules.
-
-To install the dependencies:
-
-```bash
-yarn install
-lerna bootstrap
-```
+Make sure mono is installed and bootstrapped, see the [project README's development section](../../README.md#dev-install) for more information.
 
 You can then run the following to start the compiler in _watch_ mode. This automatically compiles both the ES Module and CommonJS variants:
 

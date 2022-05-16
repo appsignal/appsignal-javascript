@@ -87,6 +87,7 @@ If you're stuck, feel free to [contact us][contact] for help!
 ## Development
 
 ### Installation
+<a name="dev-install"></a>
 
 This repository is a [mono-managed monorepo](https://github.com/appsignal/mono/), containing packages (located in the `/packages` directory) that map to separate `npm` modules.
 
