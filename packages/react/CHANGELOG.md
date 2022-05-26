@@ -1,5 +1,11 @@
 # AppSignal for react changelog
 
+## 1.0.20
+
+### Added
+
+- [4b636f7](https://github.com/appsignal/appsignal-javascript/commit/4b636f759040fd1ae15d2305b09a442dfb566597) patch - Add React 18 compatibility
+
 ## 1.0.19
 
 ### Removed
