@@ -116,12 +116,12 @@ matrix:
         - name: "preact@latest"
           packages:
             preact: "latest"
-        - name: "preact@10.5.15"
+        - name: "preact@10.7.3"
           packages:
-            preact: "10.5.15"
-        - name: "preact@10.4.8"
+            preact: "10.7.3"
+        - name: "preact@10.6.6"
           packages:
-            preact: "10.4.8"
+            preact: "10.6.6"
     - package: "@appsignal/react"
       path: "packages/react"
       variations:
