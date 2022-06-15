@@ -115,13 +115,13 @@ blocks:
       commands:
       - script/install_packages preact@latest
       - mono test --package=@appsignal/preact
-    - name: "@appsignal/preact - preact@10.5.15"
+    - name: "@appsignal/preact - preact@10.7.3"
       commands:
-      - script/install_packages preact@10.5.15
+      - script/install_packages preact@10.7.3
       - mono test --package=@appsignal/preact
-    - name: "@appsignal/preact - preact@10.4.8"
+    - name: "@appsignal/preact - preact@10.6.6"
       commands:
-      - script/install_packages preact@10.4.8
+      - script/install_packages preact@10.6.6
       - mono test --package=@appsignal/preact
     - name: "@appsignal/react - react@latest"
       commands:
