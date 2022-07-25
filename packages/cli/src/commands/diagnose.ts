@@ -9,8 +9,9 @@ import { checkForAppsignalPackage } from "../utils"
  * Options:
  * -e, --environment <env>  Which environment to use
  * -k, --api-key <key>      Which API key to use
- * -h, --help               display help for command
- * --no-report              Don't send report automatically send the report to AppSignal
+ * -h, --help               Display help for command
+ * --send-report            Automatically send the report to AppSignal
+ * --no-send-report         Don't send the report automatically to AppSignal
  *
  * This command just spawns the diagnose command from the `@appsignal/nodejs`
  * package as a child process.
@@ -18,11 +19,11 @@ import { checkForAppsignalPackage } from "../utils"
 export const diagnose = ({
   apiKey,
   environment,
-  report = true
+  sendReport
 }: {
   apiKey?: string
   environment?: string
-  report: boolean
+  sendReport: boolean | undefined
 }): void => {
   const cwd = process.cwd()
 
@@ -36,12 +37,18 @@ export const diagnose = ({
     process.env["APPSIGNAL_APP_ENV"] = environment
   }
 
-  spawnSync(
-    `${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`,
-    !report ? ["--no-report"] : undefined,
-    {
-      cwd,
-      stdio: "inherit"
-    }
-  )
+  let args = []
+  switch (sendReport) {
+    case true:
+      args.push("--send-report")
+      break
+    case false:
+      args.push("--no-send-report")
+      break
+  }
+
+  spawnSync(`${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`, args, {
+    cwd,
+    stdio: "inherit"
+  })
 }
