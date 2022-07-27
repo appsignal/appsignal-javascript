@@ -1,5 +1,11 @@
 # AppSignal CLI changelog
 
+## 1.1.17
+
+### Fixed
+
+- [d58aa41](https://github.com/appsignal/appsignal-javascript/commit/d58aa41ceb3a4a6850467299392776c846698864) patch - Fix the send report CLI flags for diagnose tool. The documented `--send-report` and `--no-send-report` flags will now work.
+
 ## 1.1.16
 
 ### Added
