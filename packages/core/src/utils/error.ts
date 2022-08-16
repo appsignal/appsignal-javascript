@@ -7,6 +7,7 @@
  */
 export function isError<T extends Error>(error: Error | T): boolean {
   return (
+    typeof error === "object" &&
     typeof (error as any).message !== "undefined" &&
     (typeof (error as any).stacktrace !== "undefined" ||
       typeof (error as any)["opera#sourceloc"] !== "undefined" ||
