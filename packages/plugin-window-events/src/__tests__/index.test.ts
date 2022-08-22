@@ -71,8 +71,7 @@ describe("windowEventsPlugin", () => {
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "UnhandledPromiseRejectionError",
-        message: "test",
-        stack: "No stacktrace available"
+        message: "test"
       })
     })
 
@@ -86,11 +85,7 @@ describe("windowEventsPlugin", () => {
 
       expect(mockAppsignal.createSpan).toHaveBeenCalled()
 
-      expect(setErrorMock).toHaveBeenCalledWith({
-        name: "UnhandledPromiseRejectionError",
-        message: "{}",
-        stack: error.stack
-      })
+      expect(setErrorMock).toHaveBeenCalledWith(error)
     })
 
     it("handles a promise rejection with an circular structure as a reason", () => {
@@ -114,8 +109,7 @@ describe("windowEventsPlugin", () => {
         message:
           `{"abc":"def","foo":"bar",` +
           `"reason":"[cyclic value: root object]",` +
-          `"nested":{"inside":"[cyclic value: nested]"}}`,
-        stack: "No stacktrace available"
+          `"nested":{"inside":"[cyclic value: nested]"}}`
       })
     })
 
@@ -128,8 +122,7 @@ describe("windowEventsPlugin", () => {
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "UnhandledPromiseRejectionError",
-        message: undefined,
-        stack: "No stacktrace available"
+        message: ""
       })
     })
 
@@ -142,8 +135,7 @@ describe("windowEventsPlugin", () => {
 
       expect(setErrorMock).toHaveBeenCalledWith({
         name: "UnhandledPromiseRejectionError",
-        message: undefined,
-        stack: "No stacktrace available"
+        message: ""
       })
     })
   })

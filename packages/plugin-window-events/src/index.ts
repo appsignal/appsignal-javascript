@@ -1,4 +1,5 @@
 import type { JSClient } from "@appsignal/types"
+import { isError } from "@appsignal/core"
 
 function windowEventsPlugin(options?: { [key: string]: any }) {
   const ctx = window as Window
@@ -65,17 +66,22 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
 
     function _onUnhandledRejectionHandler(
       this: WindowEventHandlers,
-      error: PromiseRejectionEvent
+      event: PromiseRejectionEvent
     ): void {
       const span = self.createSpan()
 
-      span.setError({
-        name: "UnhandledPromiseRejectionError",
-        message: _reasonFromError(error),
-        // if `reason` is an instance of `Error`, then it may contain
-        // a stack. we try to get it here, or just return an empty string
-        stack: error?.reason?.stack || "No stacktrace available"
-      })
+      let error: Error
+
+      if (event && event.reason && isError(event.reason)) {
+        error = event.reason
+      } else {
+        error = {
+          name: "UnhandledPromiseRejectionError",
+          message: _reasonFromEvent(event)
+        }
+      }
+
+      span.setError(error)
 
       self.send(span)
 
@@ -93,15 +99,16 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
     }
   }
 
-  function _reasonFromError(error: PromiseRejectionEvent) {
-    if (!error) {
-      return undefined
-    }
-    if (typeof error.reason === "string") {
-      return error.reason
+  function _reasonFromEvent(event: PromiseRejectionEvent): string {
+    if (!event || !event.reason) {
+      return ""
     }
 
-    return JSON.stringify(error.reason, circularReplacer())
+    if (typeof event.reason === "string") {
+      return event.reason
+    }
+
+    return JSON.stringify(event.reason, circularReplacer())
   }
 
   function circularReplacer() {

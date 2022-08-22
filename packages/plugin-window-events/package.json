@@ -22,7 +22,8 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/types": "=3.0.0"
+    "@appsignal/types": "=3.0.0",
+    "@appsignal/core": "=1.1.17"
   },
   "publishConfig": {
     "access": "public"
