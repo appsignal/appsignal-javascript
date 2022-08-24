@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/react",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@appsignal/types": "=3.0.0",
-    "@appsignal/core": "=1.1.17"
+    "@appsignal/core": "=1.1.18"
   },
   "peerDependencies": {
     "react": ">= 16.8.6 < 19"

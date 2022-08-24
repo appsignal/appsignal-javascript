@@ -1,5 +1,11 @@
 # AppSignal Core changelog
 
+## 1.1.18
+
+### Fixed
+
+- [750d9fa](https://github.com/appsignal/appsignal-javascript/commit/750d9fa118f8a166156fd16e1ff99bcc3d93977d) patch - Fix `isError` so that it does not throw an error when the given error is not an object.
+
 ## 1.1.17
 
 ### Changed

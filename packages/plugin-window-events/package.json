@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/plugin-window-events",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@appsignal/types": "=3.0.0",
-    "@appsignal/core": "=1.1.17"
+    "@appsignal/core": "=1.1.18"
   },
   "publishConfig": {
     "access": "public"

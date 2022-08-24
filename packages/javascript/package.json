@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/javascript",
-  "version": "1.3.23",
+  "version": "1.3.24",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -28,7 +28,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@appsignal/core": "=1.1.17",
+    "@appsignal/core": "=1.1.18",
     "@appsignal/types": "=3.0.0",
     "tslib": "^2.3.0"
   },

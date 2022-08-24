@@ -1,5 +1,15 @@
 # AppSignal for plugin-window-events changelog
 
+## 1.0.18
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.18.
+
+### Fixed
+
+- [750d9fa](https://github.com/appsignal/appsignal-javascript/commit/750d9fa118f8a166156fd16e1ff99bcc3d93977d) patch - Fix the behaviour of the unhandled rejection handler when the reason for the rejection event (the value passed to `reject` in the promise callback) is an `Error`, showing the message and stacktrace for that error.
+
 ## 1.0.17
 
 ### Changed

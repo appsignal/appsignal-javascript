@@ -1,5 +1,12 @@
 # AppSignal for react changelog
 
+## 1.0.21
+
+### Changed
+
+- [1640241](https://github.com/appsignal/appsignal-javascript/commit/164024199a5e1d8099105eda62623ebbeeceb62a) patch - Bump peer dependency to allow React 18.2
+- patch - Update @appsignal/core dependency to 1.1.18.
+
 ## 1.0.20
 
 ### Added
