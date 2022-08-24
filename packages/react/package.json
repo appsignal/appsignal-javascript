@@ -26,7 +26,7 @@
     "@appsignal/core": "=1.1.17"
   },
   "peerDependencies": {
-    "react": ">= 16.8.6 <= 18.1.0"
+    "react": ">= 16.8.6 < 19"
   },
   "publishConfig": {
     "access": "public"
