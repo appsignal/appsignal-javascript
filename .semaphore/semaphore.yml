@@ -127,6 +127,10 @@ blocks:
       commands:
       - script/install_packages react@latest
       - mono test --package=@appsignal/react
+    - name: "@appsignal/react - react@18.2.0"
+      commands:
+      - script/install_packages react@18.2.0
+      - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@18.1.0"
       commands:
       - script/install_packages react@18.1.0
