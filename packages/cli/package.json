@@ -13,7 +13,7 @@
     "build:watch": "tsc -p tsconfig.json -w --preserveWatchOutput",
     "clean": "rimraf dist coverage",
     "link:yarn": "yarn link",
-    "test": "jest --passWithNoTests",
+    "test": "jest",
     "test:watch": "jest --watch"
   },
   "publishConfig": {
