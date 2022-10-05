@@ -3,6 +3,8 @@ import { spawnSync } from "child_process"
 import chalk from "chalk"
 import inquirer from "inquirer"
 import { validatePushApiKey } from "@appsignal/core"
+import * as fs from "fs"
+import * as path from "path"
 
 import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
 import { spawnDemo } from "../../commands/demo"
@@ -44,9 +46,9 @@ Need any further help? Feel free to ask a human at ${chalk.bold(
 `
 
 /**
- * Installs the Node.js integration in the current working directory
+ * Installs the Node.js integration in the current working process.cwd().directory
  */
-export async function installNode(pkg: { [key: string]: any }) {
+export async function installNode(pkg: { [key: string]: any }, dir: string) {
   const cwd = process.cwd()
 
   const { pushApiKey, name } = await inquirer.prompt([
@@ -120,6 +122,37 @@ export async function installNode(pkg: { [key: string]: any }) {
         cwd,
         stdio: "inherit"
       })
+    }
+
+    const { method } = await inquirer.prompt([
+      {
+        type: "list",
+        name: "method",
+        message:
+          "Which method of configuring AppSignal in your project do you prefer?",
+        choices: [
+          "Using an appsignal.js configuration file.",
+          "Using system environment variables."
+        ],
+        default: "Using an appsignal.js configuration file."
+      }
+    ])
+
+    if (method == "Using an appsignal.js configuration file.") {
+      console.log("Writing appsignal.js configuration file.")
+      // console.log(path.join(dir, "appsignal.js"))
+      fs.writeFileSync(
+        path.join(dir, "appsignal.js"),
+        `const { Appsignal } = require("@appsignal/nodejs");
+
+const appsignal = new Appsignal({
+  active: true,
+  name: "${name}",
+  pushApiKey: "${pushApiKey}",
+});
+
+module.exports = { appsignal };`
+      )
     }
 
     // send a demo sample

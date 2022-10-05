@@ -45,7 +45,7 @@ export async function install() {
     ])
 
     if (integration === "nodejs") {
-      await installNode(pkg)
+      await installNode(pkg, process.cwd())
     }
 
     console.log("✅ Done!")

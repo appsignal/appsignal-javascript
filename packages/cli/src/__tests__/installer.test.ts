@@ -1,5 +1,8 @@
 jest.mock("inquirer")
 
+import * as os from "os"
+import * as fs from "fs"
+import * as path from "path"
 import inquirer from "inquirer"
 import { installNode } from "../installers/node"
 
@@ -8,13 +11,20 @@ const mockedPrompt = inquirer.prompt as jest.MockedFunction<
   typeof inquirer.prompt
 >
 const pkg = require(`${process.cwd()}/package.json`)
+const tmpdir = os.tmpdir()
 
 describe("Installer", () => {
   it("prints install instructions", async () => {
-    mockedPrompt.mockResolvedValueOnce({ pushApiKey: "123", name: "name" })
+    mockedPrompt.mockResolvedValueOnce({
+      pushApiKey: "00000000-0000-0000-0000-000000000000",
+      name: "MyApp"
+    })
     mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
+    mockedPrompt.mockResolvedValueOnce({
+      method: "Using an appsignal.js configuration file."
+    })
 
-    await installNode(pkg)
+    await installNode(pkg, tmpdir)
 
     expect(consoleLogSpy.mock.calls).toEqual([
       [],
@@ -23,6 +33,7 @@ describe("Installer", () => {
       ],
       [],
       [],
+      ["Writing appsignal.js configuration file."],
       [],
       ["📡 Demonstration sample data sent!"],
       [],
@@ -35,7 +46,7 @@ describe("Installer", () => {
 
 The next step is adding your Push API key to your project. The best way to do this is with an environment variable:
 
-export APPSIGNAL_PUSH_API_KEY="123"
+export APPSIGNAL_PUSH_API_KEY="00000000-0000-0000-0000-000000000000"
 
 If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
 
@@ -47,7 +58,7 @@ const { Appsignal } = require(\"@appsignal/nodejs\");
 
 const appsignal = new Appsignal({
   active: true,
-  name: \"name\"
+  name: \"MyApp\"
 });
 
 Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
@@ -56,5 +67,19 @@ Need any further help? Feel free to ask a human at support@appsignal.com!
 `
       ]
     ])
+
+    expect(
+      fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString()
+    ).toEqual(
+      `const { Appsignal } = require("@appsignal/nodejs");
+
+const appsignal = new Appsignal({
+  active: true,
+  name: "MyApp",
+  pushApiKey: "00000000-0000-0000-0000-000000000000",
+});
+
+module.exports = { appsignal };`
+    )
   })
 })
