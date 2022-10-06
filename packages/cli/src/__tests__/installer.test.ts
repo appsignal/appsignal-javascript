@@ -36,13 +36,13 @@ describe("Installer", () => {
         ],
         [],
         [],
-        ["Writing appsignal.js configuration file."],
         [],
         ["📡 Demonstration sample data sent!"],
         [],
         [
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
+        ["Writing appsignal.js configuration file."],
         [
           `
 🎉 Great news! You've just installed AppSignal to your project!

@@ -88,37 +88,6 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
       })
     }
 
-    const { method } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "method",
-        message:
-          "Which method of configuring AppSignal in your project do you prefer?",
-        choices: [
-          "Using an appsignal.js configuration file.",
-          "Using system environment variables."
-        ],
-        default: "Using an appsignal.js configuration file."
-      }
-    ])
-
-    if (method == "Using an appsignal.js configuration file.") {
-      console.log("Writing appsignal.js configuration file.")
-      // console.log(path.join(dir, "appsignal.js"))
-      fs.writeFileSync(
-        path.join(dir, "appsignal.js"),
-        `const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "${name}",
-  pushApiKey: "${pushApiKey}",
-});
-
-module.exports = { appsignal };`
-      )
-    }
-
     // send a demo sample
     spawnDemo({
       APPSIGNAL_APP_ENV: "development",
@@ -138,6 +107,37 @@ module.exports = { appsignal };`
       chalk.bold(
         isUsingYarn ? `yarn add ${mods}` : `npm install --save ${mods}`
       )
+    )
+  }
+
+  const { method } = await inquirer.prompt([
+    {
+      type: "list",
+      name: "method",
+      message:
+        "Which method of configuring AppSignal in your project do you prefer?",
+      choices: [
+        "Using an appsignal.js configuration file.",
+        "Using system environment variables."
+      ],
+      default: "Using an appsignal.js configuration file."
+    }
+  ])
+
+  if (method == "Using an appsignal.js configuration file.") {
+    console.log("Writing appsignal.js configuration file.")
+    // console.log(path.join(dir, "appsignal.js"))
+    fs.writeFileSync(
+      path.join(dir, "appsignal.js"),
+      `const { Appsignal } = require("@appsignal/nodejs");
+
+const appsignal = new Appsignal({
+  active: true,
+  name: "${name}",
+  pushApiKey: "${pushApiKey}",
+});
+
+module.exports = { appsignal };`
     )
   }
 
