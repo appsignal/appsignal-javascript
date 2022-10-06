@@ -147,24 +147,9 @@ module.exports = { appsignal };`
       "Great news!"
     )} You've just installed AppSignal to your project!
 
-The next step is adding your Push API key to your project. The best way to do this is with an environment variable:
+Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
 
-${chalk.bold(`export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"`)}
-
-If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
-
-🔗 https://docs.appsignal.com/nodejs/configuration
-
-Then, you'll need to initalize AppSignal in your app. Please ensure that this is done in the entrypoint of your application, ${chalk.cyan(
-      "before all other dependencies are imported!"
-    )}
-
-${chalk.bold(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "${name}"
-});`)}
+    node --require './appsignal.js' index.js
 
 Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
 
