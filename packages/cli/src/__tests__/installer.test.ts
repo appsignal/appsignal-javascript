@@ -14,34 +14,37 @@ const pkg = require(`${process.cwd()}/package.json`)
 const tmpdir = os.tmpdir()
 
 describe("Installer", () => {
-  it("prints install instructions", async () => {
-    mockedPrompt.mockResolvedValueOnce({
-      pushApiKey: "00000000-0000-0000-0000-000000000000",
-      name: "MyApp"
-    })
-    mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
-    mockedPrompt.mockResolvedValueOnce({
-      method: "Using an appsignal.js configuration file."
+  describe("when choosing to install with a configuration file", () => {
+    beforeAll(async () => {
+      mockedPrompt.mockResolvedValueOnce({
+        pushApiKey: "00000000-0000-0000-0000-000000000000",
+        name: "MyApp"
+      })
+      mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
+      mockedPrompt.mockResolvedValueOnce({
+        method: "Using an appsignal.js configuration file."
+      })
+
+      await installNode(pkg, tmpdir)
     })
 
-    await installNode(pkg, tmpdir)
-
-    expect(consoleLogSpy.mock.calls).toEqual([
-      [],
-      [
-        "We couldn't find any integrations for the modules you currently have installed."
-      ],
-      [],
-      [],
-      ["Writing appsignal.js configuration file."],
-      [],
-      ["📡 Demonstration sample data sent!"],
-      [],
-      [
-        "It may take a minute for the data to appear on https://appsignal.com/accounts"
-      ],
-      [
-        `
+    it("it prints the post-install instructions", () => {
+      expect(consoleLogSpy.mock.calls).toEqual([
+        [],
+        [
+          "We couldn't find any integrations for the modules you currently have installed."
+        ],
+        [],
+        [],
+        ["Writing appsignal.js configuration file."],
+        [],
+        ["📡 Demonstration sample data sent!"],
+        [],
+        [
+          "It may take a minute for the data to appear on https://appsignal.com/accounts"
+        ],
+        [
+          `
 🎉 Great news! You've just installed AppSignal to your project!
 
 Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
@@ -52,13 +55,13 @@ Some integrations require additional setup. See https://docs.appsignal.com/nodej
 
 Need any further help? Feel free to ask a human at support@appsignal.com!
 `
-      ]
-    ])
+        ]
+      ])
+    })
 
-    expect(
-      fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString()
-    ).toEqual(
-      `const { Appsignal } = require("@appsignal/nodejs");
+    it("it writes an appsignal.js configuration file", () => {
+      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
+        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
 
 const appsignal = new Appsignal({
   active: true,
@@ -66,7 +69,7 @@ const appsignal = new Appsignal({
   pushApiKey: "00000000-0000-0000-0000-000000000000",
 });
 
-module.exports = { appsignal };`
-    )
+module.exports = { appsignal };`)
+    })
   })
 })
