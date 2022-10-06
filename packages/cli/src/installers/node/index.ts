@@ -125,6 +125,7 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
   ])
 
   if (method == "Using an appsignal.js configuration file.") {
+    console.log()
     console.log("Writing appsignal.js configuration file.")
     // console.log(path.join(dir, "appsignal.js"))
     fs.writeFileSync(
@@ -141,23 +142,27 @@ module.exports = { appsignal };`
     )
   }
 
+  console.log()
+
   console.log(
-    `
-🎉 ${chalk.greenBright(
+    `🎉 ${chalk.greenBright(
       "Great news!"
-    )} You've just installed AppSignal to your project!
+    )} You've just installed AppSignal to your project!`
+  )
 
-Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
+  console.log()
 
-    node --require './appsignal.js' index.js
+  console.log(`Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
 
-Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
+    node --require './appsignal.js' index.js`)
+
+  console.log()
+
+  console.log(`Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
 
 Need any further help? Feel free to ask a human at ${chalk.bold(
-      "support@appsignal.com"
-    )}!
-`
-  )
+    "support@appsignal.com"
+  )}!`)
 }
 
 /**

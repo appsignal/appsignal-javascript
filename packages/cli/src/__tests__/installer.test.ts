@@ -42,19 +42,21 @@ describe("Installer", () => {
         [
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
+        [],
         ["Writing appsignal.js configuration file."],
+        [],
+        [`🎉 Great news! You've just installed AppSignal to your project!`],
+        [],
         [
-          `
-🎉 Great news! You've just installed AppSignal to your project!
+          `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
 
-Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
+    node --require './appsignal.js' index.js`
+        ],
+        [],
+        [
+          `Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
 
-    node --require './appsignal.js' index.js
-
-Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
-
-Need any further help? Feel free to ask a human at support@appsignal.com!
-`
+Need any further help? Feel free to ask a human at support@appsignal.com!`
         ]
       ])
     })
