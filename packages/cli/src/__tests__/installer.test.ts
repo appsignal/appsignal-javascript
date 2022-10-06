@@ -28,6 +28,10 @@ describe("Installer", () => {
       await installNode(pkg, tmpdir)
     })
 
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
     it("it prints the post-install instructions", () => {
       expect(consoleLogSpy.mock.calls).toEqual([
         [],
@@ -72,6 +76,69 @@ const appsignal = new Appsignal({
 });
 
 module.exports = { appsignal };`)
+    })
+  })
+
+  describe("when choosing to install with environment variables", () => {
+    beforeAll(async () => {
+      mockedPrompt.mockResolvedValueOnce({
+        pushApiKey: "00000000-0000-0000-0000-000000000000",
+        name: "MyApp"
+      })
+      mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
+      mockedPrompt.mockResolvedValueOnce({
+        method: "Using system environment variables."
+      })
+
+      await installNode(pkg, tmpdir)
+    })
+
+    afterAll(() => {
+      jest.clearAllMocks()
+    })
+
+    it("it prints the post-install instructions", () => {
+      expect(consoleLogSpy.mock.calls).toEqual([
+        [],
+        [
+          "We couldn't find any integrations for the modules you currently have installed."
+        ],
+        [],
+        [],
+        [],
+        ["📡 Demonstration sample data sent!"],
+        [],
+        [
+          "It may take a minute for the data to appear on https://appsignal.com/accounts"
+        ],
+        [],
+        [`🎉 Great news! You've just installed AppSignal to your project!`],
+        [],
+        [
+          `You've chosen to use environment variables to configure AppSignal:
+
+    export APPSIGNAL_PUSH_API_KEY="00000000-0000-0000-0000-000000000000"
+
+If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
+
+ 🔗 https://docs.appsignal.com/nodejs/configuration
+
+Then, you'll need to initalize AppSignal in your app. Please ensure that this is done in the entrypoint of your application, before all other dependencies are imported!
+
+    const { Appsignal } = require(\"@appsignal/nodejs\");
+    
+    const appsignal = new Appsignal({
+      active: true,
+      name: \"MyApp\"
+    });`
+        ],
+        [],
+        [
+          `Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
+
+Need any further help? Feel free to ask a human at support@appsignal.com!`
+        ]
+      ])
     })
   })
 })
