@@ -12,6 +12,7 @@ const mockedPrompt = inquirer.prompt as jest.MockedFunction<
 >
 const pkg = require(`${process.cwd()}/package.json`)
 const tmpdir = os.tmpdir()
+let src = path.join(tmpdir, "src")
 
 describe("Installer", () => {
   describe("when choosing to install with a configuration file", () => {
@@ -67,6 +68,49 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
 
     it("it writes an appsignal.js configuration file", () => {
       expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
+        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
+
+const appsignal = new Appsignal({
+  active: true,
+  name: "MyApp",
+  pushApiKey: "00000000-0000-0000-0000-000000000000",
+});
+
+module.exports = { appsignal };`)
+    })
+  })
+
+  describe("when choosing to install with a configuration file, with a src directory", () => {
+    beforeAll(async () => {
+      mockedPrompt.mockResolvedValueOnce({
+        pushApiKey: "00000000-0000-0000-0000-000000000000",
+        name: "MyApp"
+      })
+      mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
+      mockedPrompt.mockResolvedValueOnce({
+        method: "Using an appsignal.js configuration file."
+      })
+
+      fs.mkdirSync(src)
+      await installNode(pkg, tmpdir)
+    })
+
+    afterAll(() => {
+      fs.rmSync(src, { recursive: true, force: true })
+      jest.clearAllMocks()
+    })
+
+    it("it refers to src/appsignal.js the post-install instructions", () => {
+      expect(consoleLogSpy.mock.calls).toContainEqual([
+        "Writing src/appsignal.js configuration file."
+      ])
+      expect(consoleLogSpy.mock.calls).toContainEqual([
+        "    node --require './src/appsignal.js' index.js"
+      ])
+    })
+
+    it("it writes a src/appsignal.js configuration file", () => {
+      expect(fs.readFileSync(path.join(src, "appsignal.js")).toString())
         .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
 
 const appsignal = new Appsignal({

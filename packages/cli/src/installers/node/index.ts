@@ -14,6 +14,14 @@ import { spawnDemo } from "../../commands/demo"
  */
 export async function installNode(pkg: { [key: string]: any }, dir: string) {
   const cwd = process.cwd()
+  const src = path.join(dir, "src")
+  let configurationFilename: string
+
+  if (fs.existsSync(src)) {
+    configurationFilename = "src/appsignal.js"
+  } else {
+    configurationFilename = "appsignal.js"
+  }
 
   const { pushApiKey, name } = await inquirer.prompt([
     {
@@ -126,9 +134,10 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
 
   if (method == "Using an appsignal.js configuration file.") {
     console.log()
-    console.log("Writing appsignal.js configuration file.")
+    console.log(`Writing ${configurationFilename} configuration file.`)
+
     fs.writeFileSync(
-      path.join(dir, "appsignal.js"),
+      path.join(dir, configurationFilename),
       `const { Appsignal } = require("@appsignal/nodejs");
 
 const appsignal = new Appsignal({
@@ -156,7 +165,7 @@ module.exports = { appsignal };`
       `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
     )
     console.log()
-    console.log(`    node --require './appsignal.js' index.js`)
+    console.log(`    node --require './${configurationFilename}' index.js`)
   } else {
     console.log(`You've chosen to use environment variables to configure AppSignal:
 
