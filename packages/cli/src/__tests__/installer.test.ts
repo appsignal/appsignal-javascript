@@ -52,10 +52,10 @@ describe("Installer", () => {
         [`🎉 Great news! You've just installed AppSignal to your project!`],
         [],
         [
-          `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
-
-    node --require './appsignal.js' index.js`
+          `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
         ],
+        [],
+        [`    node --require './appsignal.js' index.js`],
         [],
         [
           `Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.

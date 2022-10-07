@@ -127,7 +127,6 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
   if (method == "Using an appsignal.js configuration file.") {
     console.log()
     console.log("Writing appsignal.js configuration file.")
-    // console.log(path.join(dir, "appsignal.js"))
     fs.writeFileSync(
       path.join(dir, "appsignal.js"),
       `const { Appsignal } = require("@appsignal/nodejs");
@@ -153,9 +152,11 @@ module.exports = { appsignal };`
   console.log()
 
   if (method == "Using an appsignal.js configuration file.") {
-    console.log(`Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:
-
-    node --require './appsignal.js' index.js`)
+    console.log(
+      `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
+    )
+    console.log()
+    console.log(`    node --require './appsignal.js' index.js`)
   } else {
     console.log(`You've chosen to use environment variables to configure AppSignal:
 
