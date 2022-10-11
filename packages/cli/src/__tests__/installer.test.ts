@@ -115,6 +115,48 @@ module.exports = { appsignal };`)
     })
   })
 
+  describe("when choosing to install with a configuration file, with a src directory that's actually a file", () => {
+    beforeAll(async () => {
+      mockedPrompt.mockResolvedValueOnce({
+        pushApiKey: "00000000-0000-0000-0000-000000000000",
+        name: "MyApp"
+      })
+      mockedPrompt.mockResolvedValueOnce({
+        method: "Using an appsignal.js configuration file."
+      })
+
+      fs.writeFileSync(src, "")
+      await installNode(pkg, tmpdir)
+    })
+
+    afterAll(() => {
+      fs.rmSync(src, { recursive: true, force: true })
+      jest.clearAllMocks()
+    })
+
+    it("it refers to appsignal.js the post-install instructions", () => {
+      expect(consoleLogSpy.mock.calls).toContainEqual([
+        "Writing appsignal.js configuration file."
+      ])
+      expect(consoleLogSpy.mock.calls).toContainEqual([
+        "    node --require './appsignal.js' index.js"
+      ])
+    })
+
+    it("it writes an appsignal.js configuration file", () => {
+      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
+        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
+
+const appsignal = new Appsignal({
+  active: true,
+  name: "MyApp",
+  pushApiKey: "00000000-0000-0000-0000-000000000000",
+});
+
+module.exports = { appsignal };`)
+    })
+  })
+
   describe("when choosing to install with environment variables", () => {
     beforeAll(async () => {
       mockedPrompt.mockResolvedValueOnce({

@@ -16,7 +16,7 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
   const src = path.join(dir, "src")
   let configurationFilename: string
 
-  if (fs.existsSync(src)) {
+  if (fs.existsSync(src) && fs.lstatSync(src).isDirectory()) {
     configurationFilename = "src/appsignal.js"
   } else {
     configurationFilename = "appsignal.js"
