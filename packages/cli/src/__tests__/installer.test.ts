@@ -10,7 +10,6 @@ const consoleLogSpy = jest.spyOn(console, "log").mockImplementation(() => {})
 const mockedPrompt = inquirer.prompt as jest.MockedFunction<
   typeof inquirer.prompt
 >
-const pkg = require(`${process.cwd()}/package.json`)
 const tmpdir = os.tmpdir()
 let src = path.join(tmpdir, "src")
 
@@ -25,7 +24,7 @@ describe("Installer", () => {
         method: "Using an appsignal.js configuration file."
       })
 
-      await installNode(pkg, tmpdir)
+      await installNode(tmpdir)
     })
 
     afterAll(() => {
@@ -91,7 +90,7 @@ module.exports = { appsignal };`)
         path.join(tmpdir, "appsignal.js"),
         "// This file already exists"
       )
-      await installNode(pkg, tmpdir)
+      await installNode(tmpdir)
     })
 
     afterAll(() => {
@@ -136,7 +135,7 @@ module.exports = { appsignal };`)
         path.join(tmpdir, "appsignal.js"),
         "// This file already exists"
       )
-      await installNode(pkg, tmpdir)
+      await installNode(tmpdir)
     })
 
     afterAll(() => {
@@ -196,7 +195,7 @@ module.exports = { appsignal };`)
       })
 
       fs.mkdirSync(src)
-      await installNode(pkg, tmpdir)
+      await installNode(tmpdir)
     })
 
     afterAll(() => {
@@ -238,7 +237,7 @@ module.exports = { appsignal };`)
       })
 
       fs.writeFileSync(src, "")
-      await installNode(pkg, tmpdir)
+      await installNode(tmpdir)
     })
 
     afterAll(() => {
@@ -280,7 +279,7 @@ module.exports = { appsignal };`)
         method: "Using system environment variables."
       })
 
-      await installNode(pkg, tmpdir)
+      await installNode(tmpdir)
     })
 
     afterAll(() => {

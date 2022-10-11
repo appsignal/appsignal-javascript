@@ -11,7 +11,7 @@ import { spawnDemo } from "../../commands/demo"
 /**
  * Installs the Node.js integration in the current working directory
  */
-export async function installNode(pkg: { [key: string]: any }, dir: string) {
+export async function installNode(dir: string) {
   const src = path.join(dir, "src")
   let configurationFilename: string
 
