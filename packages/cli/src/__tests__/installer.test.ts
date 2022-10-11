@@ -21,7 +21,6 @@ describe("Installer", () => {
         pushApiKey: "00000000-0000-0000-0000-000000000000",
         name: "MyApp"
       })
-      mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
       mockedPrompt.mockResolvedValueOnce({
         method: "Using an appsignal.js configuration file."
       })
@@ -35,12 +34,6 @@ describe("Installer", () => {
 
     it("it prints the post-install instructions", () => {
       expect(consoleLogSpy.mock.calls).toEqual([
-        [],
-        [
-          "We couldn't find any integrations for the modules you currently have installed."
-        ],
-        [],
-        [],
         [],
         ["📡 Demonstration sample data sent!"],
         [],
@@ -86,7 +79,6 @@ module.exports = { appsignal };`)
         pushApiKey: "00000000-0000-0000-0000-000000000000",
         name: "MyApp"
       })
-      mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
       mockedPrompt.mockResolvedValueOnce({
         method: "Using an appsignal.js configuration file."
       })
@@ -129,7 +121,6 @@ module.exports = { appsignal };`)
         pushApiKey: "00000000-0000-0000-0000-000000000000",
         name: "MyApp"
       })
-      mockedPrompt.mockResolvedValueOnce({ shouldInstallNow: true })
       mockedPrompt.mockResolvedValueOnce({
         method: "Using system environment variables."
       })
@@ -143,12 +134,6 @@ module.exports = { appsignal };`)
 
     it("it prints the post-install instructions", () => {
       expect(consoleLogSpy.mock.calls).toEqual([
-        [],
-        [
-          "We couldn't find any integrations for the modules you currently have installed."
-        ],
-        [],
-        [],
         [],
         ["📡 Demonstration sample data sent!"],
         [],

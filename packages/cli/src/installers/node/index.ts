@@ -6,7 +6,6 @@ import { validatePushApiKey } from "@appsignal/core"
 import * as fs from "fs"
 import * as path from "path"
 
-import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
 import { spawnDemo } from "../../commands/demo"
 
 /**
@@ -41,82 +40,26 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
   // detect if user is using yarn
   const isUsingYarn = existsSync(`${cwd}/yarn.lock`)
 
-  const modules = Object.keys(pkg.dependencies || {})
-    .map(dep => SUPPORTED_NODEJS_INTEGRATIONS[dep])
-    .filter(dep => dep)
-
-  console.log() // blank line
-
-  if (modules.length > 0) {
-    console.log(
-      `We found ${chalk.cyan(modules.length)} integration${
-        modules.length !== 1 ? "s" : ""
-      } for the modules that you currently have installed:`
-    )
-
-    console.log() // blank line
-
-    modules.forEach(mod => console.log(`${mod}`))
-  } else {
-    console.log(
-      "We couldn't find any integrations for the modules you currently have installed."
-    )
-  }
-
-  console.log() // blank line
-
-  const { shouldInstallNow } = await inquirer.prompt([
-    {
-      type: "confirm",
-      name: "shouldInstallNow",
-      message:
-        modules.length > 0
-          ? "Do you want to install these now?"
-          : "Continue installing just the core @appsignal/nodejs package?",
-      default: true
-    }
-  ])
-
-  console.log() // blank line
-
-  modules.unshift("@appsignal/nodejs")
-
-  if (shouldInstallNow) {
-    if (isUsingYarn) {
-      // using yarn
-      spawnSync("yarn", ["add", ...modules], {
-        cwd,
-        stdio: "inherit"
-      })
-    } else {
-      // using npm
-      spawnSync("npm", ["install", "--save", ...modules], {
-        cwd,
-        stdio: "inherit"
-      })
-    }
-
-    // send a demo sample
-    spawnDemo({
-      APPSIGNAL_APP_ENV: "development",
-      APPSIGNAL_APP_NAME: name,
-      APPSIGNAL_PUSH_API_KEY: pushApiKey
+  if (isUsingYarn) {
+    // using yarn
+    spawnSync("yarn", ["add", "@appsignal/nodejs"], {
+      cwd,
+      stdio: "inherit"
     })
   } else {
-    const mods = modules.join(" ")
-
-    console.log(
-      `👍 OK! We won't install anything right now. You can add these packages later by running:`
-    )
-
-    console.log() // blank line
-
-    console.log(
-      chalk.bold(
-        isUsingYarn ? `yarn add ${mods}` : `npm install --save ${mods}`
-      )
-    )
+    // using npm
+    spawnSync("npm", ["install", "--save", "@appsignal/nodejs"], {
+      cwd,
+      stdio: "inherit"
+    })
   }
+
+  // send a demo sample
+  spawnDemo({
+    APPSIGNAL_APP_ENV: "development",
+    APPSIGNAL_APP_NAME: name,
+    APPSIGNAL_PUSH_API_KEY: pushApiKey
+  })
 
   const { method } = await inquirer.prompt([
     {
