@@ -295,8 +295,15 @@ module.exports = { appsignal };`)
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
         [],
+        ["Writing appsignal.js configuration file."],
+        [],
         [`🎉 Great news! You've just installed AppSignal to your project!`],
         [],
+        [
+          `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
+        ],
+        [],
+        [`    node --require './appsignal.js' index.js`],
         [
           `You've chosen to use environment variables to configure AppSignal:
 
@@ -304,16 +311,7 @@ module.exports = { appsignal };`)
 
 If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
 
- 🔗 https://docs.appsignal.com/nodejs/configuration
-
-Then, you'll need to initalize AppSignal in your app. Please ensure that this is done in the entrypoint of your application, before all other dependencies are imported!
-
-    const { Appsignal } = require(\"@appsignal/nodejs\");
-    
-    const appsignal = new Appsignal({
-      active: true,
-      name: \"MyApp\"
-    });`
+ 🔗 https://docs.appsignal.com/nodejs/configuration`
         ],
         [],
         [
@@ -322,6 +320,18 @@ Then, you'll need to initalize AppSignal in your app. Please ensure that this is
 Need any further help? Feel free to ask a human at support@appsignal.com!`
         ]
       ])
+    })
+
+    it("it writes an appsignal.js configuration file", () => {
+      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
+        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
+
+const appsignal = new Appsignal({
+  active: true,
+  name: "MyApp",
+});
+
+module.exports = { appsignal };`)
     })
   })
 })

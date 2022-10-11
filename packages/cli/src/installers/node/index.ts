@@ -70,7 +70,7 @@ export async function installNode(dir: string) {
   let configExists = fs.existsSync(path.join(dir, filename))
   let useConfigFile = method == "Using an appsignal.js configuration file."
 
-  if (useConfigFile && configExists) {
+  if (configExists) {
     ;({ overwrite } = await inquirer.prompt([
       {
         type: "confirm",
@@ -80,30 +80,25 @@ export async function installNode(dir: string) {
     ]))
   }
 
-  if (
-    (useConfigFile && configExists && overwrite) ||
-    (useConfigFile && !configExists)
-  ) {
+  if (!configExists || (configExists && overwrite)) {
     console.log()
     console.log(`Writing ${filename} configuration file.`)
 
     fs.writeFileSync(
       path.join(dir, filename),
-      `const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "${name}",
-  pushApiKey: "${pushApiKey}",
-});
-
-module.exports = { appsignal };`
+      `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+        `const appsignal = new Appsignal({\n` +
+        `  active: true,\n` +
+        `  name: "${name}",\n` +
+        (useConfigFile ? `  pushApiKey: "${pushApiKey}",\n` : ``) +
+        `});\n\n` +
+        `module.exports = { appsignal };`
     )
   }
 
   console.log()
 
-  if (useConfigFile && configExists && !overwrite) {
+  if (configExists && !overwrite) {
     console.log("Not writing appsignal.js configuration file. Exiting.")
   } else {
     console.log(
@@ -114,29 +109,20 @@ module.exports = { appsignal };`
 
     console.log()
 
-    if (useConfigFile) {
-      console.log(
-        `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
-      )
-      console.log()
-      console.log(`    node --require './${filename}' index.js`)
-    } else {
+    console.log(
+      `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
+    )
+    console.log()
+    console.log(`    node --require './${filename}' index.js`)
+
+    if (!useConfigFile) {
       console.log(`You've chosen to use environment variables to configure AppSignal:
 
     export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"
 
 If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
 
- 🔗 https://docs.appsignal.com/nodejs/configuration
-
-Then, you'll need to initalize AppSignal in your app. Please ensure that this is done in the entrypoint of your application, before all other dependencies are imported!
-
-    const { Appsignal } = require(\"@appsignal/nodejs\");
-    
-    const appsignal = new Appsignal({
-      active: true,
-      name: \"${name}\"
-    });`)
+ 🔗 https://docs.appsignal.com/nodejs/configuration`)
     }
 
     console.log()
