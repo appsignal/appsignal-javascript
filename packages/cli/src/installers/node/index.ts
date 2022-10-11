@@ -75,7 +75,24 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
     }
   ])
 
-  if (method == "Using an appsignal.js configuration file.") {
+  let overwrite = false
+  let configExists = fs.existsSync(path.join(dir, configurationFilename))
+  let useConfigFile = method == "Using an appsignal.js configuration file."
+
+  if (useConfigFile && configExists) {
+    ;({ overwrite } = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "overwrite",
+        message: "${configurationFilename} already exists. Overwrite?"
+      }
+    ]))
+  }
+
+  if (
+    (useConfigFile && configExists && overwrite) ||
+    (useConfigFile && !configExists)
+  ) {
     console.log()
     console.log(`Writing ${configurationFilename} configuration file.`)
 
@@ -95,22 +112,25 @@ module.exports = { appsignal };`
 
   console.log()
 
-  console.log(
-    `🎉 ${chalk.greenBright(
-      "Great news!"
-    )} You've just installed AppSignal to your project!`
-  )
-
-  console.log()
-
-  if (method == "Using an appsignal.js configuration file.") {
-    console.log(
-      `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
-    )
-    console.log()
-    console.log(`    node --require './${configurationFilename}' index.js`)
+  if (useConfigFile && configExists && !overwrite) {
+    console.log("Not writing appsignal.js configuration file. Exiting.")
   } else {
-    console.log(`You've chosen to use environment variables to configure AppSignal:
+    console.log(
+      `🎉 ${chalk.greenBright(
+        "Great news!"
+      )} You've just installed AppSignal to your project!`
+    )
+
+    console.log()
+
+    if (useConfigFile) {
+      console.log(
+        `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
+      )
+      console.log()
+      console.log(`    node --require './${configurationFilename}' index.js`)
+    } else {
+      console.log(`You've chosen to use environment variables to configure AppSignal:
 
     export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"
 
@@ -126,15 +146,16 @@ Then, you'll need to initalize AppSignal in your app. Please ensure that this is
       active: true,
       name: \"${name}\"
     });`)
-  }
+    }
 
-  console.log()
+    console.log()
 
-  console.log(`Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
+    console.log(`Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
 
 Need any further help? Feel free to ask a human at ${chalk.bold(
-    "support@appsignal.com"
-  )}!`)
+      "support@appsignal.com"
+    )}!`)
+  }
 }
 
 /**
