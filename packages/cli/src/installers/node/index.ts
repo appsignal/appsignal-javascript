@@ -12,7 +12,6 @@ import { spawnDemo } from "../../commands/demo"
  * Installs the Node.js integration in the current working directory
  */
 export async function installNode(pkg: { [key: string]: any }, dir: string) {
-  const cwd = process.cwd()
   const src = path.join(dir, "src")
   let configurationFilename: string
 
@@ -38,18 +37,18 @@ export async function installNode(pkg: { [key: string]: any }, dir: string) {
   ])
 
   // detect if user is using yarn
-  const isUsingYarn = existsSync(`${cwd}/yarn.lock`)
+  const isUsingYarn = existsSync(`${dir}/yarn.lock`)
 
   if (isUsingYarn) {
     // using yarn
     spawnSync("yarn", ["add", "@appsignal/nodejs"], {
-      cwd,
+      cwd: dir,
       stdio: "inherit"
     })
   } else {
     // using npm
     spawnSync("npm", ["install", "--save", "@appsignal/nodejs"], {
-      cwd,
+      cwd: dir,
       stdio: "inherit"
     })
   }
