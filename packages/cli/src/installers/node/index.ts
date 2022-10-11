@@ -10,7 +10,7 @@ import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
 import { spawnDemo } from "../../commands/demo"
 
 /**
- * Installs the Node.js integration in the current working process.cwd().directory
+ * Installs the Node.js integration in the current working directory
  */
 export async function installNode(pkg: { [key: string]: any }, dir: string) {
   const cwd = process.cwd()
