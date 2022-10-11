@@ -12,15 +12,6 @@ import { spawnDemo } from "../../commands/demo"
  * Installs the Node.js integration in the current working directory
  */
 export async function installNode(dir: string) {
-  const src = path.join(dir, "src")
-  let configurationFilename: string
-
-  if (fs.existsSync(src) && fs.lstatSync(src).isDirectory()) {
-    configurationFilename = "src/appsignal.js"
-  } else {
-    configurationFilename = "appsignal.js"
-  }
-
   const { pushApiKey, name } = await inquirer.prompt([
     {
       type: "input",
@@ -74,8 +65,9 @@ export async function installNode(dir: string) {
     }
   ])
 
+  const filename = configurationFilename(dir)
   let overwrite = false
-  let configExists = fs.existsSync(path.join(dir, configurationFilename))
+  let configExists = fs.existsSync(path.join(dir, filename))
   let useConfigFile = method == "Using an appsignal.js configuration file."
 
   if (useConfigFile && configExists) {
@@ -83,7 +75,7 @@ export async function installNode(dir: string) {
       {
         type: "confirm",
         name: "overwrite",
-        message: "${configurationFilename} already exists. Overwrite?"
+        message: "${filename} already exists. Overwrite?"
       }
     ]))
   }
@@ -93,10 +85,10 @@ export async function installNode(dir: string) {
     (useConfigFile && !configExists)
   ) {
     console.log()
-    console.log(`Writing ${configurationFilename} configuration file.`)
+    console.log(`Writing ${filename} configuration file.`)
 
     fs.writeFileSync(
-      path.join(dir, configurationFilename),
+      path.join(dir, filename),
       `const { Appsignal } = require("@appsignal/nodejs");
 
 const appsignal = new Appsignal({
@@ -127,7 +119,7 @@ module.exports = { appsignal };`
         `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
       )
       console.log()
-      console.log(`    node --require './${configurationFilename}' index.js`)
+      console.log(`    node --require './${filename}' index.js`)
     } else {
       console.log(`You've chosen to use environment variables to configure AppSignal:
 
@@ -173,5 +165,15 @@ async function validateApiKey(pushApiKey: string) {
   } catch (e) {
     console.error(e)
     process.exit(1)
+  }
+}
+
+function configurationFilename(dir: string): string {
+  let src = path.join(dir, "src")
+
+  if (fs.existsSync(src) && fs.lstatSync(src).isDirectory()) {
+    return "src/appsignal.js"
+  } else {
+    return "appsignal.js"
   }
 }
