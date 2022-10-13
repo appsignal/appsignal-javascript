@@ -21,14 +21,14 @@ describe("Installer", () => {
         name: "MyApp"
       })
       mockedPrompt.mockResolvedValueOnce({
-        method: "Using an appsignal.js configuration file."
+        method: "Using an appsignal.cjs configuration file."
       })
 
       await installNode(tmpdir)
     })
 
     afterAll(() => {
-      fs.rmSync(path.join(tmpdir, "appsignal.js"))
+      fs.rmSync(path.join(tmpdir, "appsignal.cjs"))
       jest.clearAllMocks()
     })
 
@@ -41,7 +41,7 @@ describe("Installer", () => {
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
         [],
-        ["Writing appsignal.js configuration file."],
+        ["Writing appsignal.cjs configuration file."],
         [],
         [`🎉 Great news! You've just installed AppSignal to your project!`],
         [],
@@ -49,7 +49,7 @@ describe("Installer", () => {
           `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
         ],
         [],
-        [`    node --require './appsignal.js' index.js`],
+        [`    node --require './appsignal.cjs' index.js`],
         [],
         [
           `Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
@@ -59,17 +59,17 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
       ])
     })
 
-    it("it writes an appsignal.js configuration file", () => {
-      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
-        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "MyApp",
-  pushApiKey: "00000000-0000-0000-0000-000000000000",
-});
-
-module.exports = { appsignal };`)
+    it("it writes an appsignal.cjs configuration file", () => {
+      expect(
+        fs.readFileSync(path.join(tmpdir, "appsignal.cjs")).toString()
+      ).toEqual(
+        `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+          `new Appsignal({\n` +
+          `  active: true,\n` +
+          `  name: "MyApp",\n` +
+          `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
+          `});\n`
+      )
     })
   })
 
@@ -80,21 +80,21 @@ module.exports = { appsignal };`)
         name: "MyApp"
       })
       mockedPrompt.mockResolvedValueOnce({
-        method: "Using an appsignal.js configuration file."
+        method: "Using an appsignal.cjs configuration file."
       })
       mockedPrompt.mockResolvedValueOnce({
         overwrite: false
       })
 
       fs.writeFileSync(
-        path.join(tmpdir, "appsignal.js"),
+        path.join(tmpdir, "appsignal.cjs"),
         "// This file already exists"
       )
       await installNode(tmpdir)
     })
 
     afterAll(() => {
-      fs.rmSync(path.join(tmpdir, "appsignal.js"))
+      fs.rmSync(path.join(tmpdir, "appsignal.cjs"))
       jest.clearAllMocks()
     })
 
@@ -107,13 +107,13 @@ module.exports = { appsignal };`)
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
         [],
-        ["Not writing appsignal.js configuration file. Exiting."]
+        ["Not writing appsignal.cjs configuration file. Exiting."]
       ])
     })
 
-    it("it does not write an appsignal.js configuration file", () => {
+    it("it does not write an appsignal.cjs configuration file", () => {
       expect(
-        fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString()
+        fs.readFileSync(path.join(tmpdir, "appsignal.cjs")).toString()
       ).toEqual(`// This file already exists`)
     })
   })
@@ -125,21 +125,21 @@ module.exports = { appsignal };`)
         name: "MyApp"
       })
       mockedPrompt.mockResolvedValueOnce({
-        method: "Using an appsignal.js configuration file."
+        method: "Using an appsignal.cjs configuration file."
       })
       mockedPrompt.mockResolvedValueOnce({
         overwrite: true
       })
 
       fs.writeFileSync(
-        path.join(tmpdir, "appsignal.js"),
+        path.join(tmpdir, "appsignal.cjs"),
         "// This file already exists"
       )
       await installNode(tmpdir)
     })
 
     afterAll(() => {
-      fs.rmSync(path.join(tmpdir, "appsignal.js"))
+      fs.rmSync(path.join(tmpdir, "appsignal.cjs"))
       jest.clearAllMocks()
     })
 
@@ -152,7 +152,7 @@ module.exports = { appsignal };`)
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
         [],
-        ["Writing appsignal.js configuration file."],
+        ["Writing appsignal.cjs configuration file."],
         [],
         [`🎉 Great news! You've just installed AppSignal to your project!`],
         [],
@@ -160,7 +160,7 @@ module.exports = { appsignal };`)
           `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
         ],
         [],
-        [`    node --require './appsignal.js' index.js`],
+        [`    node --require './appsignal.cjs' index.js`],
         [],
         [
           `Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
@@ -170,17 +170,17 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
       ])
     })
 
-    it("it writes an appsignal.js configuration file", () => {
-      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
-        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "MyApp",
-  pushApiKey: "00000000-0000-0000-0000-000000000000",
-});
-
-module.exports = { appsignal };`)
+    it("it writes an appsignal.cjs configuration file", () => {
+      expect(
+        fs.readFileSync(path.join(tmpdir, "appsignal.cjs")).toString()
+      ).toEqual(
+        `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+          `new Appsignal({\n` +
+          `  active: true,\n` +
+          `  name: "MyApp",\n` +
+          `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
+          `});\n`
+      )
     })
   })
 
@@ -191,7 +191,7 @@ module.exports = { appsignal };`)
         name: "MyApp"
       })
       mockedPrompt.mockResolvedValueOnce({
-        method: "Using an appsignal.js configuration file."
+        method: "Using an appsignal.cjs configuration file."
       })
 
       fs.mkdirSync(src)
@@ -203,26 +203,26 @@ module.exports = { appsignal };`)
       jest.clearAllMocks()
     })
 
-    it("it refers to src/appsignal.js the post-install instructions", () => {
+    it("it refers to src/appsignal.cjs the post-install instructions", () => {
       expect(consoleLogSpy.mock.calls).toContainEqual([
-        "Writing src/appsignal.js configuration file."
+        "Writing src/appsignal.cjs configuration file."
       ])
       expect(consoleLogSpy.mock.calls).toContainEqual([
-        "    node --require './src/appsignal.js' index.js"
+        "    node --require './src/appsignal.cjs' index.js"
       ])
     })
 
-    it("it writes a src/appsignal.js configuration file", () => {
-      expect(fs.readFileSync(path.join(src, "appsignal.js")).toString())
-        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "MyApp",
-  pushApiKey: "00000000-0000-0000-0000-000000000000",
-});
-
-module.exports = { appsignal };`)
+    it("it writes a src/appsignal.cjs configuration file", () => {
+      expect(
+        fs.readFileSync(path.join(src, "appsignal.cjs")).toString()
+      ).toEqual(
+        `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+          `new Appsignal({\n` +
+          `  active: true,\n` +
+          `  name: "MyApp",\n` +
+          `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
+          `});\n`
+      )
     })
   })
 
@@ -233,7 +233,7 @@ module.exports = { appsignal };`)
         name: "MyApp"
       })
       mockedPrompt.mockResolvedValueOnce({
-        method: "Using an appsignal.js configuration file."
+        method: "Using an appsignal.cjs configuration file."
       })
 
       fs.writeFileSync(src, "")
@@ -241,31 +241,31 @@ module.exports = { appsignal };`)
     })
 
     afterAll(() => {
-      fs.rmSync(path.join(tmpdir, "appsignal.js"))
+      fs.rmSync(path.join(tmpdir, "appsignal.cjs"))
       fs.rmSync(src, { recursive: true, force: true })
       jest.clearAllMocks()
     })
 
-    it("it refers to appsignal.js the post-install instructions", () => {
+    it("it refers to appsignal.cjs the post-install instructions", () => {
       expect(consoleLogSpy.mock.calls).toContainEqual([
-        "Writing appsignal.js configuration file."
+        "Writing appsignal.cjs configuration file."
       ])
       expect(consoleLogSpy.mock.calls).toContainEqual([
-        "    node --require './appsignal.js' index.js"
+        "    node --require './appsignal.cjs' index.js"
       ])
     })
 
-    it("it writes an appsignal.js configuration file", () => {
-      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
-        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "MyApp",
-  pushApiKey: "00000000-0000-0000-0000-000000000000",
-});
-
-module.exports = { appsignal };`)
+    it("it writes an appsignal.cjs configuration file", () => {
+      expect(
+        fs.readFileSync(path.join(tmpdir, "appsignal.cjs")).toString()
+      ).toEqual(
+        `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+          `new Appsignal({\n` +
+          `  active: true,\n` +
+          `  name: "MyApp",\n` +
+          `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
+          `});\n`
+      )
     })
   })
 
@@ -295,7 +295,7 @@ module.exports = { appsignal };`)
           "It may take a minute for the data to appear on https://appsignal.com/accounts"
         ],
         [],
-        ["Writing appsignal.js configuration file."],
+        ["Writing appsignal.cjs configuration file."],
         [],
         [`🎉 Great news! You've just installed AppSignal to your project!`],
         [],
@@ -303,7 +303,7 @@ module.exports = { appsignal };`)
           `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
         ],
         [],
-        [`    node --require './appsignal.js' index.js`],
+        [`    node --require './appsignal.cjs' index.js`],
         [
           `You've chosen to use environment variables to configure AppSignal:
 
@@ -322,16 +322,16 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
       ])
     })
 
-    it("it writes an appsignal.js configuration file", () => {
-      expect(fs.readFileSync(path.join(tmpdir, "appsignal.js")).toString())
-        .toEqual(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "MyApp",
-});
-
-module.exports = { appsignal };`)
+    it("it writes an appsignal.cjs configuration file", () => {
+      expect(
+        fs.readFileSync(path.join(tmpdir, "appsignal.cjs")).toString()
+      ).toEqual(
+        `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+          `new Appsignal({\n` +
+          `  active: true,\n` +
+          `  name: "MyApp",\n` +
+          `});\n`
+      )
     })
   })
 })

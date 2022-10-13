@@ -58,17 +58,17 @@ export async function installNode(dir: string) {
       message:
         "Which method of configuring AppSignal in your project do you prefer?",
       choices: [
-        "Using an appsignal.js configuration file.",
+        "Using an appsignal.cjs configuration file.",
         "Using system environment variables."
       ],
-      default: "Using an appsignal.js configuration file."
+      default: "Using an appsignal.cjs configuration file."
     }
   ])
 
   const filename = configurationFilename(dir)
   let overwrite = false
   let configExists = fs.existsSync(path.join(dir, filename))
-  let useConfigFile = method == "Using an appsignal.js configuration file."
+  let useConfigFile = method == "Using an appsignal.cjs configuration file."
 
   if (configExists) {
     ;({ overwrite } = await inquirer.prompt([
@@ -87,19 +87,18 @@ export async function installNode(dir: string) {
     fs.writeFileSync(
       path.join(dir, filename),
       `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
-        `const appsignal = new Appsignal({\n` +
+        `new Appsignal({\n` +
         `  active: true,\n` +
         `  name: "${name}",\n` +
         (useConfigFile ? `  pushApiKey: "${pushApiKey}",\n` : ``) +
-        `});\n\n` +
-        `module.exports = { appsignal };`
+        `});\n`
     )
   }
 
   console.log()
 
   if (configExists && !overwrite) {
-    console.log("Not writing appsignal.js configuration file. Exiting.")
+    console.log("Not writing appsignal.cjs configuration file. Exiting.")
   } else {
     console.log(
       `🎉 ${chalk.greenBright(
@@ -158,8 +157,8 @@ function configurationFilename(dir: string): string {
   let src = path.join(dir, "src")
 
   if (fs.existsSync(src) && fs.lstatSync(src).isDirectory()) {
-    return "src/appsignal.js"
+    return "src/appsignal.cjs"
   } else {
-    return "appsignal.js"
+    return "appsignal.cjs"
   }
 }
