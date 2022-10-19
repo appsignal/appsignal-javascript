@@ -304,6 +304,7 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
         ],
         [],
         [`    node --require './appsignal.cjs' index.js`],
+        [],
         [
           `You've chosen to use environment variables to configure AppSignal:
 

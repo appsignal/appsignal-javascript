@@ -115,6 +115,8 @@ export async function installNode(dir: string) {
     console.log(`    node --require './${filename}' index.js`)
 
     if (!useConfigFile) {
+      console.log()
+
       console.log(`You've chosen to use environment variables to configure AppSignal:
 
     export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"
