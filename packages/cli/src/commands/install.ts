@@ -10,22 +10,7 @@ import { installNode } from "../installers/node"
  * -h, --help  display help for command
  */
 export async function install() {
-  let pkg: { [key: string]: any }
-
   console.log("🚀 Alright! Let's install AppSignal to your project!")
-
-  try {
-    console.log("🔭 Checking for your package.json...")
-    pkg = require(`${process.cwd()}/package.json`)
-
-    console.log("✅ Found it!")
-  } catch (e) {
-    console.error(
-      "Couldn't find a package.json in your current working directory"
-    )
-
-    throw e
-  }
 
   try {
     const { integration } = await inquirer.prompt([
@@ -45,7 +30,7 @@ export async function install() {
     ])
 
     if (integration === "nodejs") {
-      await installNode(pkg)
+      await installNode(process.cwd())
     }
 
     console.log("✅ Done!")

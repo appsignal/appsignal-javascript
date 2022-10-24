@@ -3,52 +3,15 @@ import { spawnSync } from "child_process"
 import chalk from "chalk"
 import inquirer from "inquirer"
 import { validatePushApiKey } from "@appsignal/core"
+import * as fs from "fs"
+import * as path from "path"
 
-import { SUPPORTED_NODEJS_INTEGRATIONS } from "../../constants"
 import { spawnDemo } from "../../commands/demo"
-
-/**
- * This is the very last thing to be displayed by the installer CLI! The
- * indendation is intentional, due to JavaScripts handling of multi-line
- * strings
- */
-const displayOutroMessage = (pushApiKey: string, name: string) => `
-🎉 ${chalk.greenBright(
-  "Great news!"
-)} You've just installed AppSignal to your project!
-
-The next step is adding your Push API key to your project. The best way to do this is with an environment variable:
-
-${chalk.bold(`export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"`)}
-
-If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
-
-🔗 https://docs.appsignal.com/nodejs/configuration
-
-Then, you'll need to initalize AppSignal in your app. Please ensure that this is done in the entrypoint of your application, ${chalk.cyan(
-  "before all other dependencies are imported!"
-)}
-
-${chalk.bold(`const { Appsignal } = require("@appsignal/nodejs");
-
-const appsignal = new Appsignal({
-  active: true,
-  name: "${name}"
-});`)}
-
-Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
-
-Need any further help? Feel free to ask a human at ${chalk.bold(
-  "support@appsignal.com"
-)}!
-`
 
 /**
  * Installs the Node.js integration in the current working directory
  */
-export async function installNode(pkg: { [key: string]: any }) {
-  const cwd = process.cwd()
-
+export async function installNode(dir: string) {
   const { pushApiKey, name } = await inquirer.prompt([
     {
       type: "input",
@@ -65,86 +28,112 @@ export async function installNode(pkg: { [key: string]: any }) {
   ])
 
   // detect if user is using yarn
-  const isUsingYarn = existsSync(`${cwd}/yarn.lock`)
+  const isUsingYarn = existsSync(`${dir}/yarn.lock`)
 
-  const modules = Object.keys(pkg.dependencies || {})
-    .map(dep => SUPPORTED_NODEJS_INTEGRATIONS[dep])
-    .filter(dep => dep)
-
-  console.log() // blank line
-
-  if (modules.length > 0) {
-    console.log(
-      `We found ${chalk.cyan(modules.length)} integration${
-        modules.length !== 1 ? "s" : ""
-      } for the modules that you currently have installed:`
-    )
-
-    console.log() // blank line
-
-    modules.forEach(mod => console.log(`${mod}`))
+  if (isUsingYarn) {
+    // using yarn
+    spawnSync("yarn", ["add", "@appsignal/nodejs"], {
+      cwd: dir,
+      stdio: "inherit"
+    })
   } else {
-    console.log(
-      "We couldn't find any integrations for the modules you currently have installed."
-    )
+    // using npm
+    spawnSync("npm", ["install", "--save", "@appsignal/nodejs"], {
+      cwd: dir,
+      stdio: "inherit"
+    })
   }
 
-  console.log() // blank line
+  // send a demo sample
+  spawnDemo({
+    APPSIGNAL_APP_ENV: "development",
+    APPSIGNAL_APP_NAME: name,
+    APPSIGNAL_PUSH_API_KEY: pushApiKey
+  })
 
-  const { shouldInstallNow } = await inquirer.prompt([
+  const { method } = await inquirer.prompt([
     {
-      type: "confirm",
-      name: "shouldInstallNow",
+      type: "list",
+      name: "method",
       message:
-        modules.length > 0
-          ? "Do you want to install these now?"
-          : "Continue installing just the core @appsignal/nodejs package?",
-      default: true
+        "Which method of configuring AppSignal in your project do you prefer?",
+      choices: [
+        "Using an appsignal.cjs configuration file.",
+        "Using system environment variables."
+      ],
+      default: "Using an appsignal.cjs configuration file."
     }
   ])
 
-  console.log() // blank line
+  const filename = configurationFilename(dir)
+  let overwrite = false
+  let configExists = fs.existsSync(path.join(dir, filename))
+  let useConfigFile = method == "Using an appsignal.cjs configuration file."
 
-  modules.unshift("@appsignal/nodejs")
+  if (configExists) {
+    ;({ overwrite } = await inquirer.prompt([
+      {
+        type: "confirm",
+        name: "overwrite",
+        message: "${filename} already exists. Overwrite?"
+      }
+    ]))
+  }
 
-  if (shouldInstallNow) {
-    if (isUsingYarn) {
-      // using yarn
-      spawnSync("yarn", ["add", ...modules], {
-        cwd,
-        stdio: "inherit"
-      })
-    } else {
-      // using npm
-      spawnSync("npm", ["install", "--save", ...modules], {
-        cwd,
-        stdio: "inherit"
-      })
-    }
+  if (!configExists || (configExists && overwrite)) {
+    console.log()
+    console.log(`Writing ${filename} configuration file.`)
 
-    // send a demo sample
-    spawnDemo({
-      APPSIGNAL_APP_ENV: "development",
-      APPSIGNAL_APP_NAME: name,
-      APPSIGNAL_PUSH_API_KEY: pushApiKey
-    })
-  } else {
-    const mods = modules.join(" ")
-
-    console.log(
-      `👍 OK! We won't install anything right now. You can add these packages later by running:`
-    )
-
-    console.log() // blank line
-
-    console.log(
-      chalk.bold(
-        isUsingYarn ? `yarn add ${mods}` : `npm install --save ${mods}`
-      )
+    fs.writeFileSync(
+      path.join(dir, filename),
+      `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
+        `new Appsignal({\n` +
+        `  active: true,\n` +
+        `  name: "${name}",\n` +
+        (useConfigFile ? `  pushApiKey: "${pushApiKey}",\n` : ``) +
+        `});\n`
     )
   }
 
-  console.log(displayOutroMessage(pushApiKey, name))
+  console.log()
+
+  if (configExists && !overwrite) {
+    console.log("Not writing appsignal.cjs configuration file. Exiting.")
+  } else {
+    console.log(
+      `🎉 ${chalk.greenBright(
+        "Great news!"
+      )} You've just installed AppSignal to your project!`
+    )
+
+    console.log()
+
+    console.log(
+      `Now, you can run your application like you normally would, but use the --require flag to load AppSignal's instrumentation before any other library:`
+    )
+    console.log()
+    console.log(`    node --require './${filename}' index.js`)
+
+    if (!useConfigFile) {
+      console.log()
+
+      console.log(`You've chosen to use environment variables to configure AppSignal:
+
+    export APPSIGNAL_PUSH_API_KEY="${pushApiKey}"
+
+If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
+
+ 🔗 https://docs.appsignal.com/nodejs/configuration`)
+    }
+
+    console.log()
+
+    console.log(`Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
+
+Need any further help? Feel free to ask a human at ${chalk.bold(
+      "support@appsignal.com"
+    )}!`)
+  }
 }
 
 /**
@@ -163,5 +152,15 @@ async function validateApiKey(pushApiKey: string) {
   } catch (e) {
     console.error(e)
     process.exit(1)
+  }
+}
+
+function configurationFilename(dir: string): string {
+  let src = path.join(dir, "src")
+
+  if (fs.existsSync(src) && fs.lstatSync(src).isDirectory()) {
+    return "src/appsignal.cjs"
+  } else {
+    return "appsignal.cjs"
   }
 }
