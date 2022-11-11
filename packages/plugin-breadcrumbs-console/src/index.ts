@@ -10,7 +10,6 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
   )
 
   const silenceMethods: string[] = options?.silenceConsoleMethods ?? []
-  console.log("silenceMethods", JSON.stringify(silenceMethods));
 
   return function (this: JSClient) {
     const self = this
