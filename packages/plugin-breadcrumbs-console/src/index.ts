@@ -9,6 +9,9 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
       typeof (console as any)[method] === "function"
   )
 
+  const silenceMethods: string[] = options?.silenceConsoleMethods ?? []
+  console.log("silenceMethods", JSON.stringify(silenceMethods));
+
   return function (this: JSClient) {
     const self = this
 
@@ -37,7 +40,9 @@ function consoleBreadcrumbsPlugin(options?: { [key: string]: any }) {
 
         self.addBreadcrumb(breadcrumb)
 
-        prevHandler.apply(console, args)
+        if (!silenceMethods.includes(method)) {
+          prevHandler.apply(console, args)
+        }
       }
 
       ;(console as any)[method] = _console
