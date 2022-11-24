@@ -1,5 +1,11 @@
 # AppSignal CLI changelog
 
+## 1.2.0
+
+### Added
+
+- [7492997](https://github.com/appsignal/appsignal-javascript/commit/74929977f8c961180fd1077363cd19fba085af87) minor - Installer writes appsignal.js configuration file
+
 ## 1.1.18
 
 ### Changed
