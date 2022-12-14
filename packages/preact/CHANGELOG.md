@@ -1,5 +1,11 @@
 # AppSignal for preact changelog
 
+## 1.0.20
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.19.
+
 ## 1.0.19
 
 ### Changed

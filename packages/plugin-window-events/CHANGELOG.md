@@ -1,5 +1,11 @@
 # AppSignal for plugin-window-events changelog
 
+## 1.0.19
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.19.
+
 ## 1.0.18
 
 ### Changed

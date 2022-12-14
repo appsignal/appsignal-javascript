@@ -1,5 +1,11 @@
 # AppSignal Core changelog
 
+## 1.1.19
+
+### Changed
+
+- [bb1e8af](https://github.com/appsignal/appsignal-javascript/commit/bb1e8aff2596b8c7b0ca4c0d71ada00a7bb0fd79) patch - Stacktrace is no longer a requirement for an object to be considered an error
+
 ## 1.1.18
 
 ### Fixed

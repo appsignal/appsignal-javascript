@@ -1,5 +1,11 @@
 # AppSignal for react changelog
 
+## 1.0.22
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.19.
+
 ## 1.0.21
 
 ### Changed
