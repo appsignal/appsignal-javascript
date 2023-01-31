@@ -123,12 +123,12 @@ export async function installNode(dir: string) {
 
 If you're using a cloud provider such as Heroku etc., seperate instructions on how to add these environment variables are available in our documentation:
 
- 🔗 https://docs.appsignal.com/nodejs/configuration`)
+ 🔗 https://docs.appsignal.com/nodejs/3.x/configuration.html`)
     }
 
     console.log()
 
-    console.log(`Some integrations require additional setup. See https://docs.appsignal.com/nodejs/integrations/ for more information.
+    console.log(`Some integrations require additional setup. See https://docs.appsignal.com/nodejs/3.x/integrations.html for more information.
 
 Need any further help? Feel free to ask a human at ${chalk.bold(
       "support@appsignal.com"
