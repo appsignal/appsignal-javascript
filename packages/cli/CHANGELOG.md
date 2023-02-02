@@ -1,5 +1,11 @@
 # AppSignal CLI changelog
 
+## 1.2.2
+
+### Changed
+
+- [3e483cf](https://github.com/appsignal/appsignal-javascript/commit/3e483cf1d3840d6b28df19c144c90211a677ec25) patch - Update Node.js documentation links. The docs have moved to a v3 sub section.
+
 ## 1.2.1
 
 ### Changed
