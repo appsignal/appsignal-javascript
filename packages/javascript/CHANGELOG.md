@@ -1,5 +1,11 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.26
+
+### Fixed
+
+- [88ef488](https://github.com/appsignal/appsignal-javascript/commit/88ef48895dcb2ddb92ee9ecf6fb41c05e2e145f5) patch - Fix origin detection on CloudFlare workers
+
 ## 1.3.25
 
 ### Changed
