@@ -20,10 +20,7 @@ export class Environment {
     const globals = getGlobalObject<Window>()
 
     // environments like nodejs or react native where an origin isn't relavent
-    if (
-      !globals.navigator ||
-      (globals.navigator.product === "ReactNative" && !globals.location)
-    ) {
+    if (!globals.location) {
       return ""
     }
 
