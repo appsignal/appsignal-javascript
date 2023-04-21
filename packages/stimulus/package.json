@@ -25,7 +25,16 @@
     "@appsignal/types": "=3.0.0"
   },
   "peerDependencies": {
-    "stimulus": "^1.1 || ^3.2"
+    "stimulus": "^1.1",
+    "@hotwired/stimulus": "^3.0"
+  },
+  "peerDependenciesMeta": {
+    "stimulus": {
+      "optional": true
+    },
+    "@hotwired/stimulus": {
+      "optional": true
+    }
   },
   "publishConfig": {
     "access": "public"
