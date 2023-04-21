@@ -1,5 +1,11 @@
 # AppSignal for stimulus changelog
 
+## 1.0.17
+
+### Fixed
+
+- [d75ff83](https://github.com/appsignal/appsignal-javascript/commit/d75ff8388b8c48aab0e70a88cdd2050010803460) patch - Remove peer dependency warning for Stimulus 3 when using the `@hotwired/stimulus` package.
+
 ## 1.0.16
 
 ### Fixed
