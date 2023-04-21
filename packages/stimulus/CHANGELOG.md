@@ -1,5 +1,11 @@
 # AppSignal for stimulus changelog
 
+## 1.0.16
+
+### Fixed
+
+- [4b46410](https://github.com/appsignal/appsignal-javascript/commit/4b46410b4ec41fb97a445aa44768fc7db9d8b4ce) patch - Remove peer dependency warning for Stimulus 3
+
 ## 1.0.15
 
 ### Changed
