@@ -28,7 +28,12 @@ export class NodeTransport implements Transport {
 
           resolve({})
         })
-        .catch(reject)
+        .catch(reason => {
+          console.warn(
+            "NodeTransport is being used, but the HTTPS module could not be imported. No data will be sent to AppSignal."
+          )
+          reject(reason)
+        })
     })
   }
 }
