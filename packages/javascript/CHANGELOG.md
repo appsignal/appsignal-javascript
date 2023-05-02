@@ -1,5 +1,11 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.27-rc.2
+
+### Fixed
+
+- [9bd47d6](https://github.com/appsignal/appsignal-javascript/commit/9bd47d685e3919167fb8b5bbd39d8c35093f38b3) patch - Emit a warning if NodeTransport is used but the HTTPS module is not available
+
 ## 1.3.27-rc.1
 
 ### Fixed
