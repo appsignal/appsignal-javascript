@@ -1,5 +1,11 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.27-rc.1
+
+### Fixed
+
+- [b9be691](https://github.com/appsignal/appsignal-javascript/commit/b9be69158507c88007fa5da33007464ba652eaa4) patch - Fix attempt to use HTTPS in Electron
+
 ## 1.3.26
 
 ### Fixed
