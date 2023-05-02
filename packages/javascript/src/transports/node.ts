@@ -1,4 +1,3 @@
-import https from "https"
 import { Transport } from "../interfaces/transport"
 
 export class NodeTransport implements Transport {
@@ -18,14 +17,18 @@ export class NodeTransport implements Transport {
     }
 
     return new Promise((resolve, reject) => {
-      const req = https
-        .request(this.url, options, () => {})
-        .on("error", error => reject(error))
+      import("https")
+        .then(https => {
+          const req = https
+            .request(this.url, options, () => {})
+            .on("error", error => reject(error))
 
-      req.write(data)
-      req.end()
+          req.write(data)
+          req.end()
 
-      resolve({})
+          resolve({})
+        })
+        .catch(reject)
     })
   }
 }
