@@ -1,11 +1,11 @@
 import type { JSClient, JSSpan } from "@appsignal/types"
 
-export function installErrorHandler(appsignal: JSClient, application: any) {
+export function installErrorHandler(appsignal: JSClient, application: any, tags?: { [key: string]: string }) {
   const prevHandler = application.handleError
 
   application.handleError = function (error: Error, message: string) {
     const span = appsignal.createSpan((span: JSSpan) =>
-      span.setTags({ framework: "Stimulus", message }).setError(error)
+      span.setTags({ framework: "Stimulus", message, ...tags }).setError(error)
     )
 
     appsignal.send(span)
