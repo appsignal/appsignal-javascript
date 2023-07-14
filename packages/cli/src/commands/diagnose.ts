@@ -1,5 +1,6 @@
 import { spawnSync } from "child_process"
 import { checkForAppsignalPackage } from "../utils"
+import { accessSync, constants } from "fs"
 
 /**
  * Usage: npx @appsignal/cli diagnose [options]
@@ -47,8 +48,34 @@ export const diagnose = ({
       break
   }
 
-  spawnSync(`${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`, args, {
-    cwd,
-    stdio: "inherit"
-  })
+  try {
+    accessSync(
+      `${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`,
+      constants.X_OK
+    )
+  } catch (e) {
+    console.error("Didn't have permissions to execute the diagnose binary.")
+    console.error(
+      "Ensure that you have execute permissions for the `node_modules` folder. Exiting."
+    )
+
+    process.exit(1)
+  }
+
+  const result = spawnSync(
+    `${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`,
+    args,
+    { cwd, stdio: "inherit" }
+  )
+
+  if (result.error) {
+    console.error("Something went wrong when executing the diagnose report:")
+    console.error(result.error)
+
+    process.exit(1)
+  }
+
+  if (result.status) {
+    process.exit(result.status)
+  }
 }
