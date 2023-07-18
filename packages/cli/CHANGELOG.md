@@ -1,5 +1,11 @@
 # AppSignal CLI changelog
 
+## 1.2.3
+
+### Fixed
+
+- [cefb331](https://github.com/appsignal/appsignal-javascript/commit/cefb331e88bd433cb49a1a3c761f0e5e6d94dff4) patch - Report errors when running the diagnose command
+
 ## 1.2.2
 
 ### Changed
