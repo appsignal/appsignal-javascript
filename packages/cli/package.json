@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/cli",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "main": "./dist/index",
   "repository": {
     "type": "git",

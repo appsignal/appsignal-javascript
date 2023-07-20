@@ -1,5 +1,12 @@
 # AppSignal CLI changelog
 
+## 1.2.4
+
+### Added
+
+- [9627ecd](https://github.com/appsignal/appsignal-javascript/commit/9627ecd9d8c70e8cdaa57c94f164c5565d59b85d) patch - Add the config flag to the diagnose command to specify to the diagnose the user's AppSignal configuration file
+  if it is not the default one.
+
 ## 1.2.3
 
 ### Fixed
