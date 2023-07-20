@@ -13,6 +13,7 @@ import { accessSync, constants } from "fs"
  * -h, --help               Display help for command
  * --send-report            Automatically send the report to AppSignal
  * --no-send-report         Don't send the report automatically to AppSignal
+ * --config                 Location of a custom AppSignal configuration file if any
  *
  * This command just spawns the diagnose command from the `@appsignal/nodejs`
  * package as a child process.
@@ -20,10 +21,12 @@ import { accessSync, constants } from "fs"
 export const diagnose = ({
   apiKey,
   environment,
-  sendReport
+  sendReport,
+  config
 }: {
   apiKey?: string
   environment?: string
+  config?: string
   sendReport: boolean | undefined
 }): void => {
   const cwd = process.cwd()
@@ -39,6 +42,10 @@ export const diagnose = ({
   }
 
   let args = []
+  if (config) {
+    args.push("--config", config)
+  }
+
   switch (sendReport) {
     case true:
       args.push("--send-report")

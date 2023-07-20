@@ -22,6 +22,10 @@ export class CLI {
       .description("runs the diagnose command (Node.js integration only)")
       .option("-e, --environment <env>", "Which environment to use")
       .option("-k, --api-key <key>", "Which API key to use")
+      .option(
+        "-c, --config <path>",
+        "The location of the AppSignal configuration file if it's not the default one"
+      )
       .option("--send-report", "Automatically send the report to AppSignal")
       .option(
         "--no-send-report",
