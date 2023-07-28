@@ -28,7 +28,7 @@ export const diagnose = ({
 }): void => {
   const cwd = process.cwd()
 
-  checkForAppsignalPackage()
+  const packageRoot = checkForAppsignalPackage()
 
   if (apiKey) {
     process.env["APPSIGNAL_PUSH_API_KEY"] = apiKey
@@ -49,10 +49,7 @@ export const diagnose = ({
   }
 
   try {
-    accessSync(
-      `${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`,
-      constants.X_OK
-    )
+    accessSync(`${packageRoot}/bin/diagnose`, constants.X_OK)
   } catch (e) {
     console.error("Didn't have permissions to execute the diagnose binary.")
     console.error(
@@ -62,11 +59,10 @@ export const diagnose = ({
     process.exit(1)
   }
 
-  const result = spawnSync(
-    `${cwd}/node_modules/@appsignal/nodejs/bin/diagnose`,
-    args,
-    { cwd, stdio: "inherit" }
-  )
+  const result = spawnSync(`${packageRoot}/bin/diagnose`, args, {
+    cwd,
+    stdio: "inherit"
+  })
 
   if (result.error) {
     console.error("Something went wrong when executing the diagnose report:")

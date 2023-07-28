@@ -1,6 +1,9 @@
 import { existsSync } from "fs"
+import { dirname } from "path"
 
-export function checkForAppsignalPackage() {
+// Returns the filesystem location at which the root of the
+// `@appsignal/nodejs` package was found.
+export function checkForAppsignalPackage(): string {
   console.log("🔭 Checking for @appsignal/nodejs...")
 
   try {
@@ -21,14 +24,25 @@ export function checkForAppsignalPackage() {
     process.exit(1)
   }
 
-  if (!existsSync(`${process.cwd()}/node_modules/@appsignal/nodejs`)) {
-    console.error(
-      "Couldn't find the `@appsignal/nodejs` package in your `node_modules` folder."
-    )
-    console.error("Please run `npm install` and try again. Exiting.")
+  let currentRoot = process.cwd()
 
-    process.exit(1)
+  // Look for the package in parent folders (yarn workspaces)
+  while (currentRoot !== "/") {
+    const currentPath = `${currentRoot}/node_modules/@appsignal/nodejs`
+
+    if (existsSync(currentPath)) {
+      console.log(`✅ Found it! (at ${currentRoot})`)
+
+      return currentPath
+    }
+
+    currentRoot = dirname(currentRoot)
   }
 
-  console.log("✅ Found it!")
+  console.error(
+    "Couldn't find the `@appsignal/nodejs` package in your `node_modules` folder."
+  )
+  console.error("Please run `npm install` and try again. Exiting.")
+
+  process.exit(1)
 }
