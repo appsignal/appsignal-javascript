@@ -1,5 +1,11 @@
 # AppSignal CLI changelog
 
+## 1.2.5
+
+### Added
+
+- [daabd61](https://github.com/appsignal/appsignal-javascript/commit/daabd617f9d2e7aae3ac408e75d2ca6572d07699) patch - Fail if the file passed to flag doesn't exists
+
 ## 1.2.4
 
 ### Added
