@@ -1,6 +1,6 @@
 import { spawnSync } from "child_process"
 import { checkForAppsignalPackage } from "../utils"
-import { accessSync, constants } from "fs"
+import { existsSync, accessSync, constants } from "fs"
 
 /**
  * Usage: npx @appsignal/cli diagnose [options]
@@ -43,7 +43,14 @@ export const diagnose = ({
 
   let args = []
   if (config) {
-    args.push("--config", config)
+    if (existsSync(config)) {
+      args.push("--config", config)
+    } else {
+      console.error(
+        `The AppSignal config file '${config}' does not exist. Please check the path and try again.`
+      )
+      process.exit(1)
+    }
   }
 
   switch (sendReport) {
