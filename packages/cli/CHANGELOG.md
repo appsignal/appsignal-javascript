@@ -1,5 +1,11 @@
 # AppSignal CLI changelog
 
+## 1.2.6
+
+### Fixed
+
+- [cf0ec71](https://github.com/appsignal/appsignal-javascript/commit/cf0ec7158a3a0907fba5f6adc60089606b1465bb) patch - Support yarn workspaces on CLI commands
+
 ## 1.2.5
 
 ### Added
