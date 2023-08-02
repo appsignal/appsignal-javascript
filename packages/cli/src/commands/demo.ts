@@ -11,7 +11,7 @@ export function demo({
   environment?: string
   application?: string
 }): void {
-  checkForAppsignalPackage()
+  const packageRoot = checkForAppsignalPackage()
 
   if (apiKey) {
     process.env["APPSIGNAL_PUSH_API_KEY"] = apiKey
@@ -25,16 +25,22 @@ export function demo({
     process.env["APPSIGNAL_APP_NAME"] = application
   }
 
-  spawnDemo()
+  spawnDemo({}, packageRoot)
 }
 
-export function spawnDemo(env: { [key: string]: string } = {}): void {
+export function spawnDemo(
+  env: { [key: string]: string } = {},
+  packageRoot?: string
+): void {
+  packageRoot = packageRoot ?? `${process.cwd()}/node_modules/@appsignal/nodejs`
+
   spawn("node", [__filename], {
     cwd: process.cwd(),
     detached: true,
     env: {
       ...process.env,
-      ...env
+      ...env,
+      _APPSIGNAL_NODE_MODULE_PACKAGE_ROOT: packageRoot
     },
     stdio: "ignore"
   }).unref()
@@ -51,9 +57,9 @@ export function spawnDemo(env: { [key: string]: string } = {}): void {
 }
 
 if (require.main === module) {
-  const {
-    Appsignal
-  } = require(`${process.cwd()}/node_modules/@appsignal/nodejs/dist`)
+  const packageRoot = process.env["_APPSIGNAL_NODE_MODULE_PACKAGE_ROOT"]
+
+  const { Appsignal } = require(`${packageRoot}/dist`)
 
   const appsignal = new Appsignal({ active: true })
 
