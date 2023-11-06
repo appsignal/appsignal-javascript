@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist/esm",
-    "module": "es6",
+    "module": "es2020",
     "importHelpers": true
   }
 }
