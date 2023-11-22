@@ -15,7 +15,7 @@ export interface JSSpan {
 
   setTags(tags: HashMap<string>): this
 
-  setParams(params: HashMap<HashMapValue>): this
+  setParams(params: HashMap<any>): this
 
   setBreadcrumbs(breadcrumbs: Breadcrumb[]): this
 }
@@ -30,7 +30,7 @@ export interface JSSpanData {
   error: Error
   revision?: string
   tags?: HashMap<string>
-  params?: HashMap<HashMapValue>
+  params?: HashMap<any>
   environment?: HashMap<string>
   breadcrumbs?: Breadcrumb[]
 }
