@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/stimulus",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/types": "=3.0.0"
+    "@appsignal/types": "=3.0.1"
   },
   "peerDependencies": {
     "stimulus": "^1.1",

@@ -1,5 +1,11 @@
 # AppSignal types changelog
 
+## 3.0.1
+
+### Changed
+
+- [9b9eadc](https://github.com/appsignal/appsignal-javascript/commit/9b9eadcd0a8bfbfe016d46d6c62920ec0536811f) patch - Update the type definition of our `setParams` and `params` span interfaces so that nested objects and arrays can be sent inside the params object.
+
 ## 3.0.0
 
 ### Changed

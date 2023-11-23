@@ -1,5 +1,11 @@
 # AppSignal for vue changelog
 
+## 1.1.4
+
+### Changed
+
+- patch - Update @appsignal/types dependency to 3.0.1.
+
 ## 1.1.3
 
 ### Fixed

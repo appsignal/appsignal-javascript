@@ -1,5 +1,11 @@
 # AppSignal for plugin-path-decorator changelog
 
+## 1.0.16
+
+### Changed
+
+- patch - Update @appsignal/types dependency to 3.0.1.
+
 ## 1.0.15
 
 ### Changed

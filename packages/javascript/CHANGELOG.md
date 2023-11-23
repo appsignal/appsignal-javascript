@@ -1,5 +1,13 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.28
+
+### Changed
+
+- [9b9eadc](https://github.com/appsignal/appsignal-javascript/commit/9b9eadcd0a8bfbfe016d46d6c62920ec0536811f) patch - Remove a restriction in our `setParams` TypeScript types that did not allow nested objects to be sent as params. It is now possible to send nested objects and arrays as values inside the params object.
+- patch - Update @appsignal/core dependency to 1.1.20.
+- patch - Update @appsignal/types dependency to 3.0.1.
+
 ## 1.3.27
 
 ### Fixed

@@ -1,5 +1,11 @@
 # AppSignal Core changelog
 
+## 1.1.20
+
+### Changed
+
+- patch - Update @appsignal/types dependency to 3.0.1.
+
 ## 1.1.19
 
 ### Changed
