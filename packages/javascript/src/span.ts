@@ -60,7 +60,7 @@ export class Span extends Serializable<JSSpanData> {
     return this
   }
 
-  public setParams(params: HashMap<HashMapValue>): this {
+  public setParams(params: HashMap<any>): this {
     this._data.params = { ...this._data.params, ...params }
     return this
   }
