@@ -7,7 +7,7 @@ export function errorHandler(appsignal: JSClient, app?: VueApp) {
   return function (error: any, vm: any, info: string) {
     const componentName = vm.$vnode
       ? vm.$vnode.componentOptions.tag // Vue 2
-      : vm.$options.name // Vue 3
+      : vm.$options.name || vm.$options.__name // Vue 3
     const span = appsignal.createSpan()
 
     span

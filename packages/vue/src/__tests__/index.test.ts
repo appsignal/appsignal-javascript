@@ -68,4 +68,26 @@ describe("Vue errorHandler", () => {
       version: version
     })
   })
+
+  it("reads from the __name option for composition components in Vue 3", () => {
+    const TAG_NAME = "testactionV3"
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    const vue3Mock: any = {
+      $options: {
+        __name: TAG_NAME
+      }
+    }
+
+    errorHandler(appsignal, { version } as VueApp)(err, vue3Mock, "INFO")
+
+    expect(mock.setAction).toBeCalledWith(TAG_NAME)
+
+    expect(mock.setTags).toBeCalledWith({
+      framework: "Vue",
+      info: "INFO",
+      version: version
+    })
+  })
 })
