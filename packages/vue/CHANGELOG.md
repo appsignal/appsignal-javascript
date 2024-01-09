@@ -1,5 +1,11 @@
 # AppSignal for vue changelog
 
+## 1.1.5
+
+### Fixed
+
+- [3144915](https://github.com/appsignal/appsignal-javascript/commit/31449158c710b8d7ef7ec6a0f9cafe42b34399ef) patch - Report the name for Vue 3 components built using composition. It will now report the component name, rather than `[unknown Vue component]` as the action name for an error.
+
 ## 1.1.4
 
 ### Changed
