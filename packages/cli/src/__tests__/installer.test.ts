@@ -67,6 +67,9 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
           `new Appsignal({\n` +
           `  active: true,\n` +
           `  name: "MyApp",\n` +
+          `  // Your app's AppSignal Push API key. We don't recommend committing this key.\n` +
+          `  // Set the Push API key using a system environment variable.\n` +
+          `  // pushApiKey: process.env.APPSIGNAL_PUSH_API_KEY,\n` +
           `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
           `});\n`
       )
@@ -178,6 +181,9 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
           `new Appsignal({\n` +
           `  active: true,\n` +
           `  name: "MyApp",\n` +
+          `  // Your app's AppSignal Push API key. We don't recommend committing this key.\n` +
+          `  // Set the Push API key using a system environment variable.\n` +
+          `  // pushApiKey: process.env.APPSIGNAL_PUSH_API_KEY,\n` +
           `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
           `});\n`
       )
@@ -220,6 +226,9 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
           `new Appsignal({\n` +
           `  active: true,\n` +
           `  name: "MyApp",\n` +
+          `  // Your app's AppSignal Push API key. We don't recommend committing this key.\n` +
+          `  // Set the Push API key using a system environment variable.\n` +
+          `  // pushApiKey: process.env.APPSIGNAL_PUSH_API_KEY,\n` +
           `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
           `});\n`
       )
@@ -263,6 +272,9 @@ Need any further help? Feel free to ask a human at support@appsignal.com!`
           `new Appsignal({\n` +
           `  active: true,\n` +
           `  name: "MyApp",\n` +
+          `  // Your app's AppSignal Push API key. We don't recommend committing this key.\n` +
+          `  // Set the Push API key using a system environment variable.\n` +
+          `  // pushApiKey: process.env.APPSIGNAL_PUSH_API_KEY,\n` +
           `  pushApiKey: "00000000-0000-0000-0000-000000000000",\n` +
           `});\n`
       )

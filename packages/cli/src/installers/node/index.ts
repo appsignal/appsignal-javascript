@@ -84,13 +84,22 @@ export async function installNode(dir: string) {
     console.log()
     console.log(`Writing ${filename} configuration file.`)
 
+    let pushApiKeyConfig = ""
+    if (useConfigFile) {
+      pushApiKeyConfig =
+        `  // Your app's AppSignal Push API key. We don't recommend committing this key.\n` +
+        `  // Set the Push API key using a system environment variable.\n` +
+        `  // pushApiKey: process.env.APPSIGNAL_PUSH_API_KEY,\n` +
+        `  pushApiKey: "${pushApiKey}",\n`
+    }
+
     fs.writeFileSync(
       path.join(dir, filename),
       `const { Appsignal } = require("@appsignal/nodejs");\n\n` +
         `new Appsignal({\n` +
         `  active: true,\n` +
         `  name: "${name}",\n` +
-        (useConfigFile ? `  pushApiKey: "${pushApiKey}",\n` : ``) +
+        pushApiKeyConfig +
         `});\n`
     )
   }
