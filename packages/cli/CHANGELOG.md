@@ -1,5 +1,13 @@
 # AppSignal CLI changelog
 
+## 1.2.8
+
+_Published on 2024-01-19._
+
+### Changed
+
+- [1047390](https://github.com/appsignal/appsignal-javascript/commit/104739094e76594109a0cecb6da806eb9cb8c974) patch - Warn about Push API key being committed in the AppSignal config file and recommend using system environment variables instead.
+
 ## 1.2.7
 
 ### Changed
