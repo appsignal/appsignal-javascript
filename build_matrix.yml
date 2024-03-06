@@ -3,8 +3,8 @@ semaphore: # Default `.semaphore/semaphore.yml` contents
   name: AppSignal for JavaScript
   agent:
     machine:
-      type: e1-standard-2
-      os_image: ubuntu1804
+      type: e2-standard-2
+      os_image: ubuntu2204
   auto_cancel:
     running:
       when: branch != 'master' AND branch != 'develop'
