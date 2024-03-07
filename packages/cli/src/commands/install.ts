@@ -13,26 +13,7 @@ export async function install() {
   console.log("🚀 Alright! Let's install AppSignal to your project!")
 
   try {
-    const { integration } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "integration",
-        message: "Which integration do you need?",
-        choices: [
-          "Node.js",
-          {
-            name: "Browser",
-            disabled: "Unavailable at this time"
-          }
-        ],
-        filter: val => val.toLowerCase().split(".").join("")
-      }
-    ])
-
-    if (integration === "nodejs") {
-      await installNode(process.cwd())
-    }
-
+    await installNode(process.cwd())
     console.log("✅ Done!")
     return
   } catch (error) {
