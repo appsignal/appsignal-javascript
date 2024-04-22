@@ -1,5 +1,13 @@
 # AppSignal Core changelog
 
+## 1.1.21
+
+_Published on 2024-04-22._
+
+### Fixed
+
+- [ebb2adc](https://github.com/appsignal/appsignal-javascript/commit/ebb2adc81aee26b192d4eaca89df823c190bab7e) patch - Bump dependencies to remove vulnerability warning about `node-fetch@2.6.1`. The vulnerability does not apply to AppSignal's usage of it.
+
 ## 1.1.20
 
 ### Changed

@@ -1,5 +1,13 @@
 # AppSignal CLI changelog
 
+## 1.2.9
+
+_Published on 2024-04-22._
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.21.
+
 ## 1.2.8
 
 _Published on 2024-01-19._
