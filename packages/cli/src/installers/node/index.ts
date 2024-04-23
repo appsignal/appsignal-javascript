@@ -2,7 +2,7 @@ import { existsSync } from "fs"
 import { spawnSync } from "child_process"
 import chalk from "chalk"
 import inquirer from "inquirer"
-import { validatePushApiKey } from "@appsignal/core"
+import { validatePushApiKey } from "../../utils"
 import * as fs from "fs"
 import * as path from "path"
 
