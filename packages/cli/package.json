@@ -20,7 +20,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@appsignal/core": "=1.1.21",
+    "isomorphic-unfetch": "=4.0.0",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
     "inquirer": "^7.3.3"
