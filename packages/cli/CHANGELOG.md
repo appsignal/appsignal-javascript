@@ -1,5 +1,13 @@
 # AppSignal CLI changelog
 
+## 1.2.10
+
+_Published on 2024-04-23._
+
+### Removed
+
+- [6ae655a](https://github.com/appsignal/appsignal-javascript/commit/6ae655af7ae04c75ce88893f7551a9c77420402a) patch - Remove dependency on `@appsignal/core`.
+
 ## 1.2.9
 
 _Published on 2024-04-22._

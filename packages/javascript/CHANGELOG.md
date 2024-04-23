@@ -1,5 +1,13 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.30
+
+_Published on 2024-04-23._
+
+### Changed
+
+- patch - Update @appsignal/core dependency to 1.1.22.
+
 ## 1.3.29
 
 _Published on 2024-04-22._
