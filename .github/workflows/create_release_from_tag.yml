@@ -1,0 +1,72 @@
+name: "Create release from tag"
+
+on:
+  push:
+    tags:
+      - "@appsignal/**"
+      - "!@appsignal/core@**"
+      - "!@appsignal/cli@**"
+
+permissions:
+  contents: write
+  actions: write
+
+jobs:
+  release:
+    name: "Create release"
+    runs-on: ubuntu-latest
+    env:
+      CHANGELOG_CATEGORY: "JavaScript"
+      CHANGELOG_LINK: "https://github.com/appsignal/appsignal-javascript/blob/main/packages/$PACKAGE_PATH/CHANGELOG.md#$CHANGELOG_VERSION"
+    steps:
+      - name: Checkout repository at tag
+        uses: actions/checkout@v4
+        with:
+          ref: "${{ github.ref }}"
+
+      - name: Get tag name
+        run: |
+          export TAG_NAME="${GITHUB_REF#refs/tags/}"
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_ENV
+          export PACKAGE_PATH=$(echo "$TAG_NAME" | awk -F'[@/]' '{print $3}')
+          echo "$PACKAGE_PATH"
+          echo "PACKAGE_PATH=$PACKAGE_PATH" >> $GITHUB_ENV
+          export PACKAGE_VERSION=$(echo "$TAG_NAME" | awk -F'@' '{print $3}')
+          echo "$PACKAGE_VERSION"
+          echo "PACKAGE_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+
+      - name: Get changelog contents from tag
+        run: |
+          # Use sed to remove everything after "-----BEGIN PGP SIGNATURE-----" if it's present
+          # and also always remove the last line of the git show output
+          git show --format=oneline --no-color --no-patch "${{ env.TAG_NAME }}" \
+          | sed '1,2d' \
+          | sed '$d' \
+          | sed '/-----BEGIN PGP SIGNATURE-----/,$d' \
+          > CHANGELOG_TEXT.txt
+
+          echo "" >> CHANGELOG_TEXT.txt
+          echo "" >> CHANGELOG_TEXT.txt
+
+          export PACKAGE_PATH="${{ env.PACKAGE_PATH }}"
+          export CHANGELOG_VERSION=$(echo "${{ env.PACKAGE_VERSION }}" | sed 's/^v//' | tr -d '.')
+          export CHANGELOG_LINK_WITH_PACKAGE="$(echo "$CHANGELOG_LINK" | envsubst)"
+          echo "View the [AppSignal JavaScript ${{ env.PACKAGE_PATH }} v${{ env.PACKAGE_VERSION }} changelog]($CHANGELOG_LINK_WITH_PACKAGE) for more information." >> CHANGELOG_TEXT.txt
+
+      - name: Submit changelog entry
+        run: |
+          # Prepare JSON payload using jq to ensure proper escaping
+          payload=$(jq -n \
+            --arg title "AppSignal JavaScript ${{ env.PACKAGE_PATH }} v${{ env.PACKAGE_VERSION }}" \
+            --arg category "$CHANGELOG_CATEGORY" \
+            --arg version "${{ env.TAG_NAME }}" \
+            --arg changelog "$(cat CHANGELOG_TEXT.txt)" \
+            --arg assignee "${{ github.actor }}" \
+            '{ref: "main", inputs: {title: $title, category: $category, version: $version, changelog: $changelog, assignee: $assignee}}')
+
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.INTEGRATIONS_CHANGELOG_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            --fail-with-body \
+            https://api.github.com/repos/appsignal/appsignal.com/actions/workflows/102125282/dispatches \
+            -d "$payload"
