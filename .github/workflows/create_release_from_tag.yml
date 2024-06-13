@@ -57,7 +57,7 @@ jobs:
         run: |
           # Prepare JSON payload using jq to ensure proper escaping
           payload=$(jq -n \
-            --arg title "AppSignal JavaScript ${{ env.PACKAGE_PATH }} v${{ env.PACKAGE_VERSION }}" \
+            --arg title "AppSignal JavaScript ${{ env.PACKAGE_PATH }} package v${{ env.PACKAGE_VERSION }}" \
             --arg category "$CHANGELOG_CATEGORY" \
             --arg version "${{ env.TAG_NAME }}" \
             --arg changelog "$(cat CHANGELOG_TEXT.txt)" \
