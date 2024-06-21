@@ -117,13 +117,14 @@ export default class Appsignal implements JSClient {
     tagsOrFn?: object | ((span: Span) => T),
     namespace?: string
   ): Promise<any> | void {
-    if (!(data instanceof Error) && !(data instanceof Span) && !(data instanceof ErrorEvent)) {
+    if (!(data instanceof Error) && !(data instanceof Span) && !(data && data.error instanceof Error)) {
       // @TODO: route this through a central logger
       console.error(
         "[APPSIGNAL]: Can't send error, given error is not a valid type"
       )
       return
     }
+    if ('error' in data) data = data.error; // handle ErrorEvent
 
     // handle user defined ignores
     if (this.ignored.length !== 0) {
@@ -200,7 +201,7 @@ export default class Appsignal implements JSClient {
           span
         )
 
-        if (data instanceof Error || data instanceof ErrorEvent) {
+        if (data instanceof Error) {
           throw data
         }
       } else {
