@@ -73,8 +73,8 @@ export default class Appsignal implements JSClient {
   /**
    * Records and sends a browser `Error` to AppSignal.
    *
-   * @param   {Error}             error          A JavaScript Error object
-   * @param   {Function | void}   fn             Optional callback function to modify span before it's sent.
+   * @param   {Error | ErrorEvent}             error          A JavaScript Error object
+   * @param   {Function | void}                fn             Optional callback function to modify span before it's sent.
    *
    * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
@@ -83,14 +83,14 @@ export default class Appsignal implements JSClient {
   /**
    * Records and sends a browser `Error` to AppSignal.
    *
-   * @param   {Error}             error          A JavaScript Error object
-   * @param   {object}            tags           An key, value object of tags
-   * @param   {string}            namespace      An optional namespace name
+   * @param   {Error | ErrorEvent}             error          A JavaScript Error object
+   * @param   {object}                         tags           An key, value object of tags
+   * @param   {string}                         namespace      An optional namespace name
    *
    * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
   public send(
-    error: Error,
+    error: Error | ErrorEvent,
     tags?: object,
     namespace?: string
   ): Promise<Span> | void
@@ -98,7 +98,7 @@ export default class Appsignal implements JSClient {
   /**
    * Records and sends an Appsignal `Span` object to AppSignal.
    *
-   * @param   {Error}             error          A JavaScript Error object
+   * @param   {Span}             span          An Appsignal Span object
    *
    * @return  {Promise<Span>}                    An API response, or `void` if `Promise` is unsupported.
    */
@@ -106,18 +106,18 @@ export default class Appsignal implements JSClient {
 
   /**
    *
-   * @param   {Error | Span}      data           A JavaScript Error or Appsignal Span object
-   * @param   {object | Function} tagsOrFn       An key-value object of tags or a callback function to customize the span before it is sent.
-   * @param   {string}            namespace      DEPRECATED: An optional namespace name.
+   * @param   {Error | Span | ErrorEvent}  data           A JavaScript Error or Appsignal Span object
+   * @param   {object | Function}          tagsOrFn       An key-value object of tags or a callback function to customize the span before it is sent.
+   * @param   {string}                     namespace      DEPRECATED: An optional namespace name.
    *
    * @return  {Promise<Span> | void}             An API response, or `void` if `Promise` is unsupported.
    */
   public send<T>(
-    data: Error | Span,
+    data: Error | Span | ErrorEvent,
     tagsOrFn?: object | ((span: Span) => T),
     namespace?: string
   ): Promise<any> | void {
-    if (!(data instanceof Error) && !(data instanceof Span)) {
+    if (!(data instanceof Error) && !(data instanceof Span) && !(data instanceof ErrorEvent)) {
       // @TODO: route this through a central logger
       console.error(
         "[APPSIGNAL]: Can't send error, given error is not a valid type"
@@ -128,7 +128,7 @@ export default class Appsignal implements JSClient {
     // handle user defined ignores
     if (this.ignored.length !== 0) {
       if (
-        data instanceof Error &&
+        data && 'message' in data &&
         this.ignored.some(el => el.test(data.message))
       ) {
         console.warn(`[APPSIGNAL]: Ignored an error: ${data.message}`)
@@ -200,7 +200,7 @@ export default class Appsignal implements JSClient {
           span
         )
 
-        if (data instanceof Error) {
+        if (data instanceof Error || data instanceof ErrorEvent) {
           throw data
         }
       } else {
