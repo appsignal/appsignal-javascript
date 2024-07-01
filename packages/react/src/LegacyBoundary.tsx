@@ -9,9 +9,9 @@ export class LegacyBoundary extends React.Component<Props, State> {
   }
 
   public unstable_handleError(error: Error): void {
-    const { instance: appsignal, action, tags = {} } = this.props
+    const { instance: appsignal, action, tags = {}, override } = this.props
     const { name, message, stack } = error
-    const span = appsignal.createSpan()
+    let span = appsignal.createSpan()
 
     span
       .setError({
@@ -22,6 +22,10 @@ export class LegacyBoundary extends React.Component<Props, State> {
       .setTags({ framework: "Legacy React", ...tags })
 
     if (action && action !== "") span.setAction(action)
+
+    if (override) {
+      span = override(span, error)
+    }
 
     appsignal.send(span)
 
