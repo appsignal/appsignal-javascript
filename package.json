@@ -5,7 +5,7 @@
   "devDependencies": {
     "@angular/core": "^12.2.15",
     "@testing-library/preact": "^2.0.1",
-    "@testing-library/react": "^12.1.0",
+    "@testing-library/react": "^13.0.0",
     "@types/inquirer": "^7.3.1",
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.14",
