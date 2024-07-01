@@ -1,6 +1,7 @@
 import React from "react"
 import { render, cleanup } from "@testing-library/react"
 import { ErrorBoundary } from "../ErrorBoundary"
+import { JSSpan } from "@appsignal/types"
 
 describe("<ErrorBoundary />", () => {
   let instance: any
@@ -60,6 +61,49 @@ describe("<ErrorBoundary />", () => {
 
     expect(mock.setAction).toBeCalledWith("testaction")
     expect(mock.setTags).toBeCalledWith({ framework: "React" })
+    expect(mock.setError).toBeCalled()
+
+    expect(instance.send).toBeCalled()
+  })
+
+  it("modifies the tags if provided as a prop", () => {
+    render(
+      <ErrorBoundary instance={instance} tags={{ foo: "bar" }}>
+        <Broken />
+      </ErrorBoundary>
+    )
+
+    expect(mock.setAction).not.toBeCalled()
+    expect(mock.setTags).toBeCalledWith({ framework: "React", foo: "bar" })
+    expect(mock.setError).toBeCalled()
+
+    expect(instance.send).toBeCalled()
+  })
+
+  it("uses the override callback to modify the span if provided", () => {
+    const override = (span: JSSpan) => {
+      span.setTags({ foo: "overriden" })
+      span.setAction("overriden")
+      return span
+    }
+
+    render(
+      <ErrorBoundary
+        instance={instance}
+        action="testaction"
+        tags={{ foo: "bar" }}
+        override={override}
+      >
+        <Broken />
+      </ErrorBoundary>
+    )
+
+    expect(mock.setAction).toHaveBeenLastCalledWith("overriden")
+
+    // The tags will be merged by the span, although we don't assert that
+    // due to this mock-based test implementation.
+    expect(mock.setTags).toHaveBeenLastCalledWith({ foo: "overriden" })
+
     expect(mock.setError).toBeCalled()
 
     expect(instance.send).toBeCalled()
