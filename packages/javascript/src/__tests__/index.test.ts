@@ -6,6 +6,18 @@ import { PushApi } from "../api"
 
 jest.mock("../api")
 
+/* Since Node.js does not have an implementation of the browser's
+ * `ErrorEvent`, implement a fake ErrorEvent class with the same
+ * interface.
+ */
+class FakeErrorEvent {
+  error: Error | undefined
+
+  constructor(error?: Error) {
+    this.error = error
+  }
+}
+
 describe("Appsignal", () => {
   let appsignal: Appsignal
 
@@ -68,10 +80,16 @@ describe("Appsignal", () => {
 
   describe("sendError", () => {
     it("pushes an error", () => {
+      const spy = jest.spyOn(console, "error").mockImplementation()
+
       const message = "test error"
-      const promise = appsignal.sendError(new Error(message))
+      const promise = appsignal.sendError(new Error(message), span => {
+        expect(span.serialize().error.message).toEqual(message)
+      })
 
       expect(promise).resolves
+      expect(spy).not.toHaveBeenCalled()
+      spy.mockRestore()
     })
 
     it("modifies the span before pushing the error", async () => {
@@ -97,8 +115,36 @@ describe("Appsignal", () => {
       // compiler doesn't fail and actually allows us to test
       appsignal.sendError(("Test error" as unknown) as Error)
 
-      expect(spy).toHaveBeenCalled()
+      expect(spy).toHaveBeenCalledWith(
+        "[APPSIGNAL]: Can't send error, given error is not a valid type"
+      )
       spy.mockRestore()
+    })
+
+    describe("when given an ErrorEvent", () => {
+      it("does not send an ErrorEvent without an error", () => {
+        const spy = jest.spyOn(console, "error").mockImplementation()
+
+        appsignal.sendError(new FakeErrorEvent() as any)
+
+        expect(spy).toHaveBeenCalledWith(
+          "[APPSIGNAL]: Can't send error, given error is not a valid type"
+        )
+        spy.mockRestore()
+      })
+
+      it("sends the error within an ErrorEvent", () => {
+        const spy = jest.spyOn(console, "error").mockImplementation()
+
+        const promise = appsignal.sendError(
+          new FakeErrorEvent(new Error("message")) as any,
+          span => expect(span.serialize().error.message).toEqual("message")
+        )
+
+        expect(promise).resolves
+        expect(spy).not.toHaveBeenCalled()
+        spy.mockRestore()
+      })
     })
   })
 
