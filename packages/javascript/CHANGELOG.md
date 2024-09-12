@@ -1,5 +1,13 @@
 # AppSignal for JavaScript changelog
 
+## 1.3.31
+
+_Published on 2024-09-12._
+
+### Added
+
+- Allow `ErrorEvent` instances to be reported to AppSignal. (patch [fb189a5](https://github.com/appsignal/appsignal-javascript/commit/fb189a550b0015a893e368dc92b07b94ff9a01ae))
+
 ## 1.3.30
 
 _Published on 2024-04-23._
