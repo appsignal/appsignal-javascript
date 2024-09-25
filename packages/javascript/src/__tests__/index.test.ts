@@ -171,7 +171,9 @@ describe("Appsignal", () => {
           throw new Error("test error")
         })
       } catch (e) {
-        expect(e.message).toEqual("test error")
+        if (e instanceof Error) {
+          expect(e.message).toEqual("test error")
+        }
       }
     })
 
@@ -189,7 +191,9 @@ describe("Appsignal", () => {
           throw new Error("test error")
         })
       } catch (e) {
-        expect(e.message).toEqual("test error")
+        if (e instanceof Error) {
+          expect(e.message).toEqual("test error")
+        }
       }
     })
 
