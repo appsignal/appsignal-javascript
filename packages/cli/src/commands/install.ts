@@ -1,4 +1,3 @@
-import inquirer from "inquirer"
 import { installNode } from "../installers/node"
 
 /**
@@ -17,7 +16,7 @@ export async function install() {
     console.log("✅ Done!")
     return
   } catch (error) {
-    if (error.isTtyError) {
+    if (error instanceof Error) {
       console.warn(
         "Prompt couldn't be rendered in the current environment, exiting..."
       )
