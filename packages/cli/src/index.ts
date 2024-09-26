@@ -1,6 +1,5 @@
 import commander, { Command } from "commander"
 
-import { install } from "./commands/install"
 import { diagnose } from "./commands/diagnose"
 import { demo } from "./commands/demo"
 
@@ -12,11 +11,6 @@ export class CLI {
   }
 
   public run() {
-    this.cmd
-      .command("install")
-      .description("installs AppSignal")
-      .action(install)
-
     this.cmd
       .command("diagnose")
       .description("runs the diagnose command (Node.js integration only)")
