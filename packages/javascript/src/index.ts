@@ -213,17 +213,12 @@ export default class Appsignal implements JSClient {
       this._breadcrumbs = []
 
       // if no key is supplied, we just output the span to the console
-      // and rethrow the error
       if (!this._options.key) {
         // @TODO: route this through a central logger
         console.warn(
           "[APPSIGNAL]: Span not sent because we're in development mode:",
           span
         )
-
-        if (data instanceof Error) {
-          throw data
-        }
       } else {
         // attempt to push to the API
         return this._api.push(span).catch(() => {
