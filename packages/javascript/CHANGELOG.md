@@ -1,5 +1,14 @@
 # AppSignal for JavaScript changelog
 
+## 1.4.0
+
+_Published on 2024-10-01._
+
+### Changed
+
+- Remove error throw in development mode when sending an error with `send/sendError`. (minor [9c778f9](https://github.com/appsignal/appsignal-javascript/commit/9c778f96edbfa8156a2f8fef8fc71f08f54d7eaa))
+- Update @appsignal/core dependency to 1.1.23. (patch)
+
 ## 1.3.31
 
 _Published on 2024-09-12._

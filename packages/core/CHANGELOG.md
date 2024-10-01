@@ -1,5 +1,17 @@
 # AppSignal Core changelog
 
+## 1.1.23
+
+_Published on 2024-10-01._
+
+### Changed
+
+- The package is now useUnknownInCatchVariables compliant.
+
+  Try catch blocks in the package now check for the caught variable to be an instance of `Error` before doing any error-specific operations with it.
+
+  (patch [c1f68df](https://github.com/appsignal/appsignal-javascript/commit/c1f68df2eabde7a2d3d2b866a54bf6969cd713c3))
+
 ## 1.1.22
 
 _Published on 2024-04-23._
