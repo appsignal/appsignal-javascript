@@ -1,5 +1,3 @@
-import { installNode } from "../installers/node"
-
 /**
  * Usage: @appsignal/cli install [options]
  *
@@ -7,13 +5,13 @@ import { installNode } from "../installers/node"
  *
  * Options:
  * -h, --help  display help for command
+ * @deprecated
  */
 export async function install() {
-  console.log("🚀 Alright! Let's install AppSignal to your project!")
-
   try {
-    await installNode(process.cwd())
-    console.log("✅ Done!")
+    console.log(
+      "CLI installer is deprecated. Please use the web wizard in this link: https://appsignal.com/redirect-to/organization?to=sites/new"
+    )
     return
   } catch (error) {
     if (error instanceof Error) {
