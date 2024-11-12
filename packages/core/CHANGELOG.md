@@ -1,5 +1,13 @@
 # AppSignal Core changelog
 
+## 1.1.24
+
+_Published on 2024-11-12._
+
+### Fixed
+
+- Fix an issue where objects given as tags or breadcrumb metadata would have their values modified in place. (patch [e9794db](https://github.com/appsignal/appsignal-javascript/commit/e9794dbea47f5b85779a5617ea8d0d826f3147c7))
+
 ## 1.1.23
 
 _Published on 2024-10-01._

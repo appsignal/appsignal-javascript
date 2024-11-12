@@ -1,5 +1,13 @@
 # AppSignal CLI changelog
 
+## 1.3.0
+
+_Published on 2024-11-12._
+
+### Deprecated
+
+- The CLI installer has been deprecated in favor of the web wizard installer. (minor [e833d6d](https://github.com/appsignal/appsignal-javascript/commit/e833d6d5197dad7d1d4397c719204ad60f97fe4f))
+
 ## 1.2.10
 
 _Published on 2024-04-23._

@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/plugin-breadcrumbs-console",
-  "version": "1.1.33",
+  "version": "1.1.34",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -25,7 +25,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@appsignal/javascript": "=1.4.0"
+    "@appsignal/javascript": "=1.4.1"
   },
   "devDependencies": {
     "@appsignal/types": "=3.0.1"

@@ -1,5 +1,13 @@
 # AppSignal for react changelog
 
+## 1.0.28
+
+_Published on 2024-11-12._
+
+### Changed
+
+- Update @appsignal/core dependency to 1.1.24. (patch)
+
 ## 1.0.27
 
 _Published on 2024-10-01._
