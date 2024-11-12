@@ -43,7 +43,7 @@ describe("toHashMap", () => {
   })
 
   it("returns undefined if argument is undefined", () => {
-    const hm = toHashMapString()
+    const hm = toHashMap()
     expect(hm).toBeUndefined()
   })
 })
@@ -77,7 +77,7 @@ describe("toHashMapString", () => {
       object: { test: 123 }
     }
 
-    const hm = toHashMap(obj)
+    const hm = toHashMapString(obj)
 
     expect(obj).toStrictEqual({
       string: "abc",
