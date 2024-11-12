@@ -10,15 +10,17 @@ export function toHashMapString(
 ): HashMap<string> | undefined {
   if (!obj) return
 
+  const hm: HashMap<string> = {}
+
   Object.keys(obj).forEach(k => {
     if (typeof obj[k] === "object") {
-      obj[k] = JSON.stringify(obj[k])
+      hm[k] = JSON.stringify(obj[k])
+    } else {
+      hm[k] = String(obj[k])
     }
-
-    obj[k] = String(obj[k])
   })
 
-  return obj
+  return hm
 }
 
 /**
@@ -29,17 +31,19 @@ export function toHashMap(
 ): HashMap<HashMapValue> | undefined {
   if (!obj) return
 
+  const hm: HashMap<HashMapValue> = {}
+
   Object.keys(obj).forEach(k => {
     if (
       typeof obj[k] === "string" ||
       typeof obj[k] === "boolean" ||
       typeof obj[k] === "number"
     ) {
-      return
+      hm[k] = obj[k]
+    } else {
+      hm[k] = JSON.stringify(obj[k])
     }
-
-    obj[k] = JSON.stringify(obj[k])
   })
 
-  return obj
+  return hm
 }
