@@ -79,11 +79,11 @@ describe("Appsignal", () => {
       console.warn = original
     })
 
-    it("cleans the backtrace path if `matchPath` is set", () => {
+    it("cleans the backtrace path if `matchBacktracePaths` is set", () => {
       appsignal = new Appsignal({
         key: "TESTKEY",
         namespace: "test",
-        matchPath: [/here(.*)/]
+        matchBacktracePaths: [/here(.*)/]
       })
 
       const error = new Error("test error")

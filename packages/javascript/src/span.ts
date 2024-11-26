@@ -71,14 +71,14 @@ export class Span extends Serializable<JSSpanData> {
   }
 
   // @private
-  // Do not use this function directly. Instead, set the `matchPath`
+  // Do not use this function directly. Instead, set the `matchBacktracePaths`
   // configuration option when initializing AppSignal.
-  public cleanBacktracePath(matchPath: RegExp | RegExp[]): this {
-    if (matchPath instanceof RegExp) {
-      matchPath = [matchPath]
+  public cleanBacktracePath(matchBacktracePaths: RegExp | RegExp[]): this {
+    if (matchBacktracePaths instanceof RegExp) {
+      matchBacktracePaths = [matchBacktracePaths]
     }
 
-    if (!Array.isArray(matchPath)) {
+    if (!Array.isArray(matchBacktracePaths)) {
       return this
     }
 
@@ -92,7 +92,7 @@ export class Span extends Serializable<JSSpanData> {
         return line
       }
 
-      for (const matcher of matchPath as RegExp[]) {
+      for (const matcher of matchBacktracePaths as RegExp[]) {
         if (!(matcher instanceof RegExp)) {
           continue
         }

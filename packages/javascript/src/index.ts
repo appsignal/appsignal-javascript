@@ -207,8 +207,8 @@ export default class Appsignal implements JSClient {
       compose(...this._hooks.overrides)(span)
     }
 
-    if (this._options.matchPath) {
-      span.cleanBacktracePath(this._options.matchPath)
+    if (this._options.matchBacktracePaths) {
+      span.cleanBacktracePath(this._options.matchBacktracePaths)
     }
 
     if (Environment.supportsPromises()) {
