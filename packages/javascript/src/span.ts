@@ -98,13 +98,13 @@ export class Span extends Serializable<JSSpanData> {
         }
 
         const match = path.match(matcher)
-        if (!match) {
+        if (!match || match.length < 2) {
           continue
         }
 
-        const relevantPath = match[1]
+        const relevantPath = match.slice(1).join("")
         if (relevantPath) {
-          return line.replace(path, match[1])
+          return line.replace(path, relevantPath)
         }
       }
 

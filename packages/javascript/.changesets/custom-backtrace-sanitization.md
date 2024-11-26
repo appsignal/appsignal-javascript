@@ -31,7 +31,7 @@ const appsignal = new AppSignal({
 })
 ```
 
-If set, the `matchPath` configuration option must contain a regular expression, or an array of one or more regular expressions, which attempt to match the whole backtrace line path. These regular expressions are expected to have a single match group, such as `(.*)` in the example above, which attempts to match against the relevant segments of the backtrace line path.
+If set, the `matchPath` configuration option must contain a regular expression, or an array of one or more regular expressions, which attempt to match the whole backtrace line path. These regular expressions must have one or more match groups, such as `(.*)` in the example above, which attempt to match against the relevant segments of the backtrace line path.
 
 AppSignal will attempt to match the whole backtrace line path against these regular expressions in order. If any of the regular expression matches and produces a match group, AppSignal will replace the path in the backtrace line with the matched segment.
 

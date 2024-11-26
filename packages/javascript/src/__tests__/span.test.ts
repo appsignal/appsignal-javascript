@@ -72,6 +72,31 @@ describe("Span", () => {
       ])
     })
 
+    it("concatenates all match groups", () => {
+      const error = new Error("test error")
+      error.stack = [
+        "Error: test error",
+        "    at Foo (http://localhost:8080/assets/app/bundle.js:13:10)",
+        "    at Bar (http://cdn.coolbeans.app/assets/9ac54f82103a399d/app/bundle.js:17:10)",
+        "    at track (http://thirdparty.app/script.js:1:530)",
+        "    at http://cdn.coolbeans.app/assets/9ac54f82103a399d/app/bundle.js:21:10"
+      ].join("\n")
+
+      span.setError(error)
+      span.cleanBacktracePath(
+        new RegExp(".*/(assets/)(?:[0-9a-f]{16}/)?(app/.*)$")
+      )
+
+      const backtrace = span.serialize().error.backtrace
+      expect(backtrace).toEqual([
+        "Error: test error",
+        "    at Foo (assets/app/bundle.js:13:10)",
+        "    at Bar (assets/app/bundle.js:17:10)",
+        "    at track (http://thirdparty.app/script.js:1:530)",
+        "    at assets/app/bundle.js:21:10"
+      ])
+    })
+
     it("tries matchers in order", () => {
       const error = new Error("test error")
       error.stack = [
