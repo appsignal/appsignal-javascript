@@ -50,7 +50,9 @@ export default class Appsignal implements JSClient {
 
     // starting with no key means nothing will be sent to the API
     if (key === "") {
-      console.info("[APPSIGNAL]: Started in development mode.")
+      console.info(
+        "[APPSIGNAL]: No API key provided. Started in development mode."
+      )
     }
 
     this._api = new PushApi({
