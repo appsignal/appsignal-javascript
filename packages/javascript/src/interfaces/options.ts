@@ -7,6 +7,7 @@ export interface AppsignalOptions extends BaseOptions {
   namespace?: string
   revision?: string
   ignoreErrors?: RegExp[]
+  matchPath?: RegExp | RegExp[]
 }
 
 export interface PushApiOptions extends BaseOptions {

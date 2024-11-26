@@ -51,7 +51,7 @@ export default class Appsignal implements JSClient {
     // starting with no key means nothing will be sent to the API
     if (key === "") {
       console.info(
-        "[APPSIGNAL]: No API key provided. Started in development mode."
+        "[APPSIGNAL]: No API key provided. Started in development mode. No data will be sent."
       )
     }
 
@@ -155,8 +155,6 @@ export default class Appsignal implements JSClient {
       if (error instanceof Span) {
         const serializedError = error.serialize().error
 
-        // using the bang operator here as tsc doesnt recognise that we are
-        // checking for the value to be set as the first predicate
         if (
           serializedError.message &&
           this.ignored.some(el => el.test(serializedError.message!))
@@ -207,6 +205,10 @@ export default class Appsignal implements JSClient {
     // as arguments is added
     if (this._hooks.overrides.length > 0) {
       compose(...this._hooks.overrides)(span)
+    }
+
+    if (this._options.matchPath) {
+      span.cleanBacktracePath(this._options.matchPath)
     }
 
     if (Environment.supportsPromises()) {

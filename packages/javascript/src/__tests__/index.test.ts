@@ -2,7 +2,9 @@ import { VERSION } from "../version"
 
 import Appsignal from "../index"
 import { Span } from "../span"
-import { PushApi } from "../api"
+
+// @ts-ignore
+import { pushMock } from "../api"
 
 jest.mock("../api")
 
@@ -75,6 +77,30 @@ describe("Appsignal", () => {
 
       // reset
       console.warn = original
+    })
+
+    it("cleans the backtrace path if `matchPath` is set", () => {
+      appsignal = new Appsignal({
+        key: "TESTKEY",
+        namespace: "test",
+        matchPath: [/here(.*)/]
+      })
+
+      const error = new Error("test error")
+      error.stack = [
+        "Error: test error",
+        "    at Foo (http://localhost:8080/here/istheapp.js:13:10)"
+      ].join("\n")
+
+      appsignal.send(error)
+
+      expect(pushMock).toHaveBeenCalled()
+      const payload = pushMock.mock.calls[0][0].serialize()
+
+      expect(payload.error.backtrace).toEqual([
+        "Error: test error",
+        "    at Foo (/istheapp.js:13:10)"
+      ])
     })
   })
 
