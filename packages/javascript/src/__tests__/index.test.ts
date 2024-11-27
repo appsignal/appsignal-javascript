@@ -101,6 +101,8 @@ describe("Appsignal", () => {
         "Error: test error",
         "    at Foo (/istheapp.js:13:10)"
       ])
+
+      expect(payload.environment.backtrace_paths_matched).toEqual("1")
     })
   })
 

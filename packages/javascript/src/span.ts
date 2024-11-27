@@ -91,6 +91,8 @@ export class Span extends Serializable<JSSpanData> {
       return this
     }
 
+    let linesMatched = 0
+
     this._data.error.backtrace = this._data.error.backtrace.map(line => {
       const path = extractPath(line)
       if (!path) {
@@ -109,12 +111,19 @@ export class Span extends Serializable<JSSpanData> {
 
         const relevantPath = match.slice(1).join("")
         if (relevantPath) {
+          linesMatched++
           return line.replace(path, relevantPath)
         }
       }
 
       return line
     })
+
+    if (linesMatched > 0) {
+      this.setEnvironment({
+        backtrace_paths_matched: linesMatched.toString()
+      })
+    }
 
     return this
   }
