@@ -70,6 +70,11 @@ export class Span extends Serializable<JSSpanData> {
     return this
   }
 
+  public setEnvironment(environment: HashMap<string>): this {
+    this._data.environment = { ...this._data.environment, ...environment }
+    return this
+  }
+
   // @private
   // Do not use this function directly. Instead, set the `matchBacktracePaths`
   // configuration option when initializing AppSignal.
