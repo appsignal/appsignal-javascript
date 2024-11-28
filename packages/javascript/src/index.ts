@@ -64,7 +64,12 @@ export default class Appsignal implements JSClient {
     // ignored exceptions are checked against the `message`
     // property of a given `Error`
     if (ignoreErrors && Array.isArray(ignoreErrors)) {
-      this.ignored = ignoreErrors
+      this.ignored = []
+
+      for (const regexp of ignoreErrors) {
+        const flags = regexp.flags.replace("g", "")
+        this.ignored.push(new RegExp(regexp.source, flags))
+      }
     }
 
     this._dispatcher = new Dispatcher(this._queue, this._api)
