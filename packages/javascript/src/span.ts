@@ -70,6 +70,11 @@ export class Span extends Serializable<JSSpanData> {
     return this
   }
 
+  public setEnvironment(environment: HashMap<string>): this {
+    this._data.environment = { ...this._data.environment, ...environment }
+    return this
+  }
+
   // @private
   // Do not use this function directly. Instead, set the `matchBacktracePaths`
   // configuration option when initializing AppSignal.
@@ -85,6 +90,8 @@ export class Span extends Serializable<JSSpanData> {
     if (!this._data.error || !this._data.error.backtrace) {
       return this
     }
+
+    let linesMatched = 0
 
     this._data.error.backtrace = this._data.error.backtrace.map(line => {
       const path = extractPath(line)
@@ -104,12 +111,19 @@ export class Span extends Serializable<JSSpanData> {
 
         const relevantPath = match.slice(1).join("")
         if (relevantPath) {
+          linesMatched++
           return line.replace(path, relevantPath)
         }
       }
 
       return line
     })
+
+    if (linesMatched > 0) {
+      this.setEnvironment({
+        backtrace_paths_matched: linesMatched.toString()
+      })
+    }
 
     return this
   }

@@ -18,6 +18,8 @@ export interface JSSpan {
   setParams(params: HashMap<any>): this
 
   setBreadcrumbs(breadcrumbs: Breadcrumb[]): this
+
+  setEnvironment(environment: HashMap<string>): this
 }
 
 /**
