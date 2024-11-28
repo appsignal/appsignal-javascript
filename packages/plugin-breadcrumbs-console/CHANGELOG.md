@@ -1,5 +1,13 @@
 # AppSignal for plugin-breadcrumbs-console changelog
 
+## 1.1.35
+
+_Published on 2024-11-28._
+
+### Changed
+
+- Update @appsignal/javascript dependency to 1.5.0. (patch)
+
 ## 1.1.34
 
 _Published on 2024-11-12._
