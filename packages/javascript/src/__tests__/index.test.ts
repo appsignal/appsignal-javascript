@@ -3,8 +3,10 @@ import { VERSION } from "../version"
 import Appsignal from "../index"
 import { Span } from "../span"
 
+import * as api from "../api"
+
 // @ts-ignore
-import { pushMock } from "../api"
+const pushMockCall: (index?: number) => any = api.pushMockCall
 
 jest.mock("../api")
 
@@ -51,7 +53,10 @@ describe("Appsignal", () => {
       ignoreErrors: ignored
     })
 
-    expect(appsignal.ignored).toEqual(ignored)
+    // We clean the given regexes to remove the `g` flag, as it causes
+    // matches to misbehave by remembering the last matched position:
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test#using_test_on_a_regex_with_the_global_flag
+    expect(appsignal.ignored).toEqual([/Ignore me/m])
   })
 
   describe("send", () => {
@@ -71,9 +76,17 @@ describe("Appsignal", () => {
 
       appsignal.send(new Error(name))
 
+      expect(console.warn).toBeCalledTimes(1)
       expect(console.warn).toBeCalledWith(
         `[APPSIGNAL]: Ignored an error: ${name}`
       )
+
+      // As the regex used has the `g` flag, it would
+      // remember the last matched position and fail to match again:
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test#using_test_on_a_regex_with_the_global_flag
+      // We remove the `g` flag to make it match again, so it should match.
+      appsignal.send(new Error(name))
+      expect(console.warn).toBeCalledTimes(2)
 
       // reset
       console.warn = original
@@ -83,7 +96,7 @@ describe("Appsignal", () => {
       appsignal = new Appsignal({
         key: "TESTKEY",
         namespace: "test",
-        matchBacktracePaths: [/here(.*)/]
+        matchBacktracePaths: [/here(.*)/g]
       })
 
       const error = new Error("test error")
@@ -94,15 +107,23 @@ describe("Appsignal", () => {
 
       appsignal.send(error)
 
-      expect(pushMock).toHaveBeenCalled()
-      const payload = pushMock.mock.calls[0][0].serialize()
+      const firstPayload = pushMockCall(0)
 
-      expect(payload.error.backtrace).toEqual([
+      expect(firstPayload.error.backtrace).toEqual([
         "Error: test error",
         "    at Foo (/istheapp.js:13:10)"
       ])
 
-      expect(payload.environment.backtrace_paths_matched).toEqual("1")
+      expect(firstPayload.environment.backtrace_paths_matched).toEqual("1")
+
+      // As the regex used has the `g` flag, it would
+      // remember the last matched position and fail to match again:
+      // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/test#using_test_on_a_regex_with_the_global_flag
+      // We remove the `g` flag to make it match again, so it should match.
+      appsignal.send(error)
+
+      const secondPayload = pushMockCall(1)
+      expect(secondPayload.environment.backtrace_paths_matched).toEqual("1")
     })
   })
 

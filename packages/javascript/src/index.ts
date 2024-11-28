@@ -18,6 +18,7 @@ import { AppsignalOptions } from "./interfaces/options"
 export default class Appsignal implements JSClient {
   public VERSION = VERSION
   public ignored: RegExp[] = []
+  private matchBacktracePaths: RegExp[] = []
 
   private _dispatcher: Dispatcher
   private _options: AppsignalOptions
@@ -40,7 +41,13 @@ export default class Appsignal implements JSClient {
    * @param   {AppsignalOptions}  options        An object of options to configure the AppSignal client
    */
   constructor(options: AppsignalOptions) {
-    const { key = "", uri, revision, ignoreErrors } = options
+    const {
+      key = "",
+      uri,
+      revision,
+      ignoreErrors,
+      matchBacktracePaths
+    } = options
 
     // `revision` should be a `string`, but we attempt to
     // normalise to one anyway
@@ -65,6 +72,20 @@ export default class Appsignal implements JSClient {
     // property of a given `Error`
     if (ignoreErrors && Array.isArray(ignoreErrors)) {
       this.ignored = ignoreErrors
+        .filter(value => value instanceof RegExp)
+        .map(unglobalize)
+    }
+
+    if (matchBacktracePaths) {
+      if (Array.isArray(matchBacktracePaths)) {
+        this.matchBacktracePaths = matchBacktracePaths
+      } else {
+        this.matchBacktracePaths = [matchBacktracePaths]
+      }
+
+      this.matchBacktracePaths = this.matchBacktracePaths
+        .filter(value => value instanceof RegExp)
+        .map(unglobalize)
     }
 
     this._dispatcher = new Dispatcher(this._queue, this._api)
@@ -207,9 +228,7 @@ export default class Appsignal implements JSClient {
       compose(...this._hooks.overrides)(span)
     }
 
-    if (this._options.matchBacktracePaths) {
-      span.cleanBacktracePath(this._options.matchBacktracePaths)
-    }
+    span.cleanBacktracePath(this.matchBacktracePaths)
 
     if (Environment.supportsPromises()) {
       // clear breadcrumbs as they are now loaded into the span,
@@ -446,4 +465,12 @@ export default class Appsignal implements JSClient {
 
     return event
   }
+}
+
+// Returns a new `RegExp` object with the global flag removed.
+// This fixes issues where using global regexes repeatedly with `test` against
+// different strings will return unexpected results, due to the regex object
+// storing the location of its last match and resuming the search from there.
+function unglobalize(regexp: RegExp): RegExp {
+  return new RegExp(regexp.source, regexp.flags.replace("g", ""))
 }

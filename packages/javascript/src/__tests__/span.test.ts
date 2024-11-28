@@ -71,7 +71,7 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath(new RegExp("/assets/(app/.*)$"))
+      span.cleanBacktracePath([new RegExp("/assets/(app/.*)$")])
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -97,7 +97,7 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath(new RegExp("/assets/(app/.*)$"))
+      span.cleanBacktracePath([new RegExp("/assets/(app/.*)$")])
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -123,9 +123,9 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath(
+      span.cleanBacktracePath([
         new RegExp(".*/(assets/)(?:[0-9a-f]{16}/)?(app/.*)$")
-      )
+      ])
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -181,7 +181,7 @@ describe("Span", () => {
       // empty string.
       //
       // This should result in the line not being modified.
-      span.cleanBacktracePath(new RegExp(".*"))
+      span.cleanBacktracePath([new RegExp(".*")])
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -203,7 +203,7 @@ describe("Span", () => {
       // empty string.
       //
       // This should result in the line not being modified.
-      span.cleanBacktracePath(new RegExp(".*(z*)$"))
+      span.cleanBacktracePath([new RegExp(".*(z*)$")])
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -220,7 +220,7 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath(new RegExp("^pancakes/(.*)$"))
+      span.cleanBacktracePath([new RegExp("^pancakes/(.*)$")])
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
