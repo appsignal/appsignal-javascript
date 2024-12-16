@@ -125,15 +125,15 @@ blocks:
       - mono test --package=@appsignal/preact
     - name: "@appsignal/react - react@latest"
       commands:
-      - script/install_packages react@latest
+      - script/install_packages react@latest react-dom@latest
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@18.2.0"
       commands:
-      - script/install_packages react@18.2.0
+      - script/install_packages react@18.2.0 react-dom@18.2.0
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@18.1.0"
       commands:
-      - script/install_packages react@18.1.0
+      - script/install_packages react@18.1.0 react-dom@18.1.0
       - mono test --package=@appsignal/react
     - name: "@appsignal/react - react@17.0.2"
       commands:
