@@ -38,7 +38,7 @@ describe("Stimulus errorHandler", () => {
 
     expect(mock.setTags).toBeCalledWith({
       framework: "Stimulus",
-      message,
+      message
     })
 
     expect(mock.setError).toBeCalledWith(err)

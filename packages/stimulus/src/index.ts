@@ -3,7 +3,11 @@ import type { JSClient, JSSpan } from "@appsignal/types"
 export function installErrorHandler(appsignal: JSClient, application: any) {
   const prevHandler = application.handleError
 
-  application.handleError = function(error: Error, message: string, detail: { identifier: string }) {
+  application.handleError = function (
+    error: Error,
+    message: string,
+    detail: { identifier: string }
+  ) {
     const span = appsignal.createSpan((span: JSSpan) =>
       span
         .setAction(`${detail.identifier}-controller`)
