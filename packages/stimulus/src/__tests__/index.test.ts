@@ -26,16 +26,19 @@ describe("Stimulus errorHandler", () => {
   it("calls AppSignal helper methods", () => {
     const err = new Error("test")
     const message = "This is a test message"
+    const detail = { identifier: "foo" }
 
     const stimulusApplication: any = {}
 
     installErrorHandler(appsignal, stimulusApplication)
 
-    stimulusApplication.handleError(err, message)
+    stimulusApplication.handleError(err, message, detail)
+
+    expect(mock.setAction).toBeCalledWith("foo-controller")
 
     expect(mock.setTags).toBeCalledWith({
       framework: "Stimulus",
-      message,
+      message
     })
 
     expect(mock.setError).toBeCalledWith(err)
@@ -46,15 +49,16 @@ describe("Stimulus errorHandler", () => {
   it("calls any previously defined error handler", () => {
     const err = new Error("test")
     const message = "This is a test message"
+    const detail = { identifier: "foo" }
 
     const originalErrorHandler = jest.fn()
     const stimulusApplication: any = { handleError: originalErrorHandler }
 
     installErrorHandler(appsignal, stimulusApplication)
 
-    stimulusApplication.handleError(err, message)
+    stimulusApplication.handleError(err, message, detail)
 
     expect(appsignal.send).toBeCalled()
-    expect(originalErrorHandler).toBeCalledWith(err, message)
+    expect(originalErrorHandler).toBeCalledWith(err, message, detail)
   })
 })
