@@ -139,6 +139,18 @@ blocks:
       commands:
       - script/install_packages react@17.0.2 react-dom@17.0.2 @testing-library/react@11.1.2
       - mono test --package=@appsignal/react
+    - name: "@appsignal/stimulus - stimulus@latest"
+      commands:
+      - script/install_packages stimulus@latest
+      - mono test --package=@appsignal/stimulus
+    - name: "@appsignal/stimulus - stimulus@3.0.1"
+      commands:
+      - script/install_packages stimulus@3.0.1
+      - mono test --package=@appsignal/stimulus
+    - name: "@appsignal/stimulus - stimulus@2.0.0"
+      commands:
+      - script/install_packages stimulus@2.0.0
+      - mono test --package=@appsignal/stimulus
     - name: "@appsignal/vue - vue@latest"
       commands:
       - script/install_packages vue@latest
