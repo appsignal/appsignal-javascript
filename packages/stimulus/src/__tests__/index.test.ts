@@ -3,6 +3,8 @@ import type { JSSpan } from "@appsignal/types"
 
 describe("Stimulus errorHandler", () => {
   let appsignal: any
+  const err = new Error("test")
+  const message = "This is a test message"
 
   const mock: any = {
     setAction: jest.fn(() => mock),
@@ -24,17 +26,14 @@ describe("Stimulus errorHandler", () => {
   })
 
   it("calls AppSignal helper methods", () => {
-    const err = new Error("test")
-    const message = "This is a test message"
     const detail = { identifier: "foo" }
-
     const stimulusApplication: any = {}
 
     installErrorHandler(appsignal, stimulusApplication)
 
     stimulusApplication.handleError(err, message, detail)
 
-    expect(mock.setAction).toBeCalledWith("foo-controller")
+    expect(mock.setAction).toBeCalledWith("foo")
 
     expect(mock.setTags).toBeCalledWith({
       framework: "Stimulus",
@@ -47,10 +46,7 @@ describe("Stimulus errorHandler", () => {
   })
 
   it("calls any previously defined error handler", () => {
-    const err = new Error("test")
-    const message = "This is a test message"
     const detail = { identifier: "foo" }
-
     const originalErrorHandler = jest.fn()
     const stimulusApplication: any = { handleError: originalErrorHandler }
 
@@ -60,5 +56,30 @@ describe("Stimulus errorHandler", () => {
 
     expect(appsignal.send).toBeCalled()
     expect(originalErrorHandler).toBeCalledWith(err, message, detail)
+  })
+
+  it("sets the action as undefined if there is no identifier", () => {
+    const detail = {}
+    const stimulusApplication: any = {}
+
+    installErrorHandler(appsignal, stimulusApplication)
+
+    stimulusApplication.handleError(err, message, detail)
+
+    expect(mock.setAction).toBeCalledWith("[unknown Stimulus controller]")
+  })
+
+  it("sets the action as undefined if there is no detail", () => {
+    // Stimulus should always provide a detail, but out of an abundance of
+    // caution, let's be extra careful to not cause an exception in a default
+    // error handler.
+    const detail = undefined
+    const stimulusApplication: any = {}
+
+    installErrorHandler(appsignal, stimulusApplication)
+
+    stimulusApplication.handleError(err, message, detail)
+
+    expect(mock.setAction).toBeCalledWith("[unknown Stimulus controller]")
   })
 })
