@@ -129,6 +129,10 @@ matrix:
           packages:
             react: "latest"
             react-dom: "latest"
+        - name: "react@19.0.0"
+          packages:
+            react: "19.0.0"
+            react-dom: "19.0.0"
         - name: "react@18.2.0"
           packages:
             react: "18.2.0"
