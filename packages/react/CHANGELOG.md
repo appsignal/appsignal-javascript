@@ -1,5 +1,13 @@
 # AppSignal for react changelog
 
+## 1.0.29
+
+_Published on 2025-01-02._
+
+### Added
+
+- Add support for React 19 (patch [30bf30b](https://github.com/appsignal/appsignal-javascript/commit/30bf30b30dde75b357c066c3228d2e0e9d388e17))
+
 ## 1.0.28
 
 _Published on 2024-11-12._

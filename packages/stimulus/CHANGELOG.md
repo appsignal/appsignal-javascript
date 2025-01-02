@@ -1,5 +1,13 @@
 # AppSignal for stimulus changelog
 
+## 1.0.19
+
+_Published on 2025-01-02._
+
+### Added
+
+- Add a default action to the stimulus error handler, based on the current controller. (patch [7787c1b](https://github.com/appsignal/appsignal-javascript/commit/7787c1ba2749bd7de03b66e74b772d6bd9f838b5))
+
 ## 1.0.18
 
 ### Changed
