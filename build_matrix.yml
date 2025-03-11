@@ -49,7 +49,7 @@ semaphore: # Default `.semaphore/semaphore.yml` contents
           - name: JavaScript Lint (Prettier)
             env_vars:
               - name: NODE_VERSION
-                value: "16"
+                value: "20"
             commands:
               - cache restore
               - cache store

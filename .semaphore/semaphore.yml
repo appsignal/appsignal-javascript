@@ -52,7 +52,7 @@ blocks:
     - name: JavaScript Lint (Prettier)
       env_vars:
       - name: NODE_VERSION
-        value: '16'
+        value: '20'
       commands:
       - cache restore
       - cache store
@@ -61,13 +61,13 @@ blocks:
     - name: Git Lint (Lintje)
       commands:
       - script/lint_git
-- name: JavaScript with Node.js 16 - build
+- name: JavaScript with Node.js 20 - build
   dependencies:
   - Validation
   task:
     env_vars:
     - name: NODE_VERSION
-      value: '16'
+      value: '20'
     prologue:
       commands:
       - cache restore
@@ -80,11 +80,11 @@ blocks:
       - cache store $_PACKAGES_CACHE-packages-$SEMAPHORE_GIT_SHA-v$NODE_VERSION packages
 - name: JavaScript - Tests
   dependencies:
-  - JavaScript with Node.js 16 - build
+  - JavaScript with Node.js 20 - build
   task:
     env_vars:
     - name: NODE_VERSION
-      value: '16'
+      value: '20'
     prologue:
       commands:
       - cache restore
