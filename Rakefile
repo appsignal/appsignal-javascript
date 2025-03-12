@@ -6,7 +6,7 @@ require "set"
 namespace :build_matrix do
   namespace :semaphore do
     task :generate do
-      node_version = "16"
+      node_version = "20"
       yaml = YAML.load_file("build_matrix.yml")
       matrix = yaml["matrix"]
       semaphore = yaml["semaphore"]
