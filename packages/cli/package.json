@@ -12,7 +12,7 @@
     "build": "tsc -p tsconfig.json",
     "build:watch": "tsc -p tsconfig.json -w --preserveWatchOutput",
     "clean": "rimraf dist coverage",
-    "link:yarn": "yarn link",
+    "link:npm": "npm link",
     "test": "jest",
     "test:watch": "jest --watch"
   },
@@ -20,12 +20,10 @@
     "access": "public"
   },
   "dependencies": {
-    "isomorphic-unfetch": "=4.0.0",
     "chalk": "^4.1.0",
     "commander": "^6.2.1",
-    "inquirer": "^7.3.3"
+    "inquirer": "^7.3.3",
+    "isomorphic-unfetch": "=4.0.0"
   },
-  "bin": {
-    "cli": "./bin/run"
-  }
+  "bin": "./bin/run"
 }

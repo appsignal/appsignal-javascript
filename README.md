@@ -108,9 +108,9 @@ mono run yarn build:watch --parallel
 You can also build the library without watching the directory:
 
 ```
-yarn build        # build both CJS and ESM
-yarn build:cjs    # just CJS
-yarn build:esm    # just ESM
+npm run build        # build both CJS and ESM
+npm run build:cjs    # just CJS
+npm run build:esm    # just ESM
 ```
 
 ### Testing
