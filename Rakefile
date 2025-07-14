@@ -2,10 +2,12 @@
 
 require "yaml"
 
+NODE_VERSION = "24"
+
 namespace :build_matrix do
   namespace :github do
     task :generate do
-      node_version = "22"
+      node_version = NODE_VERSION
       yaml = YAML.load_file("build_matrix.yml")
       matrix = yaml["matrix"]
       skipped_packages = Set.new
@@ -103,7 +105,7 @@ namespace :build_matrix do
                 "name" => "Setup Node.js",
                 "uses" => "actions/setup-node@v4",
                 "with" => {
-                  "node-version" => "22",
+                  "node-version" => NODE_VERSION,
                   "cache" => "npm"
                 }
               },
@@ -251,7 +253,7 @@ namespace :build_matrix do
 
   namespace :semaphore do
     task :generate do
-      node_version = "22"
+      node_version = NODE_VERSION
       yaml = YAML.load_file("build_matrix.yml")
       matrix = yaml["matrix"]
       semaphore = yaml["semaphore"]
