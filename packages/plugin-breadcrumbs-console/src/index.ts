@@ -52,7 +52,16 @@ function serializeValue(value: any, method: string) {
     case "undefined":
       return "undefined"
     default:
-      return JSON.stringify(value, circularReplacer())
+      try {
+        return JSON.stringify(value, circularReplacer())
+      } catch (e) {
+        // Stringifying the value may cause a RangeError when the reason
+        // is a very large object.
+        if (e && typeof (e as any).message === "string") {
+          return `[could not stringify value: ${(e as any).message}]`
+        }
+        return "[could not stringify value]"
+      }
   }
 }
 
