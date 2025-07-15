@@ -53,8 +53,8 @@ semaphore: # Default `.semaphore/semaphore.yml` contents
             commands:
               - cache restore
               - cache store
-              - mono bootstrap
-              - yarn lint
+              - npm install
+              - npm run lint
           - name: Git Lint (Lintje)
             commands:
               - script/lint_git
