@@ -160,34 +160,6 @@ export default class Appsignal implements JSClient {
       error = data
     }
 
-    // handle user defined ignores
-    if (this.ignored.length !== 0) {
-      if (error && "message" in error) {
-        if (
-          this.ignored.some(el =>
-            el.test((error as { message: string }).message)
-          )
-        ) {
-          console.warn(`[APPSIGNAL]: Ignored an error: ${error.message}`)
-          return
-        }
-      }
-
-      if (error instanceof Span) {
-        const serializedError = error.serialize().error
-
-        if (
-          serializedError.message &&
-          this.ignored.some(el => el.test(serializedError.message!))
-        ) {
-          console.warn(
-            `[APPSIGNAL]: Ignored a span: ${serializedError.message}`
-          )
-          return
-        }
-      }
-    }
-
     // a "span" currently refers to a fixed point in time, as opposed to
     // a range or length in time. this may change in future!
     let span = error instanceof Span ? error : this._createSpanFromError(error)
@@ -249,6 +221,14 @@ export default class Appsignal implements JSClient {
       if (span === undefined) {
         span = previousSpan
       }
+    }
+
+    // Ignore user defined errors after overrides.
+    const message = span.getError()?.message
+
+    if (message && this.ignored.some(el => el.test(message))) {
+      console.warn(`[APPSIGNAL]: Ignored a span: ${message}`)
+      return
     }
 
     span.cleanBacktracePath(this.matchBacktracePaths)
