@@ -2,6 +2,7 @@ import { VERSION } from "../version"
 
 import Appsignal from "../index"
 import { Span } from "../span"
+import { Override } from "../hook"
 
 import * as api from "../api"
 
@@ -353,6 +354,141 @@ describe("Appsignal", () => {
       const secondSpan = (await appsignal.sendError(new Error())) as Span
       expect(secondSpan.serialize().action).toBe(testAction)
       expect(secondSpan.serialize().tags).toStrictEqual(testTag)
+    })
+
+    it("ignores spans when override returns false", async () => {
+      const original = console.warn
+      console.warn = jest.fn()
+
+      appsignal.addOverride(span => false)
+
+      const result = await appsignal.sendError(new Error("test error"))
+
+      expect(result).toBeUndefined()
+      expect(console.warn).toHaveBeenCalledWith(
+        "[APPSIGNAL]: Ignored a span due to override."
+      )
+
+      console.warn = original
+    })
+
+    it("can modify error message to affect ignoreErrors matching", async () => {
+      const ignored = [/ignore this/]
+      appsignal = new Appsignal({
+        key: "TESTKEY",
+        ignoreErrors: ignored
+      })
+
+      const original = console.warn
+      console.warn = jest.fn()
+
+      // First, verify the error would normally be sent
+      await appsignal.sendError(new Error("original error"))
+      expect(console.warn).not.toHaveBeenCalled()
+
+      // Add override that modifies the error message to match ignoreErrors
+      appsignal.addOverride(span => {
+        const error = span.getError()
+        if (error) {
+          span.setError(new Error("ignore this error"))
+        }
+        return span
+      })
+
+      // Now the modified error should be ignored
+      const result = await appsignal.sendError(new Error("original error"))
+      expect(result).toBeUndefined()
+      expect(console.warn).toHaveBeenCalledWith(
+        "[APPSIGNAL]: Ignored a span: ignore this error"
+      )
+
+      console.warn = original
+    })
+
+    it("can modify error message to prevent ignoreErrors matching", async () => {
+      const ignored = [/ignore this/]
+      appsignal = new Appsignal({
+        key: "TESTKEY",
+        ignoreErrors: ignored
+      })
+
+      const original = console.warn
+      console.warn = jest.fn()
+
+      // Add override that modifies the error message to avoid ignoreErrors
+      appsignal.addOverride(span => {
+        const error = span.getError()
+        if (error && error.message && error.message.includes("ignore this")) {
+          span.setError(new Error("modified error"))
+        }
+        return span
+      })
+
+      // The error would normally be ignored, but override changes it
+      const result = await appsignal.sendError(new Error("ignore this error"))
+      expect(result).toBeDefined()
+      expect(console.warn).not.toHaveBeenCalledWith(
+        expect.stringContaining("Ignored a span:")
+      )
+
+      console.warn = original
+    })
+
+    it("uses returned span from override instead of original", async () => {
+      const originalAction = "original action"
+      const overrideAction = "override action"
+      const originalTags = { original: "tag" }
+      const overrideTags = { override: "tag" }
+
+      // Add override that creates and returns a completely new span
+      appsignal.addOverride(span => {
+        const newSpan = new Span({
+          action: overrideAction,
+          namespace: "test",
+          tags: overrideTags
+        })
+        return newSpan
+      })
+
+      // Send error with original span properties using callback
+      const error = new Error("test error")
+      const result = await appsignal.sendError(error, span => {
+        span.setAction(originalAction)
+        span.setTags(originalTags)
+      })
+
+      // Verify the returned span has the override properties, not the original
+      expect(result).toBeDefined()
+      const returnedSpan = result as Span
+      expect(returnedSpan.serialize().action).toBe(overrideAction)
+      expect(returnedSpan.serialize().tags).toStrictEqual(overrideTags)
+      expect(returnedSpan.serialize().action).not.toBe(originalAction)
+      expect(returnedSpan.serialize().tags).not.toStrictEqual(originalTags)
+    })
+
+    it("uses original span when override returns undefined", async () => {
+      const originalAction = "original action"
+      const originalTags = { original: "tag" }
+
+      // Add override that modifies the span but doesn't return it (returns undefined)
+      appsignal.addOverride((((span: Span) => {
+        span.setAction("modified action")
+        // Explicitly return undefined to test the fallback behavior
+        return undefined
+      }) as unknown) as Override)
+
+      // Send error with original span properties
+      const error = new Error("test error")
+      const result = await appsignal.sendError(error, span => {
+        span.setAction(originalAction)
+        span.setTags(originalTags)
+      })
+
+      // Verify the returned span has the in-place modifications (even though override returned undefined)
+      expect(result).toBeDefined()
+      const returnedSpan = result as Span
+      expect(returnedSpan.serialize().action).toBe("modified action")
+      expect(returnedSpan.serialize().tags).toStrictEqual(originalTags)
     })
   })
 

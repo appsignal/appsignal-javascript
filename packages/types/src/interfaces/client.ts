@@ -1,6 +1,6 @@
 import { Breadcrumb } from "./breadcrumb"
 import { JSSpan } from "./span"
-import { Hook } from "./hook"
+import { Decorator, Override } from "./hook"
 
 interface Configuration {
   readonly debug: boolean
@@ -86,13 +86,13 @@ export interface JSClient extends BaseClient {
    * Registers a span decorator to be applied every time a Span
    * is sent to the Push API
    */
-  addDecorator<T extends Hook>(decorator: T): void
+  addDecorator<T extends Decorator>(decorator: T): void
 
   /**
    * Registers a span override to be applied every time a Span
    * is sent to the Push API
    */
-  addOverride<T extends Hook>(override: T): void
+  addOverride<T extends Override>(override: T): void
 
   /**
    * Sends a demonstration error to AppSignal.

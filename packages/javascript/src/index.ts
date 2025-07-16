@@ -4,7 +4,13 @@
  */
 
 import { toHashMap } from "@appsignal/core"
-import type { Breadcrumb, JSClient, Hook, HashMap } from "@appsignal/types"
+import type {
+  Breadcrumb,
+  JSClient,
+  Decorator,
+  Override,
+  HashMap
+} from "@appsignal/types"
 
 import { VERSION } from "./version"
 import { PushApi } from "./api"
@@ -26,8 +32,8 @@ export default class Appsignal implements JSClient {
   private _breadcrumbs: Breadcrumb[] = []
 
   private _hooks = {
-    decorators: Array<Hook>(),
-    overrides: Array<Hook>()
+    decorators: Array<Decorator>(),
+    overrides: Array<Override>()
   }
 
   private _env = Environment.serialize()
@@ -210,7 +216,14 @@ export default class Appsignal implements JSClient {
 
     for (const override of this._hooks.overrides) {
       const previousSpan = span
-      span = override(span)
+      const nextSpan = override(span)
+
+      if (nextSpan === false) {
+        // If the override returns false, we ignore this span.
+        console.warn("[APPSIGNAL]: Ignored a span due to override.")
+        return
+      }
+
       // In previous versions of this integration, the return value was
       // ignored, and the original span was used. This was a bug, but it
       // worked given an implicit expectation that the span would be
@@ -218,9 +231,7 @@ export default class Appsignal implements JSClient {
       //
       // Avoid a breaking change for "broken" overrides that do not
       // return a value by using the previous span.
-      if (span === undefined) {
-        span = previousSpan
-      }
+      span = nextSpan ?? previousSpan
     }
 
     // Ignore user defined errors after overrides.
@@ -382,7 +393,7 @@ export default class Appsignal implements JSClient {
    *
    * @return  {void}
    */
-  public addDecorator<T extends Hook>(decorator: T): void {
+  public addDecorator<T extends Decorator>(decorator: T): void {
     this._hooks.decorators.push(decorator)
   }
 
@@ -394,7 +405,7 @@ export default class Appsignal implements JSClient {
    *
    * @return  {void}
    */
-  public addOverride<T extends Hook>(override: T): void {
+  public addOverride<T extends Override>(override: T): void {
     this._hooks.overrides.push(override)
   }
 
