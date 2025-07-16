@@ -3,7 +3,7 @@
  * @module Appsignal
  */
 
-import { compose, toHashMap } from "@appsignal/core"
+import { toHashMap } from "@appsignal/core"
 import type { Breadcrumb, JSClient, Hook, HashMap } from "@appsignal/types"
 
 import { VERSION } from "./version"
@@ -190,14 +190,25 @@ export default class Appsignal implements JSClient {
 
     // a "span" currently refers to a fixed point in time, as opposed to
     // a range or length in time. this may change in future!
-    const span =
-      error instanceof Span ? error : this._createSpanFromError(error)
+    let span = error instanceof Span ? error : this._createSpanFromError(error)
 
     // A Span can be "decorated" with metadata after it has been created,
     // but before it is sent to the API and before metadata provided
     // as arguments is added
-    if (this._hooks.decorators.length > 0) {
-      compose(...this._hooks.decorators)(span)
+
+    for (const decorator of this._hooks.decorators) {
+      const previousSpan = span
+      span = decorator(span)
+      // In previous versions of this integration, the return value was
+      // ignored, and the original span was used. This was a bug, but it
+      // worked given an implicit expectation that the span would be
+      // modified in place.
+      //
+      // Avoid a breaking change for "broken" decorators that do not
+      // return a value by using the previous span.
+      if (span === undefined) {
+        span = previousSpan
+      }
     }
 
     if (tagsOrFn) {
@@ -224,8 +235,20 @@ export default class Appsignal implements JSClient {
     // A Span can be "overridden" with metadata after it has been created,
     // but before it is sent to the API and after metadata provided
     // as arguments is added
-    if (this._hooks.overrides.length > 0) {
-      compose(...this._hooks.overrides)(span)
+
+    for (const override of this._hooks.overrides) {
+      const previousSpan = span
+      span = override(span)
+      // In previous versions of this integration, the return value was
+      // ignored, and the original span was used. This was a bug, but it
+      // worked given an implicit expectation that the span would be
+      // modified in place.
+      //
+      // Avoid a breaking change for "broken" overrides that do not
+      // return a value by using the previous span.
+      if (span === undefined) {
+        span = previousSpan
+      }
     }
 
     span.cleanBacktracePath(this.matchBacktracePaths)
