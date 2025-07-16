@@ -1,5 +1,5 @@
 import { HashMap, HashMapValue } from "../types/common"
-import { Error } from "../types/error"
+import { Error as SpanError } from "../types/error"
 import { Breadcrumb } from "./breadcrumb"
 
 /**
@@ -8,18 +8,25 @@ import { Breadcrumb } from "./breadcrumb"
  */
 export interface JSSpan {
   setAction(name: string): this
+  getAction(): string | undefined
 
   setNamespace(name: string): this
+  getNamespace(): string | undefined
 
   setError<T extends Error>(error: Error | T): this
+  getError(): SpanError | undefined
 
   setTags(tags: HashMap<string>): this
+  getTags(): HashMap<string>
 
   setParams(params: HashMap<any>): this
+  getParams(): HashMap<any>
 
   setBreadcrumbs(breadcrumbs: Breadcrumb[]): this
+  getBreadcrumbs(): Breadcrumb[]
 
   setEnvironment(environment: HashMap<string>): this
+  getEnvironment(): HashMap<string>
 }
 
 /**

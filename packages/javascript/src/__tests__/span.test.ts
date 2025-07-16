@@ -230,4 +230,99 @@ describe("Span", () => {
       expect(span.serialize().environment).toBeUndefined()
     })
   })
+
+  describe("getAction", () => {
+    it("returns undefined when no action is set", () => {
+      expect(span.getAction()).toBeUndefined()
+    })
+
+    it("returns the action when set", () => {
+      span.setAction("test-action")
+      expect(span.getAction()).toBe("test-action")
+    })
+  })
+
+  describe("getNamespace", () => {
+    it("returns the default namespace", () => {
+      expect(span.getNamespace()).toBe("frontend")
+    })
+
+    it("returns the namespace when set", () => {
+      span.setNamespace("backend")
+      expect(span.getNamespace()).toBe("backend")
+    })
+  })
+
+  describe("getError", () => {
+    it("returns the default error", () => {
+      const error = span.getError()
+      expect(error).toEqual({
+        name: "NullError",
+        message: "No error has been set",
+        backtrace: []
+      })
+    })
+
+    it("returns the error when set", () => {
+      const testError = new Error("test error")
+      span.setError(testError)
+      const error = span.getError()
+      expect(error?.name).toBe("Error")
+      expect(error?.message).toBe("test error")
+      expect(error?.backtrace).toBeDefined()
+    })
+  })
+
+  describe("getTags", () => {
+    it("returns empty object when no tags are set", () => {
+      expect(span.getTags()).toEqual({})
+    })
+
+    it("returns the tags when set", () => {
+      span.setTags({ key: "value", another: "tag" })
+      expect(span.getTags()).toEqual({ key: "value", another: "tag" })
+    })
+  })
+
+  describe("getParams", () => {
+    it("returns empty object when no params are set", () => {
+      expect(span.getParams()).toEqual({})
+    })
+
+    it("returns the params when set", () => {
+      span.setParams({ key: "value", number: 42 })
+      expect(span.getParams()).toEqual({ key: "value", number: 42 })
+    })
+  })
+
+  describe("getBreadcrumbs", () => {
+    it("returns empty array when no breadcrumbs are set", () => {
+      expect(span.getBreadcrumbs()).toEqual([])
+    })
+
+    it("returns the breadcrumbs when set", () => {
+      const breadcrumbs = [
+        { timestamp: 123456, category: "log", action: "info", message: "test" },
+        {
+          timestamp: 123457,
+          category: "navigation",
+          action: "click",
+          message: "page load"
+        }
+      ]
+      span.setBreadcrumbs(breadcrumbs)
+      expect(span.getBreadcrumbs()).toEqual(breadcrumbs)
+    })
+  })
+
+  describe("getEnvironment", () => {
+    it("returns empty object when no environment is set", () => {
+      expect(span.getEnvironment()).toEqual({})
+    })
+
+    it("returns the environment when set", () => {
+      span.setEnvironment({ key: "value", env: "test" })
+      expect(span.getEnvironment()).toEqual({ key: "value", env: "test" })
+    })
+  })
 })

@@ -8,7 +8,8 @@ import type {
   JSSpanData,
   Breadcrumb,
   HashMap,
-  HashMapValue
+  HashMapValue,
+  Error as SpanError
 } from "@appsignal/types"
 
 export class Span extends Serializable<JSSpanData> {
@@ -34,6 +35,10 @@ export class Span extends Serializable<JSSpanData> {
     return this
   }
 
+  public getAction(): string | undefined {
+    return this._data.action
+  }
+
   public setNamespace(name: string): this {
     if (!name || typeof name !== "string") {
       return this
@@ -41,6 +46,10 @@ export class Span extends Serializable<JSSpanData> {
 
     this._data.namespace = name
     return this
+  }
+
+  public getNamespace(): string | undefined {
+    return this._data.namespace
   }
 
   public setError<T extends Error>(error: Error | T): this {
@@ -55,9 +64,17 @@ export class Span extends Serializable<JSSpanData> {
     return this
   }
 
+  public getError(): SpanError | undefined {
+    return this._data.error
+  }
+
   public setTags(tags: HashMap<string>): this {
     this._data.tags = { ...this._data.tags, ...toHashMapString(tags) }
     return this
+  }
+
+  public getTags(): HashMap<string> {
+    return this._data.tags ?? {}
   }
 
   public setParams(params: HashMap<any>): this {
@@ -65,14 +82,26 @@ export class Span extends Serializable<JSSpanData> {
     return this
   }
 
+  public getParams(): HashMap<any> {
+    return this._data.params ?? {}
+  }
+
   public setBreadcrumbs(breadcrumbs: Breadcrumb[]): this {
     this._data.breadcrumbs = breadcrumbs
     return this
   }
 
+  public getBreadcrumbs(): Breadcrumb[] {
+    return this._data.breadcrumbs ?? []
+  }
+
   public setEnvironment(environment: HashMap<string>): this {
     this._data.environment = { ...this._data.environment, ...environment }
     return this
+  }
+
+  public getEnvironment(): HashMap<string> {
+    return this._data.environment ?? {}
   }
 
   // @private
