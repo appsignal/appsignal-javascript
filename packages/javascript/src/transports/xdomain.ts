@@ -1,4 +1,4 @@
-import { Transport } from "../interfaces/transport"
+import { Transport } from "../transport"
 
 // Fixes TypeScript complaining about this class
 // not existing

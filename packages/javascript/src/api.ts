@@ -1,5 +1,3 @@
-import { urlEncode } from "@appsignal/core"
-
 import { Environment } from "./environment"
 import { Span } from "./span"
 
@@ -8,8 +6,8 @@ import { XHRTransport } from "./transports/xhr"
 import { FetchTransport } from "./transports/fetch"
 import { NodeTransport } from "./transports/node"
 
-import { PushApiOptions } from "./interfaces/options"
-import { Transport } from "./interfaces/transport"
+import { PushApiOptions } from "./options"
+import { Transport } from "./transport"
 
 export class PushApi {
   private _uri: string
@@ -86,4 +84,17 @@ export class PushApi {
       version: this._clientVersion
     }
   }
+}
+
+/**
+ * Encodes given object into url-friendly format
+ *
+ * @param   {object}  object:   [object: An object that contains serializable values]
+ *
+ * @return  {string}            [Encoded URI params]
+ */
+export function urlEncode(object: { [key: string]: any }): string {
+  return Object.keys(object)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(object[key])}`)
+    .join("&")
 }

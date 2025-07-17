@@ -1,4 +1,4 @@
-import type { JSClient } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
 
 type PluginOptions = {
   // A boolean value representing whether the plugin should bind to `XMLHttpRequest`
@@ -29,7 +29,7 @@ function networkBreadcrumbsPlugin(options?: Partial<PluginOptions>) {
   const isXhrEnabled = xhrEnabled ? "XMLHttpRequest" in window : false
   const isFetchEnabled = fetchEnabled ? "fetch" in window : false
 
-  return function (this: JSClient): void {
+  return function (this: Appsignal): void {
     const appsignal = this
 
     const xhrPatch = () => {

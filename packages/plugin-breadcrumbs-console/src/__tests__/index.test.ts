@@ -1,4 +1,4 @@
-import type { JSClient } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
 import { plugin } from "../index"
 
 describe("BreadcrumbsConsolePlugin", () => {
@@ -9,7 +9,7 @@ describe("BreadcrumbsConsolePlugin", () => {
   const errorMock = jest.spyOn(console, "error").mockImplementation(() => {})
   const addBreadcrumb = jest.fn()
 
-  const mockAppsignal = ({ addBreadcrumb } as unknown) as JSClient
+  const mockAppsignal = ({ addBreadcrumb } as unknown) as Appsignal
   plugin({}).call(mockAppsignal)
 
   beforeEach(() => {

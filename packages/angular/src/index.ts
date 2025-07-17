@@ -1,11 +1,11 @@
-import type { JSClient } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
 import { ErrorHandler, Injectable } from "@angular/core"
 
 @Injectable()
 export class AppsignalErrorHandler extends ErrorHandler {
-  private _appsignal: JSClient
+  private _appsignal: Appsignal
 
-  constructor(appsignal: JSClient) {
+  constructor(appsignal: Appsignal) {
     super()
     this._appsignal = appsignal
   }
@@ -21,7 +21,7 @@ export class AppsignalErrorHandler extends ErrorHandler {
   }
 }
 
-export function createErrorHandlerFactory(appsignal: JSClient): Function {
+export function createErrorHandlerFactory(appsignal: Appsignal): Function {
   return function errorHandlerFactory(): AppsignalErrorHandler {
     return new AppsignalErrorHandler(appsignal)
   }

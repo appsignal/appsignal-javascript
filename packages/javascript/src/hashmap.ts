@@ -1,4 +1,15 @@
-import type { HashMap, HashMapValue } from "@appsignal/types"
+/**
+ * `HashMapValue` is a union type that corresponds to the valid types accepted
+ * inside the AppSignal processors `HashMap` type in Rust.
+ */
+export type HashMapValue = string | number | boolean
+
+/**
+ * A generic HashMap, with a string as the indexable value.
+ */
+export type HashMap<T> = {
+  [key: string]: T
+}
 
 /**
  * Converts all values in a flat object to a string.

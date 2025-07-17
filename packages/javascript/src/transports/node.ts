@@ -1,4 +1,4 @@
-import { Transport } from "../interfaces/transport"
+import { Transport } from "../transport"
 import type https from "https"
 export class NodeTransport implements Transport {
   public url: string

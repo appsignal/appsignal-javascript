@@ -1,4 +1,4 @@
-import type { JSClient } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
 import { plugin } from "../index"
 
 describe("windowEventsPlugin", () => {
@@ -13,7 +13,7 @@ describe("windowEventsPlugin", () => {
       setError: setErrorMock
     })),
     send: jest.fn()
-  } as unknown) as JSClient
+  } as unknown) as Appsignal
 
   beforeEach(() => {
     jest.clearAllMocks()

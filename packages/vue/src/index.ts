@@ -1,7 +1,7 @@
 import { VueApp } from "./types"
-import type { JSClient } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
 
-export function errorHandler(appsignal: JSClient, app?: VueApp) {
+export function errorHandler(appsignal: Appsignal, app?: VueApp) {
   const version = app?.version ?? ""
 
   return function (error: any, vm: any, info: string) {

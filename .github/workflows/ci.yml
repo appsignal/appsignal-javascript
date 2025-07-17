@@ -106,8 +106,6 @@ jobs:
           dependencies: "@angular/core@12.2.15"
         - package: "@appsignal/angular"
           dependencies: "@angular/core@11.2.14"
-        - package: "@appsignal/core"
-          dependencies: ''
         - package: "@appsignal/javascript"
           dependencies: ''
         - package: "@appsignal/plugin-breadcrumbs-console"

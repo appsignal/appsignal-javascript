@@ -1,4 +1,4 @@
-import { getGlobalObject } from "@appsignal/core"
+import { getGlobalObject } from "./environment"
 
 import { Queue } from "./queue"
 import { PushApi } from "./api"
