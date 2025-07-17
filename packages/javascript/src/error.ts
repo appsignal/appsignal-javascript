@@ -1,4 +1,13 @@
 /**
+ * The standard format for an error that is passed to AppSignal.
+ */
+export type SpanError = {
+  name: string
+  message?: string
+  backtrace?: string[]
+}
+
+/**
  * Check if the given object is an error-like object.
  *
  * @param   {Error | T}     error      An `Error` object or an error-like object

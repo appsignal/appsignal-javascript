@@ -1,5 +1,5 @@
+import type { Span } from "@appsignal/javascript"
 import { installErrorHandler } from "../index"
-import type { JSSpan } from "@appsignal/types"
 
 describe("Stimulus errorHandler", () => {
   let appsignal: any
@@ -16,7 +16,7 @@ describe("Stimulus errorHandler", () => {
 
   beforeEach(() => {
     appsignal = {
-      createSpan: (fn: (span: JSSpan) => void) => {
+      createSpan: (fn: (span: Span) => void) => {
         const mock = new SpanMock()
         fn(mock)
         return mock

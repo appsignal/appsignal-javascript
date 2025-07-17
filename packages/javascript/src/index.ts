@@ -3,25 +3,25 @@
  * @module Appsignal
  */
 
-import { toHashMap } from "@appsignal/core"
-import type {
-  Breadcrumb,
-  JSClient,
-  Decorator,
-  Override,
-  HashMap
-} from "@appsignal/types"
+import type { Breadcrumb } from "./breadcrumb"
+export type { Breadcrumb }
+import type { Decorator, Override } from "./hook"
+import type { HashMap } from "./hashmap"
 
+export { isError } from "./error"
+
+import { toHashMap } from "./hashmap"
 import { VERSION } from "./version"
 import { PushApi } from "./api"
 import { Environment } from "./environment"
 import { Span } from "./span"
+export { Span }
 import { Queue } from "./queue"
 import { Dispatcher } from "./dispatcher"
 
-import { AppsignalOptions } from "./interfaces/options"
+import { AppsignalOptions } from "./options"
 
-export default class Appsignal implements JSClient {
+export default class Appsignal {
   public VERSION = VERSION
   public ignored: RegExp[] = []
   private matchBacktracePaths: RegExp[] = []

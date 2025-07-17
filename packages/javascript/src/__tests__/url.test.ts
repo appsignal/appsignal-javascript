@@ -1,4 +1,4 @@
-import { urlEncode } from "../url"
+import { urlEncode } from "../api"
 
 describe("urlEncode", () => {
   it("encodes a url string", () => {

@@ -26,8 +26,5 @@
   },
   "dependencies": {
     "@appsignal/javascript": "=1.5.0"
-  },
-  "devDependencies": {
-    "@appsignal/types": "=3.0.1"
   }
 }

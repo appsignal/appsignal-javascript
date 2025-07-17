@@ -1,19 +1,28 @@
-import {
-  Serializable,
-  getStacktrace,
-  toHashMapString,
-  isError
-} from "@appsignal/core"
-import type {
-  JSSpanData,
-  Breadcrumb,
-  HashMap,
-  HashMapValue,
-  Error as SpanError
-} from "@appsignal/types"
+import { getStacktrace, isError } from "./error"
+import { Serializable } from "./serializable"
+import { toHashMapString } from "./hashmap"
+import type { HashMap, HashMapValue } from "./hashmap"
 
-export class Span extends Serializable<JSSpanData> {
-  constructor(span?: Partial<JSSpanData>) {
+import type { Breadcrumb } from "./breadcrumb"
+import type { SpanError } from "./error"
+
+/**
+ * The internal data structure of a `Span` inside the JavaScript integration.
+ */
+export interface SpanData {
+  timestamp: number
+  action?: string
+  namespace: string
+  error: SpanError
+  revision?: string
+  tags?: HashMap<string>
+  params?: HashMap<any>
+  environment?: HashMap<string>
+  breadcrumbs?: Breadcrumb[]
+}
+
+export class Span extends Serializable<SpanData> {
+  constructor(span?: Partial<SpanData>) {
     super({
       timestamp: Math.round(new Date().getTime() / 1000),
       namespace: "frontend",

@@ -1,6 +1,7 @@
-import type { JSClient, JSSpan } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
+import type { Span } from "@appsignal/javascript"
 
-export function installErrorHandler(appsignal: JSClient, application: any) {
+export function installErrorHandler(appsignal: Appsignal, application: any) {
   const prevHandler = application.handleError
 
   application.handleError = function (
@@ -8,7 +9,7 @@ export function installErrorHandler(appsignal: JSClient, application: any) {
     message: string,
     detail: { identifier?: string }
   ) {
-    const span = appsignal.createSpan((span: JSSpan) =>
+    const span = appsignal.createSpan((span: Span) =>
       span
         .setAction(detail?.identifier || "[unknown Stimulus controller]")
         .setTags({ framework: "Stimulus", message })

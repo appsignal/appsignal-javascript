@@ -1,4 +1,4 @@
-import { Transport } from "../interfaces/transport"
+import { Transport } from "../transport"
 
 export class FetchTransport implements Transport {
   public url: string

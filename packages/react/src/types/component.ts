@@ -1,12 +1,13 @@
-import type { JSClient, JSSpan } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
+import type { Span } from "@appsignal/javascript"
 import type React from "react"
 
 export type Props = {
-  instance: JSClient
+  instance: Appsignal
   action?: string
   children: React.ReactNode
   fallback?: (error?: Error) => React.ReactNode
-  override?: (span: JSSpan, error?: Error) => JSSpan
+  override?: (span: Span, error?: Error) => Span
   tags?: { [key: string]: string }
 }
 

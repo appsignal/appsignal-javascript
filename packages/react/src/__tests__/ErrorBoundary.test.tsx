@@ -1,7 +1,7 @@
 import React from "react"
 import { render, cleanup } from "@testing-library/react"
 import { ErrorBoundary } from "../ErrorBoundary"
-import { JSSpan } from "@appsignal/types"
+import { Span } from "@appsignal/javascript"
 
 describe("<ErrorBoundary />", () => {
   let instance: any
@@ -81,7 +81,7 @@ describe("<ErrorBoundary />", () => {
   })
 
   it("uses the override callback to modify the span if provided", () => {
-    const override = (span: JSSpan) => {
+    const override = (span: Span) => {
       span.setTags({ foo: "overriden" })
       span.setAction("overriden")
       return span

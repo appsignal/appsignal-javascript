@@ -4,7 +4,6 @@ on:
   push:
     tags:
       - "@appsignal/**"
-      - "!@appsignal/core@**"
       - "!@appsignal/cli@**"
 
 permissions:

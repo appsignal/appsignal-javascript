@@ -1,4 +1,4 @@
-import { Transport } from "../interfaces/transport"
+import { Transport } from "../transport"
 
 export class XHRTransport implements Transport {
   public url: string

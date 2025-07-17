@@ -1,7 +1,8 @@
-import type { JSClient, JSSpan } from "@appsignal/types"
+import type Appsignal from "@appsignal/javascript"
+import type { Span } from "@appsignal/javascript"
 
 export function installErrorHandler(
-  appsignal: JSClient,
+  appsignal: Appsignal,
   Ember = (window as any).Ember
 ) {
   const prevHandler = Ember.onerror
@@ -12,7 +13,7 @@ export function installErrorHandler(
   }
 
   Ember.onerror = function (error: Error): void {
-    const span = appsignal.createSpan((span: JSSpan) => span.setError(error))
+    const span = appsignal.createSpan((span: Span) => span.setError(error))
 
     appsignal.send(span)
 

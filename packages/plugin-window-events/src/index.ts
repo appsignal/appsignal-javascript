@@ -1,5 +1,5 @@
-import type { JSClient } from "@appsignal/types"
-import { isError } from "@appsignal/core"
+import type Appsignal from "@appsignal/javascript"
+import { isError } from "@appsignal/javascript"
 
 function windowEventsPlugin(options?: { [key: string]: any }) {
   const ctx = window as Window
@@ -10,7 +10,7 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
     ...options
   }
 
-  return function (this: JSClient) {
+  return function (this: Appsignal) {
     const self = this
 
     const prev = {

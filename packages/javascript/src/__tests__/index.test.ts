@@ -79,7 +79,7 @@ describe("Appsignal", () => {
 
       expect(console.warn).toBeCalledTimes(1)
       expect(console.warn).toBeCalledWith(
-        `[APPSIGNAL]: Ignored an error: ${name}`
+        `[APPSIGNAL]: Ignored a span: ${name}`
       )
 
       // As the regex used has the `g` flag, it would

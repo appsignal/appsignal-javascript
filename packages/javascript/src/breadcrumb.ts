@@ -1,4 +1,4 @@
-import { HashMap, HashMapValue } from "../types/common"
+import { HashMap, HashMapValue } from "./hashmap"
 
 /**
  * Breadcrumbs are a time-ordered list of events in your application, that is

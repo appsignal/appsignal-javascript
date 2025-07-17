@@ -28,8 +28,6 @@
     "access": "public"
   },
   "dependencies": {
-    "@appsignal/core": "=1.1.24",
-    "@appsignal/types": "=3.0.1",
     "tslib": "^2.3.0"
   },
   "browser": {

@@ -74,10 +74,6 @@ matrix:
       path: "packages/cli"
       variations:
         - name: "cli"
-    - package: "@appsignal/core"
-      path: "packages/core"
-      variations:
-        - name: "core"
     - package: "@appsignal/ember"
       path: "packages/ember"
       variations:
@@ -158,10 +154,6 @@ matrix:
         - name: "stimulus@2.0.0"
           packages:
             stimulus: "2.0.0"
-    - package: "@appsignal/types"
-      path: "packages/types"
-      variations:
-        - name: "types"
     - package: "@appsignal/vue"
       path: "packages/vue"
       variations:
