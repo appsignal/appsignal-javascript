@@ -1,5 +1,30 @@
 # AppSignal for JavaScript changelog
 
+## 1.6.0
+
+_Published on 2025-07-21._
+
+### Added
+
+- Add getters for spans. Use the `getAction`, `getNamespace`, `getError`, `getTags`, `getParams`, `getBreadcrumbs`, and `getEnvironment` methods to access data about the current span. This can be used to make decisions based on the span's properties within decorators or overrides. (patch [892fff5](https://github.com/appsignal/appsignal-javascript/commit/892fff5a3d4368a1d9d81813a952de0c5e76d36a))
+- Allow overrides to ignore spans. Within an override function, returning `false` will cause AppSignal to ignore the span. (patch [b216d34](https://github.com/appsignal/appsignal-javascript/commit/b216d346f1bdb561b37fdbaa5eff1543f8f56a1c))
+
+### Changed
+
+- Ignore spans by message after overrides. This allows overrides to modify error messages before ignoring them, allowing the override to cause the span to be ignored, or to prevent it from being ignored. (patch [64fde57](https://github.com/appsignal/appsignal-javascript/commit/64fde57fff2eac98ea60539b62dc2197429d1139))
+
+### Deprecated
+
+- Deprecate `@appsignal/core` and `@appsignal/types` packages. Packages depending on these packages should be updated to use `@appsignal/javascript` instead. (minor [f9dd80c](https://github.com/appsignal/appsignal-javascript/commit/f9dd80c490a8cdab1d41441ad2ce502fc35c4934))
+
+### Fixed
+
+- Use returned span in override. Fix an issue where the span returned from an override function was not being used, instead using the original span. This led to confusing behaviour when the override created a new span instead of modifying the original one.
+
+  To avoid breaking existing overrides that rely on modifying the original span without returning it, if the override function does not return a span, the original span will still be used.
+
+  (patch [95e530c](https://github.com/appsignal/appsignal-javascript/commit/95e530c38243ac27060dd1daf3e75e91b54a7b1e))
+
 ## 1.5.0
 
 _Published on 2024-11-28._

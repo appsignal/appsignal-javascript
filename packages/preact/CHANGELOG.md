@@ -1,5 +1,13 @@
 # AppSignal for preact changelog
 
+## 1.0.26
+
+_Published on 2025-07-21._
+
+### Changed
+
+- Update @appsignal/javascript dependency to 1.6.0. (patch)
+
 ## 1.0.25
 
 _Published on 2024-11-12._

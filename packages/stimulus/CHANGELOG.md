@@ -1,5 +1,13 @@
 # AppSignal for stimulus changelog
 
+## 1.0.20
+
+_Published on 2025-07-21._
+
+### Changed
+
+- Update @appsignal/javascript dependency to 1.6.0. (patch)
+
 ## 1.0.19
 
 _Published on 2025-01-02._

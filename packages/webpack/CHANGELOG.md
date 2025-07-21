@@ -1,5 +1,13 @@
 # AppSignal for webpack changelog
 
+## 1.1.7
+
+_Published on 2025-07-21._
+
+### Security
+
+- Update the axios dependency to 1.8.2 or higher. This fixes CVE-2024-39338. (patch [9a61829](https://github.com/appsignal/appsignal-javascript/commit/9a61829e30aa9835b68c826dd824b0082af610c8))
+
 ## 1.1.6
 
 ### Changed
