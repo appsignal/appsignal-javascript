@@ -1,4 +1,4 @@
-import { Span } from "../span"
+import { Span, toBacktraceMatcher } from "../span"
 
 describe("Span", () => {
   let span: Span
@@ -71,7 +71,9 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath([new RegExp("/assets/(app/.*)$")])
+      span.cleanBacktracePath(
+        [new RegExp("/assets/(app/.*)$")].map(toBacktraceMatcher)
+      )
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -97,7 +99,9 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath([new RegExp("/assets/(app/.*)$")])
+      span.cleanBacktracePath(
+        [new RegExp("/assets/(app/.*)$")].map(toBacktraceMatcher)
+      )
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -123,9 +127,11 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath([
-        new RegExp(".*/(assets/)(?:[0-9a-f]{16}/)?(app/.*)$")
-      ])
+      span.cleanBacktracePath(
+        [new RegExp(".*/(assets/)(?:[0-9a-f]{16}/)?(app/.*)$")].map(
+          toBacktraceMatcher
+        )
+      )
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -149,14 +155,16 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath([
-        // This can only match `Bar`.
-        new RegExp("/assets/[0-9a-f]{16}/(.*)$"),
+      span.cleanBacktracePath(
+        [
+          // This can only match `Bar`.
+          new RegExp("/assets/[0-9a-f]{16}/(.*)$"),
 
-        // This can match both `Foo` and `Bar`, but should only
-        // match `Foo` because the previous matcher takes precedence.
-        new RegExp("/assets/(.*)$")
-      ])
+          // This can match both `Foo` and `Bar`, but should only
+          // match `Foo` because the previous matcher takes precedence.
+          new RegExp("/assets/(.*)$")
+        ].map(toBacktraceMatcher)
+      )
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -181,7 +189,7 @@ describe("Span", () => {
       // empty string.
       //
       // This should result in the line not being modified.
-      span.cleanBacktracePath([new RegExp(".*")])
+      span.cleanBacktracePath([new RegExp(".*")].map(toBacktraceMatcher))
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -203,7 +211,7 @@ describe("Span", () => {
       // empty string.
       //
       // This should result in the line not being modified.
-      span.cleanBacktracePath([new RegExp(".*(z*)$")])
+      span.cleanBacktracePath([new RegExp(".*(z*)$")].map(toBacktraceMatcher))
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -220,7 +228,9 @@ describe("Span", () => {
       ].join("\n")
 
       span.setError(error)
-      span.cleanBacktracePath([new RegExp("^pancakes/(.*)$")])
+      span.cleanBacktracePath(
+        [new RegExp("^pancakes/(.*)$")].map(toBacktraceMatcher)
+      )
 
       const backtrace = span.serialize().error.backtrace
       expect(backtrace).toEqual([
@@ -228,6 +238,32 @@ describe("Span", () => {
       ])
 
       expect(span.serialize().environment).toBeUndefined()
+    })
+
+    it("can be used with custom backtrace matcher functions", () => {
+      const error = new Error("test error")
+      error.stack = [
+        "Foo@http://localhost:8080/assets/app/first.js:13:10",
+        "Bar@http://localhost:8080/assets/app/second.js:13:10",
+        "Baz@http://localhost:8080/assets/app/third.js:13:10"
+      ].join("\n")
+
+      span.setError(error)
+      span.cleanBacktracePath([
+        path => (path.indexOf("first") !== -1 ? "foo.js" : undefined),
+        path => (path.indexOf("second") !== -1 ? "bar.js" : undefined)
+      ])
+
+      const backtrace = span.serialize().error.backtrace
+      expect(backtrace).toEqual([
+        "Foo@foo.js:13:10",
+        "Bar@bar.js:13:10",
+        "Baz@http://localhost:8080/assets/app/third.js:13:10"
+      ])
+
+      expect(span.serialize().environment).toMatchObject({
+        backtrace_paths_matched: "2"
+      })
     })
   })
 

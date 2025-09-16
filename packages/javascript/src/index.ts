@@ -14,17 +14,17 @@ import { toHashMap } from "./hashmap"
 import { VERSION } from "./version"
 import { PushApi } from "./api"
 import { Environment } from "./environment"
-import { Span } from "./span"
+import { Span, toBacktraceMatcher } from "./span"
 export { Span }
 import { Queue } from "./queue"
 import { Dispatcher } from "./dispatcher"
 
-import { AppsignalOptions } from "./options"
+import { AppsignalOptions, BacktraceMatcher } from "./options"
 
 export default class Appsignal {
   public VERSION = VERSION
   public ignored: RegExp[] = []
-  private matchBacktracePaths: RegExp[] = []
+  private backtraceMatchers: BacktraceMatcher[] = []
 
   private _dispatcher: Dispatcher
   private _options: AppsignalOptions
@@ -83,15 +83,21 @@ export default class Appsignal {
     }
 
     if (matchBacktracePaths) {
+      let paths: (RegExp | BacktraceMatcher)[]
+
       if (Array.isArray(matchBacktracePaths)) {
-        this.matchBacktracePaths = matchBacktracePaths
+        paths = matchBacktracePaths
       } else {
-        this.matchBacktracePaths = [matchBacktracePaths]
+        paths = [matchBacktracePaths]
       }
 
-      this.matchBacktracePaths = this.matchBacktracePaths
-        .filter(value => value instanceof RegExp)
-        .map(unglobalize)
+      for (const matcher of paths) {
+        if (matcher instanceof RegExp) {
+          this.backtraceMatchers.push(toBacktraceMatcher(unglobalize(matcher)))
+        } else if (typeof matcher === "function") {
+          this.backtraceMatchers.push(matcher)
+        }
+      }
     }
 
     this._dispatcher = new Dispatcher(this._queue, this._api)
@@ -242,7 +248,7 @@ export default class Appsignal {
       return
     }
 
-    span.cleanBacktracePath(this.matchBacktracePaths)
+    span.cleanBacktracePath(this.backtraceMatchers)
 
     if (Environment.supportsPromises()) {
       // clear breadcrumbs as they are now loaded into the span,
