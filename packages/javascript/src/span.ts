@@ -5,6 +5,7 @@ import type { HashMap, HashMapValue } from "./hashmap"
 
 import type { Breadcrumb } from "./breadcrumb"
 import type { SpanError } from "./error"
+import { BacktraceMatcher } from "./options"
 
 /**
  * The internal data structure of a `Span` inside the JavaScript integration.
@@ -116,7 +117,7 @@ export class Span extends Serializable<SpanData> {
   // @private
   // Do not use this function directly. Instead, set the `matchBacktracePaths`
   // configuration option when initializing AppSignal.
-  public cleanBacktracePath(matchBacktracePaths: RegExp[]): this {
+  public cleanBacktracePath(matchBacktracePaths: BacktraceMatcher[]): this {
     if (matchBacktracePaths.length === 0) {
       return this
     }
@@ -133,17 +134,14 @@ export class Span extends Serializable<SpanData> {
         return line
       }
 
-      for (const matcher of matchBacktracePaths as RegExp[]) {
-        const match = path.match(matcher)
-        if (!match || match.length < 2) {
+      for (const matcher of matchBacktracePaths) {
+        const relevantPath = matcher(path)
+        if (!relevantPath) {
           continue
         }
 
-        const relevantPath = match.slice(1).join("")
-        if (relevantPath) {
-          linesMatched++
-          return line.replace(path, relevantPath)
-        }
+        linesMatched++
+        return line.replace(path, relevantPath)
       }
 
       return line
@@ -156,6 +154,23 @@ export class Span extends Serializable<SpanData> {
     }
 
     return this
+  }
+}
+
+// @private
+// Do not use this function directly. Instead, set the `matchBacktracePaths`
+// configuration option when initializing AppSignal.
+//
+// Converts a `RegExp` object into a `BacktraceMatcher` function that returns
+// the concatenated matches from that object.
+export function toBacktraceMatcher(regexp: RegExp): BacktraceMatcher {
+  return (path: string): string | undefined => {
+    const match = path.match(regexp)
+    if (!match || match.length < 2) {
+      return
+    }
+
+    return match.slice(1).join("")
   }
 }
 
