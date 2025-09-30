@@ -1,5 +1,13 @@
 # AppSignal for plugin-breadcrumbs-network changelog
 
+## 1.1.24
+
+_Published on 2025-09-30._
+
+### Changed
+
+- Update @appsignal/javascript dependency to 1.6.1. (patch)
+
 ## 1.1.23
 
 _Published on 2025-07-21._

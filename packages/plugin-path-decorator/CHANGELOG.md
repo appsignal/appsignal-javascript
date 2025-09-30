@@ -1,5 +1,13 @@
 # AppSignal for plugin-path-decorator changelog
 
+## 1.0.18
+
+_Published on 2025-09-30._
+
+### Changed
+
+- Update @appsignal/javascript dependency to 1.6.1. (patch)
+
 ## 1.0.17
 
 _Published on 2025-07-21._

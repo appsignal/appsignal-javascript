@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/preact",
-  "version": "1.0.26",
+  "version": "1.0.27",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/javascript": "=1.6.0"
+    "@appsignal/javascript": "=1.6.1"
   },
   "peerDependencies": {
     "preact": "^10.0.0"

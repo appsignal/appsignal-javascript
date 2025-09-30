@@ -1,5 +1,36 @@
 # AppSignal for JavaScript changelog
 
+## 1.6.1
+
+_Published on 2025-09-30._
+
+### Added
+
+- Allow functions as backtrace matchers. Alongside regular expressions, you can also provide custom functions to match and replace paths in the backtrace:
+
+  ```javascript
+  const appsignal = new Appsignal({
+    // ...
+    matchBacktracePaths: [(path) => {
+      if (path.indexOf("/bundle/") !== -1) {
+        return "bundle.js"
+      }
+    }]
+  })
+  ```
+
+  The function must take a backtrace line path as an argument. When the function returns a non-empty string, the string will be used as the path for that backtrace line. Otherwise, the path will be left unchanged.
+
+  (patch [eae2ad4](https://github.com/appsignal/appsignal-javascript/commit/eae2ad46e68f3359eb50480ba95ded6badddf8bf))
+
+### Fixed
+
+- Fix matching on backtrace paths containing spaces.
+
+  When using `matchBacktracePaths`, when a backtrace line path contains a space, it will now match correctly against the whole path.
+
+  (patch [51783cb](https://github.com/appsignal/appsignal-javascript/commit/51783cbb716b2c9c4a81055b8f9a573080b73104))
+
 ## 1.6.0
 
 _Published on 2025-07-21._

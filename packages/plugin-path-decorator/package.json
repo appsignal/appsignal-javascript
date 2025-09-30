@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/plugin-path-decorator",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/javascript": "=1.6.0"
+    "@appsignal/javascript": "=1.6.1"
   },
   "publishConfig": {
     "access": "public"

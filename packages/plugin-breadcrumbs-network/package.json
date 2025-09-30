@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/plugin-breadcrumbs-network",
-  "version": "1.1.23",
+  "version": "1.1.24",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
@@ -22,7 +22,7 @@
     "test:watch": "jest --watch"
   },
   "dependencies": {
-    "@appsignal/javascript": "=1.6.0"
+    "@appsignal/javascript": "=1.6.1"
   },
   "publishConfig": {
     "access": "public"
