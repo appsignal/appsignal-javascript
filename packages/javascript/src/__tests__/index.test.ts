@@ -97,13 +97,17 @@ describe("Appsignal", () => {
       appsignal = new Appsignal({
         key: "TESTKEY",
         namespace: "test",
-        matchBacktracePaths: [/here(.*)/g]
+        matchBacktracePaths: [
+          /here(.*)/g,
+          path => (path.indexOf("some") !== -1 ? "some.js" : undefined)
+        ]
       })
 
       const error = new Error("test error")
       error.stack = [
         "Error: test error",
-        "    at Foo (http://localhost:8080/here/istheapp.js:13:10)"
+        "    at Foo (http://localhost:8080/here/istheapp.js:13:10)",
+        "    at Bar (http://localhost:8080/some/thingelse.js:13:10)"
       ].join("\n")
 
       appsignal.send(error)
@@ -112,10 +116,11 @@ describe("Appsignal", () => {
 
       expect(firstPayload.error.backtrace).toEqual([
         "Error: test error",
-        "    at Foo (/istheapp.js:13:10)"
+        "    at Foo (/istheapp.js:13:10)",
+        "    at Bar (some.js:13:10)"
       ])
 
-      expect(firstPayload.environment.backtrace_paths_matched).toEqual("1")
+      expect(firstPayload.environment.backtrace_paths_matched).toEqual("2")
 
       // As the regex used has the `g` flag, it would
       // remember the last matched position and fail to match again:
@@ -124,7 +129,7 @@ describe("Appsignal", () => {
       appsignal.send(error)
 
       const secondPayload = pushMockCall(1)
-      expect(secondPayload.environment.backtrace_paths_matched).toEqual("1")
+      expect(secondPayload.environment.backtrace_paths_matched).toEqual("2")
     })
   })
 
