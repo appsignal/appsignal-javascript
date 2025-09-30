@@ -89,6 +89,35 @@ describe("Span", () => {
       })
     })
 
+    it("cleans Chrome-style backtraces with spaces in the path", () => {
+      const error = new Error("test error")
+      error.stack = [
+        "Error: test error",
+        "    at Foo (http://localhost:8080/assets with space/app/bundle.js:13:10)",
+        "    at Bar (http://localhost:8080/assets with space/app/bundle.js:17:10)",
+        "    at track (http://thirdparty.app/script.js:1:530)",
+        "    at http://localhost:8080/assets with space/app/bundle.js:21:10"
+      ].join("\n")
+
+      span.setError(error)
+      span.cleanBacktracePath(
+        [new RegExp("/assets with space/(app/.*)$")].map(toBacktraceMatcher)
+      )
+
+      const backtrace = span.serialize().error.backtrace
+      expect(backtrace).toEqual([
+        "Error: test error",
+        "    at Foo (app/bundle.js:13:10)",
+        "    at Bar (app/bundle.js:17:10)",
+        "    at track (http://thirdparty.app/script.js:1:530)",
+        "    at app/bundle.js:21:10"
+      ])
+
+      expect(span.serialize().environment).toMatchObject({
+        backtrace_paths_matched: "3"
+      })
+    })
+
     it("cleans Safari/FF-style backtraces", () => {
       const error = new Error("test error")
       error.stack = [
@@ -101,6 +130,33 @@ describe("Span", () => {
       span.setError(error)
       span.cleanBacktracePath(
         [new RegExp("/assets/(app/.*)$")].map(toBacktraceMatcher)
+      )
+
+      const backtrace = span.serialize().error.backtrace
+      expect(backtrace).toEqual([
+        "Foo@app/bundle.js:13:10",
+        "Bar@app/bundle.js:17:10",
+        "track@http://thirdparty.app/script.js:1:530",
+        "@app/bundle.js:21:10"
+      ])
+
+      expect(span.serialize().environment).toMatchObject({
+        backtrace_paths_matched: "3"
+      })
+    })
+
+    it("cleans Safari/FF-style backtraces with spaces in the path", () => {
+      const error = new Error("test error")
+      error.stack = [
+        "Foo@http://localhost:8080/assets with space/app/bundle.js:13:10",
+        "Bar@http://localhost:8080/assets with space/app/bundle.js:17:10",
+        "track@http://thirdparty.app/script.js:1:530",
+        "@http://localhost:8080/assets with space/app/bundle.js:21:10"
+      ].join("\n")
+
+      span.setError(error)
+      span.cleanBacktracePath(
+        [new RegExp("/assets with space/(app/.*)$")].map(toBacktraceMatcher)
       )
 
       const backtrace = span.serialize().error.backtrace

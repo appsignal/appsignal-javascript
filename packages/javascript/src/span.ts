@@ -186,15 +186,22 @@ function extractPath(backtraceLine: string): string | undefined {
   // A Chrome backtrace line always contains `at` near the beginning,
   // preceded by space characters and followed by one space.
   const IS_CHROME = /^\s*at\s/
+
   // In a Chrome backtrace line, the path (if it is available)
-  // is located, usually within parentheses, after the "@" towards the
-  // end of the line, along with the line number and column number,
-  // separated by colons. We check for those to reject clear non-paths.
-  const CHROME_PATH = /at(?:\s.*)?\s\(?(.*):\d*:\d*\)?$/i
+  // is located after the "at" towards the end of the line, along with
+  // the line number and column number, separated by colons.
+  // When the function name is available, the path is enclosed in
+  // parentheses. When there is no function name, the path comes
+  // immediately after the "at".
+  // We check for the line and column numbers to reject clear non-paths.
+  const CHROME_PATH_WITH_FUNCTION_NAME = /^\s*at(?:\s[^\(]+)?\s\((.*):\d+:\d+\)$/
+  const CHROME_PATH_WITHOUT_FUNCTION_NAME = /^\s*at\s(.*):\d+:\d+$/
 
   if (backtraceLine.match(IS_CHROME)) {
-    const match = backtraceLine.match(CHROME_PATH)
-    return match ? match[1] : undefined
+    return (
+      backtraceLine.match(CHROME_PATH_WITH_FUNCTION_NAME)?.[1] ??
+      backtraceLine.match(CHROME_PATH_WITHOUT_FUNCTION_NAME)?.[1]
+    )
   }
 
   // A Safari or Firefox backtrace line always contains `@` after the first
@@ -205,10 +212,9 @@ function extractPath(backtraceLine: string): string | undefined {
   // is located after the "@" at the towards end of the line, followed by
   // the line number and column number, separated by colons. We check for
   // those to reject clear non-paths.
-  const SAFARI_FF_PATH = /@\s?(.*):\d*:\d*$/i
+  const SAFARI_FF_PATH = /^.*@\s?(.*):\d+:\d+$/
 
   if (backtraceLine.match(IS_SAFARI_FF)) {
-    const match = backtraceLine.match(SAFARI_FF_PATH)
-    return match ? match[1] : undefined
+    return backtraceLine.match(SAFARI_FF_PATH)?.[1]
   }
 }
