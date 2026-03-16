@@ -10,41 +10,68 @@ See also the [mono repo README](../../README.md) for more information.
 
 ## Installation
 
-Add the  `@appsignal/angular` and `@appsignal/javascript` packages to your `package.json`. Then, run `yarn install`/`npm install`.
+Add the `@appsignal/angular` and `@appsignal/javascript` packages to your `package.json`. Then, run `npm install`/`yarn install`/`pnpm install`.
 
 You can also add these packages to your `package.json` on the command line:
 
-```
+```bash
+npm install @appsignal/javascript @appsignal/angular
+# Or if you use yarn
 yarn add @appsignal/javascript @appsignal/angular
-npm install --save @appsignal/javascript @appsignal/angular
+# Or if you use pnpm
+pnpm install @appsignal/javascript @appsignal/angular
 ```
 
 ## Usage
 
 ### `AppsignalErrorHandler`
 
-The default Angular integration is a class that extends the `ErrorHandler` class provided by `@angular/core`. In a new app created using `@angular/cli`, your `app.module.ts` file might include something like this:
+The default Angular integration is a class that extends the `ErrorHandler` class provided by `@angular/core`. In a new app created using `@angular/cli`, your `app.config.ts` file might include something like this:
 
-```js
-import { ErrorHandler, NgModule } from '@angular/core';
-import Appsignal from '@appsignal/javascript';
+```ts
+// app.config.ts
+import { type ApplicationConfig, ErrorHandler } from '@angular/core';
+import AppSignal from '@appsignal/javascript';
 import { createErrorHandlerFactory } from '@appsignal/angular';
 
-const appsignal = new Appsignal({
-  key: 'YOUR FRONTEND API KEY'
-});
+const appSignalFactory = () =>
+  new AppSignal({
+    key: 'YOUR FRONTEND API KEY',
+  });
 
-@NgModule({
-  // other properties
+export const appConfig: ApplicationConfig = {
   providers: [
     {
       provide: ErrorHandler,
-      useFactory: createErrorHandlerFactory(appsignal)
-    }
+      useFactory: createErrorHandlerFactory(appSignalFactory),
+    },
   ],
-  // other properties
-})
-export class AppModule {}
+};
+```
+
+This accepts a factory because you **lazy-load** `@appsignal/javascript` only when the first error is logged:
+
+```ts
+// app.config.ts
+import { type ApplicationConfig, ErrorHandler } from '@angular/core';
+import { createErrorHandlerFactory } from '@appsignal/angular';
+
+const appSignalFactory = () =>
+  import('@appsignal/javascript').then((m) => {
+    const AppSignal = m.default;
+    return new AppSignal({
+      key: 'YOUR FRONTEND API KEY',
+    });
+  });
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    {
+      provide: ErrorHandler,
+      useFactory: createErrorHandlerFactory(appSignalFactory),
+    },
+  ],
+};
 ```
 
 ## Development

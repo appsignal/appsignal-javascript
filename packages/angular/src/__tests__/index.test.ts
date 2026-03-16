@@ -1,3 +1,4 @@
+import { NgZone } from "@angular/core"
 import { AppsignalErrorHandler } from "../index"
 
 describe("Angular handleError", () => {
@@ -19,7 +20,12 @@ describe("Angular handleError", () => {
 
   it("calls AppSignal helper methods", () => {
     const err = new Error("test")
-    const errorHandler = new AppsignalErrorHandler(appsignal)
+    const errorHandler = new AppsignalErrorHandler(
+      <NgZone>{
+        runOutsideAngular: fn => fn()
+      },
+      () => appsignal
+    )
 
     errorHandler.handleError(err)
 
