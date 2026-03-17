@@ -64,6 +64,9 @@ namespace :build_matrix do
           "NODE_ENV" => "test"
         },
         "jobs" => {
+          "validate-changesets" => {
+            "uses" => "./.github/workflows/validate_changesets.yml"
+          },
           "validate" => {
             "name" => "Validate CI setup",
             "runs-on" => "ubuntu-latest",
