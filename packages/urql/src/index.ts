@@ -1,5 +1,9 @@
-import { pipe, tap } from 'wonka';
-import type Appsignal from '@appsignal/javascript';
+import { pipe, tap } from "wonka"
+import type Appsignal from "@appsignal/javascript"
+
+type ErrorReporter = {
+  sendError: (error: Error, callback: (span: any) => void) => void
+}
 
 /**
  * Custom urql exchange that automatically reports GraphQL errors to AppSignal.
@@ -23,46 +27,54 @@ import type Appsignal from '@appsignal/javascript';
  * });
  * ```
  */
-export const createAppsignalExchange = (appsignal: Appsignal) => ({ forward, client }: any) => (ops$: any) => {
+export const createAppsignalExchange = (appsignal: Appsignal) => ({
+  forward,
+  client
+}: any) => (ops$: any) => {
   return pipe(
     forward(ops$),
     tap((result: any) => {
       if (result.error) {
-        const { error, operation } = result;
-
-        // Convert CombinedError to a proper Error with meaningful message
-        const errorMessage = error.graphQLErrors?.length > 0
-          ? error.graphQLErrors.map((e: any) => e.message).join(', ')
-          : error.message;
-
-        const reportError = new Error(`GraphQL Error: ${errorMessage}`);
-        reportError.name = 'GraphQLError';
-        (reportError as any).stack = error.stack || reportError.stack;
-
-        // Send error to AppSignal with metadata
-        appsignal.sendError(reportError, (span) => {
-          // Add endpoint URL as a tag
-          if (client?.url) {
-            span.setTags({ endpoint: client.url });
-          }
-
-          // Add GraphQL query body as a param
-          if (operation?.query) {
-            const queryBody = operation.query.loc?.source?.body;
-            if (queryBody) {
-              span.setParams({ query: queryBody });
-            }
-          }
-
-          // Add operation metadata
-          if (operation?.operationName) {
-            span.setTags({ operationName: operation.operationName });
-          }
-          if (operation?.kind) {
-            span.setTags({ operationType: operation.kind });
-          }
-        });
+        reportGraphQLError(result, appsignal, client)
       }
     })
-  );
-};
+  )
+}
+
+export function reportGraphQLError(
+  result: any,
+  appsignal: ErrorReporter,
+  client: any
+) {
+  const { error, operation } = result
+
+  const errorMessage =
+    error.graphQLErrors?.length > 0
+      ? error.graphQLErrors.map((e: any) => e.message).join(", ")
+      : error.message
+
+  const reportError = new Error(`GraphQL Error: ${errorMessage}`)
+  reportError.name = "GraphQLError"
+  ;(reportError as any).stack = error.stack || reportError.stack
+
+  appsignal.sendError(reportError, span => {
+    if (client?.url) {
+      span.setTags({ endpoint: client.url })
+    }
+
+    if (operation?.query) {
+      const queryBody = operation.query.loc?.source?.body
+      if (queryBody) {
+        span.setParams({ query: queryBody })
+      }
+    }
+
+    if (operation?.operationName) {
+      span.setTags({ operationName: operation.operationName })
+    }
+
+    if (operation?.kind) {
+      span.setTags({ operationType: operation.kind })
+    }
+  })
+}
