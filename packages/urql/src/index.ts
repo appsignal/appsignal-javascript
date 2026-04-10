@@ -69,10 +69,6 @@ export function reportGraphQLError(
       }
     }
 
-    if (operation?.operationName) {
-      span.setTags({ operationName: operation.operationName })
-    }
-
     if (operation?.kind) {
       span.setTags({ operationType: operation.kind })
     }

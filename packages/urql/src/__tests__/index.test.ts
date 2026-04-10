@@ -10,7 +10,6 @@ describe("reportGraphQLError", () => {
       },
       operation: {
         query: { loc: { source: { body: "query { post { id } }" } } },
-        operationName: "GetPost",
         kind: "query"
       }
     }
@@ -27,7 +26,6 @@ describe("reportGraphQLError", () => {
     expect(span.setTags).toHaveBeenCalledWith({
       endpoint: "https://example.com/graphql"
     })
-    expect(span.setTags).toHaveBeenCalledWith({ operationName: "GetPost" })
     expect(span.setTags).toHaveBeenCalledWith({ operationType: "query" })
     expect(span.setParams).toHaveBeenCalledWith({
       query: "query { post { id } }"
@@ -64,20 +62,6 @@ describe("reportGraphQLError", () => {
 
     expect(span.setParams).toHaveBeenCalledWith({
       query: "mutation { createPost { id } }"
-    })
-  })
-
-  it("sets operationName tag on the span", () => {
-    const { appsignal, span } = createMockAppsignal()
-    const result = {
-      error: { message: "Something went wrong" },
-      operation: { operationName: "CreatePost" }
-    }
-
-    reportGraphQLError(result, appsignal, {})
-
-    expect(span.setTags).toHaveBeenCalledWith({
-      operationName: "CreatePost"
     })
   })
 
