@@ -1,6 +1,6 @@
 {
   "name": "@appsignal/urql",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "repository": {
