@@ -1,4 +1,4 @@
-import { Environment } from "./environment"
+import { Environment, isOffline } from "./environment"
 import { Span } from "./span"
 
 import { XDomainTransport } from "./transports/xdomain"
@@ -38,6 +38,9 @@ export class PushApi {
    * @return  {Promise<Span>}     A single API `Span`
    */
   public async push(span: Span): Promise<Span> {
+    if (isOffline()) {
+      return Promise.reject()
+    }
     await this._transport.send(span.toJSON())
     return span
   }
