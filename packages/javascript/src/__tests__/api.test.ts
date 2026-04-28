@@ -36,5 +36,21 @@ describe("PushApi", () => {
         body: FIXTURE.toJSON()
       })
     })
+
+    it("rejects without making a request when the browser is offline", async () => {
+      Object.defineProperty(window.navigator, "onLine", {
+        configurable: true,
+        get: () => false
+      })
+
+      fetchMock.mockClear()
+      await expect(api.push(FIXTURE)).rejects.toBeUndefined()
+      expect(fetchMock).not.toHaveBeenCalled()
+
+      Object.defineProperty(window.navigator, "onLine", {
+        configurable: true,
+        get: () => true
+      })
+    })
   })
 })

@@ -114,3 +114,13 @@ export function getGlobalObject<T>(): T {
     ? self
     : {}) as T
 }
+
+/**
+ * Returns `true` when the browser reports itself as offline via
+ * `navigator.onLine`. Falls back to `false` when the property is
+ * unavailable (e.g. in Node) so callers default to attempting a request.
+ */
+export function isOffline(): boolean {
+  const globals = getGlobalObject<any>()
+  return globals.navigator !== undefined && globals.navigator.onLine === false
+}
