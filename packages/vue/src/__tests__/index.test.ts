@@ -90,4 +90,76 @@ describe("Vue errorHandler", () => {
       version: version
     })
   })
+
+  it("falls back to the basename of the __file option in Vue 3", () => {
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    const vue3Mock: any = {
+      $options: {
+        __file: "src/components/TestComponent.vue"
+      }
+    }
+
+    errorHandler(appsignal, { version } as VueApp)(err, vue3Mock, "INFO")
+
+    expect(mock.setAction).toBeCalledWith("TestComponent")
+  })
+
+  it("reads a basename-only __file option as exposed in production builds", () => {
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    const vue3Mock: any = {
+      $options: {
+        __file: "TestComponent.vue"
+      }
+    }
+
+    errorHandler(appsignal, { version } as VueApp)(err, vue3Mock, "INFO")
+
+    expect(mock.setAction).toBeCalledWith("TestComponent")
+  })
+
+  it("prefers an explicit name over the __file option", () => {
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    const vue3Mock: any = {
+      $options: {
+        name: "ExplicitName",
+        __file: "src/components/TestComponent.vue"
+      }
+    }
+
+    errorHandler(appsignal, { version } as VueApp)(err, vue3Mock, "INFO")
+
+    expect(mock.setAction).toBeCalledWith("ExplicitName")
+  })
+
+  it("reports an unknown component when Vue 3 passes a null instance", () => {
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    errorHandler(appsignal, { version } as VueApp)(err, null, "INFO")
+
+    expect(mock.setAction).toBeCalledWith("[unknown Vue component]")
+
+    expect(mock.setError).toBeCalledWith(err)
+
+    expect(appsignal.send).toBeCalled()
+  })
+
+  it("reports an unknown component when no name source is present", () => {
+    const err = new Error("test")
+    const version = "v3.0.0"
+
+    const vue3Mock: any = {
+      $options: {}
+    }
+
+    errorHandler(appsignal, { version } as VueApp)(err, vue3Mock, "INFO")
+
+    expect(mock.setAction).toBeCalledWith("[unknown Vue component]")
+  })
 })
