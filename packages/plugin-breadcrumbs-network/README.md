@@ -23,18 +23,20 @@ npm install --save @appsignal/javascript @appsignal/plugin-breadcrumbs-network
 
 ```js
 import Appsignal from "@appsignal/javascript"
-import { plugin } from "@appsignal/plugin-breadcrumbs-network"
+import { pluginBreadcrumbsNetwork } from "@appsignal/plugin-breadcrumbs-network"
 
 const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
-appsignal.use(plugin(options))
+appsignal.use(pluginBreadcrumbsNetwork(options))
 ```
 
-### `plugin` options
+The `plugin` export is still available as an alias for `pluginBreadcrumbsNetwork`.
 
-The `plugin`  can be initialized with the following options:
+### `pluginBreadcrumbsNetwork` options
+
+The `pluginBreadcrumbsNetwork` can be initialized with the following options:
 
 | Param | Type | Description  |
 | ------ | ------ | ----- |

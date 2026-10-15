@@ -1,5 +1,5 @@
 import type Appsignal from "@appsignal/javascript"
-import { plugin } from "../index"
+import { plugin, pluginWindowEvents } from "../index"
 
 describe("windowEventsPlugin", () => {
   const ctx = window as Window
@@ -17,6 +17,17 @@ describe("windowEventsPlugin", () => {
 
   beforeEach(() => {
     jest.clearAllMocks()
+    ctx.onerror = null
+    ctx.onunhandledrejection = null
+  })
+
+  afterAll(() => {
+    ctx.onerror = null
+    ctx.onunhandledrejection = null
+  })
+
+  it("preserves the plugin export as an alias", () => {
+    expect(pluginWindowEvents).toBe(plugin)
   })
 
   it("responds to options object", () => {
@@ -25,7 +36,7 @@ describe("windowEventsPlugin", () => {
       onunhandledrejection: false
     }
 
-    plugin(opts).bind(mockAppsignal)
+    pluginWindowEvents(opts).call(mockAppsignal)
 
     expect(ctx.onerror).toBeNull()
     expect(ctx.onunhandledrejection).toBeNull()
@@ -33,7 +44,7 @@ describe("windowEventsPlugin", () => {
 
   describe("window.onerror handler", () => {
     it("can be called with an error parameter", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       const msg = "test error"
       const error = new Error(msg)
@@ -45,7 +56,7 @@ describe("windowEventsPlugin", () => {
     })
 
     it("can be called without an error parameter", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       const msg = "test error"
 
@@ -63,7 +74,7 @@ describe("windowEventsPlugin", () => {
 
   describe("window.onunhandledrejection handler", () => {
     it("can be called with a generic reason", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       ctx.onunhandledrejection!({ reason: "test" } as PromiseRejectionEvent)
 
@@ -76,7 +87,7 @@ describe("windowEventsPlugin", () => {
     })
 
     it("can handle an error object as a reason", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       const msg = "test error"
       const error = new Error(msg)
@@ -89,7 +100,7 @@ describe("windowEventsPlugin", () => {
     })
 
     it("handles a promise rejection with an circular structure as a reason", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       // Create circular reference in the reason object
       const reason = {
@@ -114,7 +125,7 @@ describe("windowEventsPlugin", () => {
     })
 
     it("can handle a promise rejection without a reason", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       ctx.onunhandledrejection!({} as PromiseRejectionEvent)
 
@@ -127,7 +138,7 @@ describe("windowEventsPlugin", () => {
     })
 
     it("can handle a promise rejection without an argument", () => {
-      plugin({}).call(mockAppsignal)
+      pluginWindowEvents({}).call(mockAppsignal)
 
       ctx.onunhandledrejection!((undefined as unknown) as PromiseRejectionEvent)
 

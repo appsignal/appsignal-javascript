@@ -85,3 +85,4 @@ function circularReplacer() {
 }
 
 export const plugin = consoleBreadcrumbsPlugin
+export const pluginBreadcrumbsConsole = consoleBreadcrumbsPlugin
