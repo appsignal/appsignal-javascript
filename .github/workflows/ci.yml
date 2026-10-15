@@ -112,6 +112,10 @@ jobs:
           dependencies: ''
         - package: "@appsignal/plugin-breadcrumbs-console"
           dependencies: ''
+        - package: "@appsignal/plugin-breadcrumbs-network"
+          dependencies: ''
+        - package: "@appsignal/plugin-path-decorator"
+          dependencies: ''
         - package: "@appsignal/plugin-window-events"
           dependencies: ''
         - package: "@appsignal/preact"
