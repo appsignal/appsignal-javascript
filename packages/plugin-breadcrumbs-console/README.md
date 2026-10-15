@@ -23,14 +23,16 @@ npm install --save @appsignal/javascript @appsignal/plugin-breadcrumbs-console
 
 ```js
 import Appsignal from "@appsignal/javascript"
-import { plugin } from "@appsignal/plugin-breadcrumbs-console"
+import { pluginBreadcrumbsConsole } from "@appsignal/plugin-breadcrumbs-console"
 
 const appsignal = new Appsignal({
   key: "YOUR FRONTEND API KEY"
 })
 
-appsignal.use(plugin(options))
+appsignal.use(pluginBreadcrumbsConsole(options))
 ```
+
+The `plugin` export is still available as an alias for `pluginBreadcrumbsConsole`.
 
 ## Development
 

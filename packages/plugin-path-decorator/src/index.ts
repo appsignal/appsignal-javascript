@@ -11,3 +11,4 @@ function pathDecoratorPlugin(options?: { [key: string]: any }) {
 }
 
 export const plugin = pathDecoratorPlugin
+export const pluginPathDecorator = pathDecoratorPlugin

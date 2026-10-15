@@ -1,5 +1,5 @@
 import type Appsignal from "@appsignal/javascript"
-import { plugin } from "../index"
+import { plugin, pluginBreadcrumbsConsole } from "../index"
 
 describe("BreadcrumbsConsolePlugin", () => {
   const logMock = jest.spyOn(console, "log").mockImplementation(() => {})
@@ -10,10 +10,14 @@ describe("BreadcrumbsConsolePlugin", () => {
   const addBreadcrumb = jest.fn()
 
   const mockAppsignal = ({ addBreadcrumb } as unknown) as Appsignal
-  plugin({}).call(mockAppsignal)
+  pluginBreadcrumbsConsole({}).call(mockAppsignal)
 
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  it("preserves the plugin export as an alias", () => {
+    expect(pluginBreadcrumbsConsole).toBe(plugin)
   })
 
   describe("when console.log is called", () => {

@@ -48,6 +48,24 @@ events.on("event", (err) => {
 
 We recommend using a relevant [integration](#integrations) as a better way to handle exceptions, or, if you _would_ prefer capture uncaught exceptions, you can do so by using the `@appsignal/plugin-window-events` package alongside this one.
 
+### Plugins
+
+Each plugin has a unique named export, so multiple plugins can be imported without renaming them:
+
+```js
+import { pluginBreadcrumbsConsole } from "@appsignal/plugin-breadcrumbs-console"
+import { pluginBreadcrumbsNetwork } from "@appsignal/plugin-breadcrumbs-network"
+import { pluginPathDecorator } from "@appsignal/plugin-path-decorator"
+import { pluginWindowEvents } from "@appsignal/plugin-window-events"
+
+appsignal.use(pluginBreadcrumbsConsole())
+appsignal.use(pluginBreadcrumbsNetwork())
+appsignal.use(pluginPathDecorator())
+appsignal.use(pluginWindowEvents())
+```
+
+Each package also exports `plugin` as an alias for compatibility with existing imports.
+
 ## Installation
 
 First, [sign up][appsignal-sign-up] for an AppSignal account and add the `@appsignal/javascript` package to your `package.json`. Then, run `yarn install`/`npm install`.

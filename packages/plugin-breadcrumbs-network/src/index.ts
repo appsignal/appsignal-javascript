@@ -133,3 +133,4 @@ function networkBreadcrumbsPlugin(options?: Partial<PluginOptions>) {
 }
 
 export const plugin = networkBreadcrumbsPlugin
+export const pluginBreadcrumbsNetwork = networkBreadcrumbsPlugin

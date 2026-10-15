@@ -140,3 +140,4 @@ function windowEventsPlugin(options?: { [key: string]: any }) {
 }
 
 export const plugin = windowEventsPlugin
+export const pluginWindowEvents = windowEventsPlugin
