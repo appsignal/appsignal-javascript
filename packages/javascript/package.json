@@ -3,6 +3,16 @@
   "version": "1.6.1",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
+  "exports": {
+    "import": {
+      "types": "./dist/esm/index.d.ts",
+      "default": "./dist/esm/index.js"
+    },
+    "require": {
+      "types": "./dist/cjs/index.d.ts",
+      "default": "./dist/cjs/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/appsignal/appsignal-javascript.git",
